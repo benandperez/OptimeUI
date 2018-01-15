@@ -118,6 +118,7 @@ $(document).ready(function(){
             arrayFin.push({
                'objeto': divNPS,
                'type': 'radio',
+               'participant': urlParams["id"],
                'surveyCampaign':reminderView.surveyCampaign
             });
        };
@@ -158,6 +159,7 @@ $(document).ready(function(){
             arrayFin.push({
                'objeto': formCSA,
                'type': 'radio',
+               'participant': urlParams["id"],
                'surveyCampaign':reminderView.surveyCampaign
             });
 
@@ -190,6 +192,7 @@ $(document).ready(function(){
             arrayFin.push({
                'objeto': pSHOR,
                'type': 'text',
+               'participant': urlParams["id"],
                'surveyCampaign':reminderView.surveyCampaign
             });
        };
@@ -218,6 +221,7 @@ $(document).ready(function(){
            arrayFin.push({
                'objeto': pLON,
                'type': 'text',
+               'participant': urlParams["id"],
                'surveyCampaign':reminderView.surveyCampaign
             });
        };       
@@ -234,6 +238,7 @@ function getValue() {
                      "id": $(this).data('id')
                   } ,
                   'surveyCampaign': arrayFin[i]['surveyCampaign'],
+                  'participant': arrayFin[i]['participant'],
                   'answerText': $(this).val()
                });         
             }           
@@ -244,6 +249,7 @@ function getValue() {
                "id":$(arrayFin[i]['objeto']).data('id')
             },
             'surveyCampaign': arrayFin[i]['surveyCampaign'],
+            'participant': arrayFin[i]['participant'],
             'answerText': $(arrayFin[i]['objeto']).val()
          });
       }
@@ -253,17 +259,25 @@ function getValue() {
 
 $(document).ready(function(){
    $('#Btnsuccess').click(function() {      
-      var radio = getValue();
+      var replaies = getValue();
 
-      console.log(radio);
+      console.log(replaies);
+
+      var data = {
+         'replay': replaies,
+         'participant': {'id': urlParams["id"]}
+      };
 
       
 
 
       $.ajax({
          //data:  parametros,
-         url:   'ejemplo_ajax_proceso.php',
+         url:   'http://localhost/sifinca/web/app_dev.php/survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
          type:  'PUT',
+         contentType: 'application/json',
+         dataType: "json",
+         data: JSON.stringify(data),
          beforeSend: function () {
             //$("#resultado").html("Procesando, espere por favor...");
          },
@@ -271,7 +285,7 @@ $(document).ready(function(){
             $("#resultado").html(response);
          }
         });
-   });
+   }); 
 });
 
 
