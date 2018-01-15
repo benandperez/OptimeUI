@@ -18,15 +18,26 @@ $(document).ready(function(){
          $.ajax({
             url:   'http://localhost/sifinca/web/app.php/survey/main/sifinca/survey/participant/email/'+urlParams["id"],
             type:  'GET',
+
             success:  function (response) {
 
             //$("#modal-header").html(response["name"]);
-            var pObjectN = $('<p>' + response["name"] + '</p><br>').css({ 'margin': '0px' });
+
+            var titleFin = "";
+
+            if (response["surveyCampaign"]) {
+               titleFin = "Campaña #"+response["surveyCampaign"]["consecutive"]+" "+response["surveyCampaign"]["name"];
+               $("#modalTitle").html(titleFin);
+            }else{
+               titleFin = "Encuesta";
+               $("#modalTitle").html(titleFin);
+            };
+           /* var pObjectN = $('<p>' + response["name"] + '</p><br>').css({ 'margin': '0px' });
             $("#modal-header").html(pObjectN);
             if (response["email"]) {
                var pObject = $('<p>' + response["email"] + '</p>').css({ 'margin': '0px' });
                $("#modal-header").html(pObject);
-            }
+            }*/
 
             var orderPFin = response["question"].sort(function (a, b) {
 
