@@ -32,12 +32,7 @@ $(document).ready(function(){
             titleFin = "Encuesta";
             $("#modalTitle").html(titleFin);
          };
-        /* var pObjectN = $('<p>' + response["name"] + '</p><br>').css({ 'margin': '0px' });
-         $("#modal-header").html(pObjectN);
-         if (response["email"]) {
-            var pObject = $('<p>' + response["email"] + '</p>').css({ 'margin': '0px' });
-            $("#modal-header").html(pObject);
-         }*/
+        
 
          var orderPFin = response["question"].sort(function (a, b) {
 
