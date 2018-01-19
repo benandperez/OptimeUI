@@ -13,10 +13,14 @@ var urlParams;
 
 var arrayFin=[];
 
+//var host = 'http://localhost/sifinca/web/app.php/';
+var host = 'https://www.sifinca.net/sifinca/web/app.php/';
+
 $(document).ready(function(){
        
+
    $.ajax({
-      url:   'http://localhost/sifinca/web/app.php/survey/main/sifinca/survey/participant/email/'+urlParams["id"],
+      url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
       type:  'GET',
 
       success:  function (response) {
@@ -303,7 +307,7 @@ $(document).ready(function(){
 
       $.ajax({
          //data:  parametros,
-         url:   'http://localhost/sifinca/web/app_dev.php/survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
+         url:   host+'survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
          type:  'PUT',
          contentType: 'application/json',
          dataType: "json",
