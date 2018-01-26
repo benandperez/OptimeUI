@@ -17,7 +17,6 @@ $(document).ready(function(){
 });
 
 var arrayFin=[];
-
 //var host = 'http://localhost/sifinca/web/app.php/';
 var host = 'https://www.sifinca.net/sifinca/web/app.php/';
 
