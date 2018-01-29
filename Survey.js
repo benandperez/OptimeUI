@@ -29,7 +29,7 @@ $(document).ready(function(){
       success:  function (response) {
          //$("#modal-header").html(response["name"]);
          if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN") {
-            surveyFin();
+            surveyEncuestado();
             
          }else{
             var titleFin = "";
@@ -100,7 +100,7 @@ $(document).ready(function(){
 
          }
       },
-      error: function (e) {
+      error: function () {
          bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
 
       },
@@ -271,6 +271,10 @@ $(document).ready(function(){
    function surveyFin() {
        //myWindow = window.open("SurveyFin.html", "width=500, height=500");
        myWindow = window.open("SurveyFin.html","_self", "");
+   };
+   function surveyEncuestado() {
+       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+       myWindow = window.open("SurveyEncuestado.html","_self", "");
    };
 
    function error(e) {
