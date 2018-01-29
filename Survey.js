@@ -1,6 +1,6 @@
-$(document).ready(function(){
-   $('#btnCALCULAR').click(function() { 
    var urlParams;
+$(document).ready(function(){
+   //$('#btnCALCULAR').click(function() { 
    (window.onpopstate = function () {
        var match,
            pl     = /\+/g,  // Regex for replacing addition symbol with a space
@@ -13,7 +13,7 @@ $(document).ready(function(){
           urlParams[decode(match[1])] = decode(match[2]);
    })();
 
-   });
+  // });
 });
 
 var arrayFin=[];
@@ -21,122 +21,126 @@ var arrayFin=[];
 var host = 'https://www.sifinca.net/sifinca/web/app.php/';
 
 $(document).ready(function(){
-       
 
    $.ajax({
       url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
       type:  'GET',
 
       success:  function (response) {
-
          //$("#modal-header").html(response["name"]);
-
-         var titleFin = "";
-
-         if (response["surveyCampaign"]) {
-            titleFin = "Campaña #"+response["surveyCampaign"]["consecutive"]+" "+response["surveyCampaign"]["name"];
-            $("#modalTitle").html(titleFin);
+         if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN") {
+            surveyFin();
+            
          }else{
-            titleFin = "Encuesta";
-            $("#modalTitle").html(titleFin);
-         };
-        
+            var titleFin = "";
 
-         var orderPFin = response["question"].sort(function (a, b) {
+            if (response["surveyCampaign"]) {
+               titleFin = "Campaña #"+response["surveyCampaign"]["consecutive"]+" "+response["surveyCampaign"]["name"];
+               $("#modalTitle").html(titleFin);
+            }else{
+               titleFin = "Encuesta";
+               $("#modalTitle").html(titleFin);
+            };
 
-            if (a.orderP > b.orderP) {
-               return 1;
-            }
-            if (a.orderP < b.orderP) {
-               return -1;
-            }
-            // a must be equal to b
-            return 0;
-         });
-         orderPFin.forEach(function(valor, i, array) {
-            var h = valor;
-            if (h.typeQuestion.value == "CSA") {
-               var reminderView = {                                    
-                  idNPS: h.typeQuestion.value + "_" + i,                                    
-                  renderTo: $("#modal-body"),
-                  surveyCampaign:response["surveyCampaign"],
-                  data: h
-               };
-               CsatCustomerSatisfaction(reminderView);
-               //reply.push(CsatCustomerSatisfaction+i);
-            }
-            if (h.typeQuestion.value == "NPS") {
-               var reminderView = {                                    
-                  //modal: windowModalSaveReminder,
-                  idNPS: h.typeQuestion.value + "_" + i,                                    
-                  renderTo: $("#modal-body"),
-                  surveyCampaign:response["surveyCampaign"],
-                  data: h
-               };
-               NetPromoterScore(reminderView);
-            }
+            var orderPFin = response["question"].sort(function (a, b) {
 
-             if (h.typeQuestion.value == "SHO") {
-               var reminderView = {                                    
-                  //modal: windowModalSaveReminder,
-                  idNPS: h.typeQuestion.value + "_" + i,                                    
-                  renderTo: $("#modal-body"),
-                  surveyCampaign:response["surveyCampaign"],
-                  data: h
-               };
-               ShortText(reminderView);
-            }
-            if (h.typeQuestion.value == "LON") {
-               var reminderView = {                                    
-                  //modal: windowModalSaveReminder,
-                  idNPS: h.typeQuestion.value + "_" + i,                                    
-                  renderTo: $("#modal-body"),
-                  surveyCampaign:response["surveyCampaign"],
-                  data: h
-               };
-               LongText(reminderView);
-            }
-         });
-      }
+               if (a.orderP > b.orderP) {
+                  return 1;
+               }
+               if (a.orderP < b.orderP) {
+                  return -1;
+               }
+               // a must be equal to b
+               return 0;
+            });
+            orderPFin.forEach(function(valor, i, array) {
+               var h = valor;
+               if (h.typeQuestion.value == "CSA") {
+                  var reminderView = {
+                     idNPS: h.typeQuestion.value + "_" + i,                                    
+                     renderTo: $("#modal-body"),
+                     surveyCampaign:response["surveyCampaign"],
+                     data: h
+                  };
+                  CsatCustomerSatisfaction(reminderView);
+                  //reply.push(CsatCustomerSatisfaction+i);
+               }
+               if (h.typeQuestion.value == "NPS") {
+                  var reminderView = {                                    
+                     //modal: windowModalSaveReminder,
+                     idNPS: h.typeQuestion.value + "_" + i,                                    
+                     renderTo: $("#modal-body"),
+                     surveyCampaign:response["surveyCampaign"],
+                     data: h
+                  };
+                  NetPromoterScore(reminderView);
+               }
+
+                if (h.typeQuestion.value == "SHO") {
+                  var reminderView = {                                    
+                     //modal: windowModalSaveReminder,
+                     idNPS: h.typeQuestion.value + "_" + i,                                    
+                     renderTo: $("#modal-body"),
+                     surveyCampaign:response["surveyCampaign"],
+                     data: h
+                  };
+                  ShortText(reminderView);
+               }
+               if (h.typeQuestion.value == "LON") {
+                  var reminderView = {                                    
+                     //modal: windowModalSaveReminder,
+                     idNPS: h.typeQuestion.value + "_" + i,                                    
+                     renderTo: $("#modal-body"),
+                     surveyCampaign:response["surveyCampaign"],
+                     data: h
+                  };
+                  LongText(reminderView);
+               }
+            });
+
+         }
+      },
+      error: function (e) {
+         bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+
+      },
    });
       
 
    function NetPromoterScore(reminderView){
+      var formCSA = $('<form class="formulario"></form>');
+      var divNPS = $('<div class="radio"><div>');
 
-     var formCSA = $('<form class="formulario"></form>');
-     var divNPS = $('<div class="radio"><div>');
-
-     if (reminderView.data.orderP) {
+      if (reminderView.data.orderP) {
          var textL = reminderView.data.orderP+'. '+ reminderView.data.question;
-     }else{
+      }else{
          var textL = reminderView.data.question;
+      }
 
-     }
-
-     var label = $('<label>'+textL+'</label>');
+      var label = $('<label>'+textL+'</label>');
 
 
      
-     if (reminderView.data.required == true) {
+      if (reminderView.data.required == true) {
         for (var i = 1; i <= 10; i++) {
-            var pNPS = $('<input type="radio" name="CSA" data-id="'+reminderView.data.id+'" id="' + reminderView.idNPS + '_' + i +'" value="'+i+'" required>'+'<label for="' + reminderView.idNPS + '_' + i +
-                '"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+i+'</H4>'+'</label>');
-                divNPS.append(pNPS);
-
-        }
-     }else{
-      for (var i = 1; i <= 10; i++) {
-         var pNPS = $('<input type="radio" name="CSA" data-id="'+reminderView.data.id+'" id="' + reminderView.idNPS + '_' + i +'" value="'+i+'">'+'<label for="' + reminderView.idNPS + '_' + i +
-             '"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+i+'</H4>'+'</label>');
-             divNPS.append(pNPS);
-
+         var pNPS = $('<input type="radio" name="CSA" data-id="'+reminderView.data.id+'" id="' + reminderView.idNPS + 
+            '_' + i +'" value="'+i+'" required>'+'<label for="' + reminderView.idNPS + '_' + i +'"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+
+            i+'</H4>'+'</label>');
+            divNPS.append(pNPS);
+         }
+      }else{
+         for (var i = 1; i <= 10; i++) {
+            var pNPS = $('<input type="radio" name="CSA" data-id="'+reminderView.data.id+'" id="' + reminderView.idNPS + 
+               '_' + i +'" value="'+i+'">'+'<label for="' + reminderView.idNPS + '_' + i +'"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+
+               i+'</H4>'+'</label>');
+            divNPS.append(pNPS);
+         }
       }
-     }
 
-     formCSA.append(divNPS);
+      formCSA.append(divNPS);
 
-     reminderView.renderTo.append(label);
-     reminderView.renderTo.append(formCSA);
+      reminderView.renderTo.append(label);
+      reminderView.renderTo.append(formCSA);
 
       arrayFin.push({
          'objeto': divNPS,
@@ -262,6 +266,20 @@ $(document).ready(function(){
             'participant': urlParams["id"],
             'surveyCampaign':reminderView.surveyCampaign
          });
+   };
+
+   function surveyFin() {
+       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+       myWindow = window.open("SurveyFin.html","_self", "");
+   };
+
+   function error(e) {
+       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+        myWindow =window.open("Error.html","_self", "");
+       //alert("hola");
+
+       //window.close();
+      
    };       
 });
 
@@ -318,13 +336,28 @@ $(document).ready(function(){
          data: JSON.stringify(data),
          beforeSend: function () {
             //$("#resultado").html("Procesando, espere por favor...");
+            openWin();
          },
          success:  function (response) {
             $("#resultado").html(response);
          }
         });
    }); 
+
+      function openWin() {
+       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+       myWindow = window.open("SurveyFin.html","_self", "");
+      }
+
+      function closeWin() {
+          myWindow.close();
+      }
+
+
 });
+
+
+
 
 
 
