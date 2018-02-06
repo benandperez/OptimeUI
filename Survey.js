@@ -1,4 +1,4 @@
-   var urlParams;
+var urlParams;
 $(document).ready(function(){
    //$('#btnCALCULAR').click(function() { 
    (window.onpopstate = function () {
