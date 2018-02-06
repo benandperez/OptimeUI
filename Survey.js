@@ -176,17 +176,17 @@ $(document).ready(function(){
 
 
          if (reminderView.data.required == true) {
-            var checkBoxMSa = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Muy satisfecho" required><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Muy satisfecho</label></FONT></label><br></div>');
-            var checkBoxSa = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Satisfecho" required><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Satisfecho</label></FONT></label><br></div>');
-            var checkBoxNe = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Neutral" required><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</label></FONT></label><br></div>');
-            var checkBoxIn = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Insatisfecho" required><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Insatisfecho</label></FONT></label><br></div>');
-            var checkBoxMIn = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Muy insatisfecho" required><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Muy insatisfecho</label></FONT></label><br></div>');
+            var checkBoxMSa = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Muy satisfecho" required><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Muy satisfecho</label></FONT></label><br></div>');
+            var checkBoxSa = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Satisfecho" required><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Satisfecho</label></FONT></label><br></div>');
+            var checkBoxNe = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Neutral" required><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</label></FONT></label><br></div>');
+            var checkBoxIn = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Insatisfecho" required><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Insatisfecho</label></FONT></label><br></div>');
+            var checkBoxMIn = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Muy insatisfecho" required><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Muy insatisfecho</label></FONT></label><br></div>');
          }else{
-            var checkBoxMSa = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Muy satisfecho"><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Muy satisfecho</label></FONT></label><br></div>');
-            var checkBoxSa = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Satisfecho"><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Satisfecho</label></FONT></label><br></div>');
-            var checkBoxNe = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Neutral"><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</label></FONT></label><br></div>');
-            var checkBoxIn = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Insatisfecho"><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Insatisfecho</label></FONT></label><br></div>');
-            var checkBoxMIn = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Muy insatisfecho"><label><FONT FACE="arial"><label style="font-weight:  100; margin-left: 15px;margin-bottom: 5px;color: #333;">Muy insatisfecho</label></FONT></label><br></div>');
+            var checkBoxMSa = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Muy satisfecho"><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Muy satisfecho</label></FONT></label><br></div>');
+            var checkBoxSa = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Satisfecho"><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Satisfecho</label></FONT></label><br></div>');
+            var checkBoxNe = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Neutral"><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</label></FONT></label><br></div>');
+            var checkBoxIn = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Insatisfecho"><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Insatisfecho</label></FONT></label><br></div>');
+            var checkBoxMIn = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Muy insatisfecho"><label><FONT FACE="arial"><label style="font-weight:  400; margin-left: 15px;margin-bottom: 5px;color: #333;">Muy insatisfecho</label></FONT></label><br></div>');
          }
          formCSA.append(checkBoxMSa);
          formCSA.append(checkBoxSa);
@@ -258,10 +258,10 @@ $(document).ready(function(){
         var label = $('<label>'+textL+'</label>');
 
         if (reminderView.data.required == true) {
-           var pLON = $('<textarea data-id="'+reminderView.data.id+'" id ="long'+reminderView.data.orderP+'" rows="10" cols="70" style="width: 100%; font-size: medium; display: inline-block;" required></textarea>');
+           var pLON = $('<textarea data-id="'+reminderView.data.id+'" id ="long'+reminderView.data.orderP+'" rows="10" cols="35" style="width: 100%; height:  20%; font-size: medium; display: inline-block;" required></textarea>');
            divLON.append(pLON);
         }else{
-            var pLON = $('<textarea data-id="'+reminderView.data.id+'" id ="long'+reminderView.data.orderP+'" rows="10" cols="70" style="width: 100%; font-size: medium; display: inline-block;"></textarea>');
+            var pLON = $('<textarea data-id="'+reminderView.data.id+'" id ="long'+reminderView.data.orderP+'" rows="10" cols="35" style="width: 100%; height:  20%; font-size: medium; display: inline-block;"></textarea>');
             divLON.append(pLON);
         }
 
