@@ -32,14 +32,24 @@ $(document).ready(function(){
             surveyEncuestado();
             
          }else{
-            var titleFin = "";
+            var titleFinTitle = "";
+            var titleDescription = "";
 
-            if (response["surveyCampaign"]) {
+            /*if (response["surveyCampaign"]) {
                titleFin = "Campaña #"+response["surveyCampaign"]["consecutive"]+" "+response["surveyCampaign"]["name"];
                $("#modalTitle").html(titleFin);
             }else{
                titleFin = "Encuesta";
                $("#modalTitle").html(titleFin);
+            };*/
+            if (response["surveyCampaign"]) {
+               titleFinTitle = response["surveyCampaign"]["survey"]["name"];
+               titleDescription = response["surveyCampaign"]["description"];
+               $("#modalTitle").html(titleFinTitle);
+               $("#modalTitleDescription").html(titleDescription);
+            }else{
+               titleFinTitle = "Encuesta";
+               $("#modalTitle").html(titleFinTitle);
             };
 
             var orderPFin = response["question"].sort(function (a, b) {
@@ -117,22 +127,22 @@ $(document).ready(function(){
          var textL = reminderView.data.question;
       }
 
-      var label = $('<label>'+textL+'</label>');
+      var label = $('<FONT FACE="arial"><label>'+textL+'</label></FONT>');
 
 
      
       if (reminderView.data.required == true) {
         for (var i = 1; i <= 10; i++) {
          var pNPS = $('<input type="radio" name="CSA" data-id="'+reminderView.data.id+'" id="' + reminderView.idNPS + 
-            '_' + i +'" value="'+i+'" required>'+'<label for="' + reminderView.idNPS + '_' + i +'"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+
-            i+'</H4>'+'</label>');
+            '_' + i +'" value="'+i+'" required>'+'<FONT FACE="arial"><label for="' + reminderView.idNPS + '_' + i +'"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+
+            i+'</H4>'+'</label></FONT>');
             divNPS.append(pNPS);
          }
       }else{
          for (var i = 1; i <= 10; i++) {
             var pNPS = $('<input type="radio" name="CSA" data-id="'+reminderView.data.id+'" id="' + reminderView.idNPS + 
-               '_' + i +'" value="'+i+'">'+'<label for="' + reminderView.idNPS + '_' + i +'"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+
-               i+'</H4>'+'</label>');
+               '_' + i +'" value="'+i+'">'+'<FONT FACE="arial"><label for="' + reminderView.idNPS + '_' + i +'"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+
+               i+'</H4>'+'</label></FONT>');
             divNPS.append(pNPS);
          }
       }
@@ -166,17 +176,17 @@ $(document).ready(function(){
 
 
          if (reminderView.data.required == true) {
-            var checkBoxMSa = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Muy satisfecho" required><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy satisfecho</H4></label><br></div>');
-            var checkBoxSa = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Satisfecho" required><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Satisfecho</H4></label><br></div>');
-            var checkBoxNe = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Neutral" required><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</H4></label><br></div>');
-            var checkBoxIn = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Insatisfecho" required><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Insatisfecho</H4></label><br></div>');
-            var checkBoxMIn = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Muy insatisfecho" required><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy insatisfecho</H4></label><br></div>');
+            var checkBoxMSa = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Muy satisfecho" required><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy satisfecho</label></FONT></label><br></div>');
+            var checkBoxSa = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Satisfecho" required><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Satisfecho</label></FONT></label><br></div>');
+            var checkBoxNe = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Neutral" required><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</label></FONT></label><br></div>');
+            var checkBoxIn = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Insatisfecho" required><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Insatisfecho</label></FONT></label><br></div>');
+            var checkBoxMIn = $('<div><input type="radio"  name="CSA" data-id="'+reminderView.data.id+'" value="Muy insatisfecho" required><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy insatisfecho</label></FONT></label><br></div>');
          }else{
-            var checkBoxMSa = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Muy satisfecho"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy satisfecho</H4></label><br></div>');
-            var checkBoxSa = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Satisfecho"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Satisfecho</H4></label><br></div>');
-            var checkBoxNe = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Neutral"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</H4></label><br></div>');
-            var checkBoxIn = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Insatisfecho"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Insatisfecho</H4></label><br></div>');
-            var checkBoxMIn = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Muy insatisfecho"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy insatisfecho</H4></label><br></div>');
+            var checkBoxMSa = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Muy satisfecho"><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy satisfecho</label></FONT></label><br></div>');
+            var checkBoxSa = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Satisfecho"><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Satisfecho</label></FONT></label><br></div>');
+            var checkBoxNe = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Neutral"><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</label></FONT></label><br></div>');
+            var checkBoxIn = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Insatisfecho"><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Insatisfecho</label></FONT></label><br></div>');
+            var checkBoxMIn = $('<div><input type="radio" name="CSA" data-id="'+reminderView.data.id+'" value="Muy insatisfecho"><label><FONT FACE="arial"><label style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy insatisfecho</label></FONT></label><br></div>');
          }
          formCSA.append(checkBoxMSa);
          formCSA.append(checkBoxSa);
