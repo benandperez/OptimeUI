@@ -370,11 +370,6 @@ $(document).ready(function(){
 
          },
       });
-
-      
-
-
-      
    }); 
 
       function openWin() {
@@ -385,6 +380,10 @@ $(document).ready(function(){
       function closeWin() {
           myWindow.close();
       }
+      function surveyEncuestado() {
+       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+       myWindow = window.open("SurveyEncuestado.html","_self", "");
+   };
 
 
 });
