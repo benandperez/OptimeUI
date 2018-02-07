@@ -338,24 +338,43 @@ $(document).ready(function(){
          'participant': {'id': urlParams["id"]}
       };
 
+      $.ajax({
+         url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
+         type:  'GET',
+         success:  function (response) {
+            //$("#modal-header").html(response["name"]);
+            if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN") {
+               surveyEncuestado();
+               
+            }else{
+               $.ajax({
+                  //data:  parametros,
+                  url:   host+'survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
+                  type:  'PUT',
+                  contentType: 'application/json',
+                  dataType: "json",
+                  data: JSON.stringify(data),
+                  beforeSend: function () {
+                     //$("#resultado").html("Procesando, espere por favor...");
+                     openWin();
+                  },
+                  success:  function (response) {
+                     $("#resultado").html(response);
+                  }
+               });
+
+            }
+         },
+         error: function () {
+            bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+
+         },
+      });
+
       
 
 
-      $.ajax({
-         //data:  parametros,
-         url:   host+'survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
-         type:  'PUT',
-         contentType: 'application/json',
-         dataType: "json",
-         data: JSON.stringify(data),
-         beforeSend: function () {
-            //$("#resultado").html("Procesando, espere por favor...");
-            openWin();
-         },
-         success:  function (response) {
-            $("#resultado").html(response);
-         }
-        });
+      
    }); 
 
       function openWin() {
