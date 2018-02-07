@@ -330,6 +330,9 @@ function getValue() {
 $(document).ready(function(){
    $('#Btnsuccess').click(function() {      
       var replaies = getValue();
+      $(".loader").fadeIn("slow");
+
+      
 
       console.log(replaies);
 
@@ -356,6 +359,9 @@ $(document).ready(function(){
                   data: JSON.stringify(data),
                   beforeSend: function () {
                      //$("#resultado").html("Procesando, espere por favor...");
+                     $(window).load(function() {
+                         $(".loader").fadeOut("slow");
+                     });
                      openWin();
                   },
                   success:  function (response) {
