@@ -107,7 +107,8 @@ $(document).ready(function(){
                   LongText(reminderView);
                }
             });
-
+            var Btnsuccess = $('<button class="btn btn-success" id="Btnsuccess" type="button" style="display: block;">Enviar Encuesta</button>');
+            $(".modal-footer").html(Btnsuccess);
          }
       },
       error: function () {
@@ -327,72 +328,71 @@ function getValue() {
    return reply;
 };
 
-$(document).ready(function(){
-   $('#Btnsuccess').click(function() {      
-      var replaies = getValue();
-      $(".loader").fadeIn("slow");
+
+$(document).on('click','#Btnsuccess', function() {      
+   var replaies = getValue();
+   $(".loader").fadeIn("slow");
 
       
 
-      console.log(replaies);
+   console.log(replaies);
 
-      var data = {
-         'replay': replaies,
-         'participant': {'id': urlParams["id"]}
-      };
-
-      $.ajax({
-         url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
-         type:  'GET',
-         success:  function (response) {
-            //$("#modal-header").html(response["name"]);
-            if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN") {
-               surveyEncuestado();
-               
-            }else{
-               $.ajax({
-                  //data:  parametros,
-                  url:   host+'survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
-                  type:  'PUT',
-                  contentType: 'application/json',
-                  dataType: "json",
-                  data: JSON.stringify(data),
-                  beforeSend: function () {
-                     //$("#resultado").html("Procesando, espere por favor...");
-                     $(window).load(function() {
-                         $(".loader").fadeOut("slow");
-                     });
-                     openWin();
-                  },
-                  success:  function (response) {
-                     $("#resultado").html(response);
-                  }
-               });
-
-            }
-         },
-         error: function () {
-            bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
-
-         },
-      });
-   }); 
-
-      function openWin() {
-       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
-       myWindow = window.open("SurveyFin.html","_self", "");
-      }
-
-      function closeWin() {
-          myWindow.close();
-      }
-      function surveyEncuestado() {
-       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
-       myWindow = window.open("SurveyEncuestado.html","_self", "");
+   var data = {
+      'replay': replaies,
+      'participant': {'id': urlParams["id"]}
    };
 
+   $.ajax({
+      url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
+      type:  'GET',
+      success:  function (response) {
+         //$("#modal-header").html(response["name"]);
+         if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN") {
+            surveyEncuestado();
+            
+         }else{
+            $.ajax({
+               //data:  parametros,
+               url:   host+'survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
+               type:  'PUT',
+               contentType: 'application/json',
+               dataType: "json",
+               data: JSON.stringify(data),
+               beforeSend: function () {
+                  //$("#resultado").html("Procesando, espere por favor...");
+                  $(window).load(function() {
+                      $(".loader").fadeOut("slow");
+                  });
+                  openWin();
+               },
+               success:  function (response) {
+                  $("#resultado").html(response);
+               }
+            });
 
-});
+         }
+      },
+      error: function () {
+         bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+
+      },
+   });
+
+   function openWin() {
+    //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+    myWindow = window.open("SurveyFin.html","_self", "");
+   }
+
+   function closeWin() {
+       myWindow.close();
+   }
+   function surveyEncuestado() {
+    //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+    myWindow = window.open("SurveyEncuestado.html","_self", "");
+   };
+
+}); 
+
 
 
 
