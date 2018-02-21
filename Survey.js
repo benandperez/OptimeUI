@@ -17,7 +17,7 @@ $(document).ready(function(){
 });
 
 var arrayFin=[];
-//var host = 'http://localhost/sifinca/web/app.php/';
+//var host = 'http://localhost/sifinca/web/app_dev.php/';
 var host = 'https://www.sifinca.net/sifinca/web/app.php/';
 
 $(document).ready(function(){
@@ -25,6 +25,7 @@ $(document).ready(function(){
    $.ajax({
       url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
       type:  'GET',
+      
 
       success:  function (response) {
          //$("#modal-header").html(response["name"]);
@@ -52,7 +53,7 @@ $(document).ready(function(){
                $("#modalTitle").html(titleFinTitle);
             };
 
-            var orderPFin = response["question"].sort(function (a, b) {
+            var orderPFin = response["questionsText"].sort(function (a, b) {
 
                if (a.orderP > b.orderP) {
                   return 1;
@@ -65,9 +66,9 @@ $(document).ready(function(){
             });
             orderPFin.forEach(function(valor, i, array) {
                var h = valor;
-               if (h.typeQuestion.value == "CSA") {
+               if (h.questionType.value == "CSA") {
                   var reminderView = {
-                     idNPS: h.typeQuestion.value + "_" + i,                                    
+                     idNPS: h.questionType.value + "_" + i,                                    
                      renderTo: $("#modal-body"),
                      surveyCampaign:response["surveyCampaign"],
                      data: h
@@ -75,10 +76,10 @@ $(document).ready(function(){
                   CsatCustomerSatisfaction(reminderView);
                   //reply.push(CsatCustomerSatisfaction+i);
                }
-               if (h.typeQuestion.value == "NPS") {
+               if (h.questionType.value == "NPS") {
                   var reminderView = {                                    
                      //modal: windowModalSaveReminder,
-                     idNPS: h.typeQuestion.value + "_" + i,                                    
+                     idNPS: h.questionType.value + "_" + i,                                    
                      renderTo: $("#modal-body"),
                      surveyCampaign:response["surveyCampaign"],
                      data: h
@@ -86,25 +87,35 @@ $(document).ready(function(){
                   NetPromoterScore(reminderView);
                }
 
-                if (h.typeQuestion.value == "SHO") {
+                if (h.questionType.value == "SHO") {
                   var reminderView = {                                    
                      //modal: windowModalSaveReminder,
-                     idNPS: h.typeQuestion.value + "_" + i,                                    
+                     idNPS: h.questionType.value + "_" + i,                                    
                      renderTo: $("#modal-body"),
                      surveyCampaign:response["surveyCampaign"],
                      data: h
                   };
                   ShortText(reminderView);
                }
-               if (h.typeQuestion.value == "LON") {
+               if (h.questionType.value == "LON") {
                   var reminderView = {                                    
                      //modal: windowModalSaveReminder,
-                     idNPS: h.typeQuestion.value + "_" + i,                                    
+                     idNPS: h.questionType.value + "_" + i,                                    
                      renderTo: $("#modal-body"),
                      surveyCampaign:response["surveyCampaign"],
                      data: h
                   };
                   LongText(reminderView);
+               }
+               if (h.questionType.value == "CES") {
+                  var reminderView = {                         
+                    //modal: me.windowModalSaveReminder,
+                     idNPS: h.questionType.value + "_" + i,                          
+                     renderTo: $("#modal-body"),
+                     surveyCampaign:response["surveyCampaign"],
+                     data: h
+                  };
+                  CustomerEffortScore(reminderView);
                }
             });
             var Btnsuccess = $('<button class="btn btn-success" id="Btnsuccess" type="button" style="display: block;">Enviar Encuesta</button>');
@@ -113,6 +124,9 @@ $(document).ready(function(){
       },
       error: function () {
          bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+         $(window).load(function() {
+                      $(".loader").fadeOut("slow");
+                  });
 
       },
    });
@@ -155,6 +169,7 @@ $(document).ready(function(){
 
       arrayFin.push({
          'objeto': divNPS,
+         'data':reminderView.data,
          'type': 'radio',
          'participant': urlParams["id"],
          'surveyCampaign':reminderView.surveyCampaign
@@ -202,10 +217,56 @@ $(document).ready(function(){
          
          arrayFin.push({
             'objeto': formCSA,
+            'data':reminderView.data,
             'type': 'radio',
             'participant': urlParams["id"],
             'surveyCampaign':reminderView.surveyCampaign
          });
+
+   };
+   function CustomerEffortScore(reminderView){
+
+      var formCES = $('<form class="floating-buttons-CES"></form>'); 
+      var divCES = $('<div class="radio"><div>');
+
+      if (reminderView.data.orderP) {
+         var textL = reminderView.data.orderP+'. '+ reminderView.data.question;
+      }else{
+         var textL = reminderView.data.question;
+
+      }
+
+      var label = $('<label>'+textL+'</label>');
+
+      var checkBoxMDA = $('<div><input type="radio" name="CES" value="Muy de acuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy de acuerdo</H4></label><br></div>');
+      var checkBoxDA = $('<div><input type="radio" name="CES" value=" De acuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;"> De acuerdo</H4></label><br></div>');
+      var checkBoxUPDA = $('<div><input type="radio" name="CES" value="Un poco de acuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Un poco de acuerdo</H4></label><br></div>');
+      var checkBoxNEU = $('<div><input type="radio" name="CES" value="Neutral"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</H4></label><br></div>');
+      var checkBoxUPED = $('<div><input type="radio" name="CES" value="Un poco en desacuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Un poco en desacuerdo</H4></label><br></div>');
+      var checkBoxED = $('<div><input type="radio" name="CES" value="En desacuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">En desacuerdo</H4></label><br></div>');
+      var checkBoxTED = $('<div><input type="radio" name="CES" value="Totalmente en desacuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Totalmente en desacuerdo</H4></label><br></div>');
+
+      formCES.append(checkBoxMDA);
+      formCES.append(checkBoxDA);
+      formCES.append(checkBoxUPDA);
+      formCES.append(checkBoxNEU);
+      formCES.append(checkBoxUPED);
+      formCES.append(checkBoxED);
+      formCES.append(checkBoxTED);
+
+
+      formCES.append(divCES);
+
+      reminderView.renderTo.append(label);
+      reminderView.renderTo.append(formCES);
+
+      arrayFin.push({
+         'objeto': formCES,
+         'data':reminderView.data,
+         'type': 'radio',
+         'participant': urlParams["id"],
+         'surveyCampaign':reminderView.surveyCampaign
+      });
 
    };
 
@@ -239,6 +300,7 @@ $(document).ready(function(){
 
          arrayFin.push({
             'objeto': pSHOR,
+            'data':reminderView.data,
             'type': 'text',
             'participant': urlParams["id"],
             'surveyCampaign':reminderView.surveyCampaign
@@ -273,6 +335,7 @@ $(document).ready(function(){
 
         arrayFin.push({
             'objeto': pLON,
+            'data':reminderView.data,
             'type': 'text',
             'participant': urlParams["id"],
             'surveyCampaign':reminderView.surveyCampaign
@@ -305,9 +368,12 @@ function getValue() {
          $(arrayFin[i]['objeto']).find('input[type=radio]').each(function(check, indice, array) {          
             if ($(this).prop("checked")) {
                reply.push({ 
-                  'question':{
-                     "id": $(this).data('id')
-                  } ,
+                  "consecutiveQuestionsSurvey":arrayFin[i]['data']["consecutive"],
+                  "textQuestionsSurvey":arrayFin[i]['data']["question"],
+                  "idQuestionsSurvey":arrayFin[i]['data']["id"],
+                  "contentQuestionType":arrayFin[i]['data']["questionType"]["content"],
+                  "valueQuestionType":arrayFin[i]['data']["questionType"]["value"],
+                  "idQuestionType":arrayFin[i]['data']["questionType"]["id"],
                   'surveyCampaign': arrayFin[i]['surveyCampaign'],
                   'participant': arrayFin[i]['participant'],
                   'answerText': $(this).val()
@@ -316,9 +382,12 @@ function getValue() {
          });
       } else if (arrayFin[i]['type'] === "text") {
          reply.push({ 
-            'question': {
-               "id":$(arrayFin[i]['objeto']).data('id')
-            },
+            "consecutiveQuestionsSurvey":arrayFin[i]['data']["consecutive"],
+            "textQuestionsSurvey":arrayFin[i]['data']["question"],
+            "idQuestionsSurvey":arrayFin[i]['data']["id"],
+            "contentQuestionType":arrayFin[i]['data']["questionType"]["content"],
+            "valueQuestionType":arrayFin[i]['data']["questionType"]["value"],
+            "idQuestionType":arrayFin[i]['data']["questionType"]["id"],
             'surveyCampaign': arrayFin[i]['surveyCampaign'],
             'participant': arrayFin[i]['participant'],
             'answerText': $(arrayFin[i]['objeto']).val()
