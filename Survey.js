@@ -17,15 +17,19 @@ $(document).ready(function(){
 });
 
 var arrayFin=[];
-//var host = 'http://localhost/sifinca/web/app_dev.php/';
-var host = 'https://www.sifinca.net/sifinca/web/app.php/';
+var host = 'http://localhost/sifinca/web/app_dev.php/';
+//var host = 'https://www.sifinca.net/sifinca/web/app.php/';
 
 $(document).ready(function(){
 
    $.ajax({
       url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
       type:  'GET',
-      
+      headers: {
+              'Content-Type' : 'application/json',
+              'x-sifinca': 'SessionToken SessionID="5a15dd35b90800eb3f8b4573", Username="bperez@araujoysegovia.net"'
+       },
+
 
       success:  function (response) {
          //$("#modal-header").html(response["name"]);
@@ -133,7 +137,7 @@ $(document).ready(function(){
       
 
    function NetPromoterScore(reminderView){
-      var formCSA = $('<form class="formulario"></form>');
+      var formNPS = $('<form class="formulario"></form>');
       var divNPS = $('<div class="radio"><div>');
 
       if (reminderView.data.orderP) {
@@ -146,26 +150,18 @@ $(document).ready(function(){
 
 
      
-      if (reminderView.data.required == true) {
-        for (var i = 1; i <= 10; i++) {
-         var pNPS = $('<input type="radio" name="CSA" data-id="'+reminderView.data.id+'" id="' + reminderView.idNPS + 
-            '_' + i +'" value="'+i+'" required>'+'<FONT FACE="arial"><label for="' + reminderView.idNPS + '_' + i +'"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+
-            i+'</H4>'+'</label></FONT>');
-            divNPS.append(pNPS);
-         }
-      }else{
+     
          for (var i = 1; i <= 10; i++) {
-            var pNPS = $('<input type="radio" name="CSA" data-id="'+reminderView.data.id+'" id="' + reminderView.idNPS + 
-               '_' + i +'" value="'+i+'">'+'<FONT FACE="arial"><label for="' + reminderView.idNPS + '_' + i +'"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+
-               i+'</H4>'+'</label></FONT>');
+            var pNPS = $('<input type="radio" name="NPS" data-id="'+reminderView.data.id+'" id="' + reminderView.idNPS + 
+               '_' + i +'" value="'+i+'">'+'<label for="' + reminderView.idNPS + '_' + i +'"><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">'+
+               i+'</H4>'+'</label>');
             divNPS.append(pNPS);
          }
-      }
 
-      formCSA.append(divNPS);
+      formNPS.append(divNPS);
 
       reminderView.renderTo.append(label);
-      reminderView.renderTo.append(formCSA);
+      reminderView.renderTo.append(formNPS);
 
       arrayFin.push({
          'objeto': divNPS,
@@ -179,7 +175,7 @@ $(document).ready(function(){
    function CsatCustomerSatisfaction(reminderView){
 
         var formCSA = $('<form class="floating-csatcustomersatisfaction"></form>'); 
-        var divNPS = $('<div class="radio"><div>');
+        //var divNPS = $('<div class="radio"><div>');
         
         if (reminderView.data.orderP) {
             var textL = reminderView.data.orderP+'. '+ reminderView.data.question;
@@ -210,7 +206,7 @@ $(document).ready(function(){
          formCSA.append(checkBoxIn);
          formCSA.append(checkBoxMIn);
 
-        formCSA.append(divNPS);
+       // formCSA.append(divNPS);
 
         reminderView.renderTo.append(label);
         reminderView.renderTo.append(formCSA);
@@ -239,7 +235,7 @@ $(document).ready(function(){
       var label = $('<label>'+textL+'</label>');
 
       var checkBoxMDA = $('<div><input type="radio" name="CES" value="Muy de acuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy de acuerdo</H4></label><br></div>');
-      var checkBoxDA = $('<div><input type="radio" name="CES" value=" De acuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;"> De acuerdo</H4></label><br></div>');
+      var checkBoxDA = $('<div><input type="radio" name="CES" value="De acuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">De acuerdo</H4></label><br></div>');
       var checkBoxUPDA = $('<div><input type="radio" name="CES" value="Un poco de acuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Un poco de acuerdo</H4></label><br></div>');
       var checkBoxNEU = $('<div><input type="radio" name="CES" value="Neutral"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Neutral</H4></label><br></div>');
       var checkBoxUPED = $('<div><input type="radio" name="CES" value="Un poco en desacuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Un poco en desacuerdo</H4></label><br></div>');
