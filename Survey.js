@@ -17,18 +17,18 @@ $(document).ready(function(){
 });
 
 var arrayFin=[];
-var host = 'http://localhost/sifinca/web/app_dev.php/';
-//var host = 'https://www.sifinca.net/sifinca/web/app.php/';
+//var host = 'http://localhost/sifinca/web/app_dev.php/';
+var host = 'https://www.sifinca.net/sifinca/web/app.php/';
 
 $(document).ready(function(){
 
    $.ajax({
       url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
       type:  'GET',
-      headers: {
+      /*headers: {
               'Content-Type' : 'application/json',
               'x-sifinca': 'SessionToken SessionID="5a15dd35b90800eb3f8b4573", Username="bperez@araujoysegovia.net"'
-       },
+       },*/
 
 
       success:  function (response) {
