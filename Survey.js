@@ -33,7 +33,7 @@ $(document).ready(function(){
 
       success:  function (response) {
          //$("#modal-header").html(response["name"]);
-         if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN") {
+         if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN" || response["participantStatus"]["value"] ==   "CAN") {
             surveyEncuestado();
             
          }else{
@@ -412,7 +412,7 @@ $(document).on('click','#Btnsuccess', function() {
       type:  'GET',
       success:  function (response) {
          //$("#modal-header").html(response["name"]);
-         if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN") {
+         if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN" || response["participantStatus"]["value"] ==   "CAN") {
             surveyEncuestado();
             
          }else{
