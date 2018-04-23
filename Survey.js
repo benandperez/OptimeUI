@@ -17,18 +17,22 @@ $(document).ready(function(){
 });
 
 var arrayFin=[];
-//var host = 'http://localhost/sifinca/web/app_dev.php/';
-var host = 'https://www.sifinca.net/sifinca/web/app.php/';
+var checkedYes = 0;
+var checkedNo = 0;
+var textYes = 0;
+var textNo = 0;
+var host = 'http://localhost/sifinca/web/app_dev.php/';
+//var host = 'https://www.sifinca.net/sifinca/web/app.php/';
 
 $(document).ready(function(){
 
    $.ajax({
       url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
       type:  'GET',
-      /*headers: {
+      headers: {
               'Content-Type' : 'application/json',
               'x-sifinca': 'SessionToken SessionID="5a15dd35b90800eb3f8b4573", Username="bperez@araujoysegovia.net"'
-       },*/
+       },
 
 
       success:  function (response) {
@@ -91,7 +95,7 @@ $(document).ready(function(){
                   NetPromoterScore(reminderView);
                }
 
-                if (h.questionType.value == "SHO") {
+               if (h.questionType.value == "SHO") {
                   var reminderView = {                                    
                      //modal: windowModalSaveReminder,
                      idNPS: h.questionType.value + "_" + i,                                    
@@ -139,14 +143,19 @@ $(document).ready(function(){
    function NetPromoterScore(reminderView){
       var formNPS = $('<form class="formulario"></form>');
       var divNPS = $('<div class="radio"><div>');
-
+     
       if (reminderView.data.orderP) {
          var textL = reminderView.data.orderP+'. '+ reminderView.data.question;
       }else{
          var textL = reminderView.data.question;
       }
 
-      var label = $('<FONT FACE="arial"><label>'+textL+'</label></FONT>');
+      if (reminderView.data.required == true) {
+         var label = $('<FONT FACE="arial"><label>'+textL+' </label></FONT><span style="color: #ff0000;"> *</span>');
+      }else{
+         var label = $('<FONT FACE="arial"><label>'+textL+'</label></FONT>');
+
+      }
 
 
      
@@ -167,6 +176,8 @@ $(document).ready(function(){
          'objeto': divNPS,
          'data':reminderView.data,
          'type': 'radio',
+         'requiredQuestion':reminderView.data.required,
+         'typeQuestion': reminderView.data.questionType.value,
          'participant': urlParams["id"],
          'surveyCampaign':reminderView.surveyCampaign
       });
@@ -184,7 +195,13 @@ $(document).ready(function(){
 
         }
 
-        var label = $('<label>'+textL+'</label>');
+      //var label = $('<label>'+textL+'</label>');
+      if (reminderView.data.required == true) {
+         var label = $('<label>'+textL+' </label><span style="color: #ff0000;"> *</span>');
+      }else{
+         var label = $('<label>'+textL+' </label>');
+         
+      }
 
 
          if (reminderView.data.required == true) {
@@ -215,6 +232,8 @@ $(document).ready(function(){
             'objeto': formCSA,
             'data':reminderView.data,
             'type': 'radio',
+            'requiredQuestion':reminderView.data.required,
+            'typeQuestion': reminderView.data.questionType.value,
             'participant': urlParams["id"],
             'surveyCampaign':reminderView.surveyCampaign
          });
@@ -232,7 +251,13 @@ $(document).ready(function(){
 
       }
 
-      var label = $('<label>'+textL+'</label>');
+      //var label = $('<label>'+textL+'</label>');
+      if (reminderView.data.required == true) {
+         var label = $('<label>'+textL+' </label><span style="color: #ff0000;"> *</span>');
+      }else{
+         var label = $('<label>'+textL+' </label>');
+         
+      }
 
       var checkBoxMDA = $('<div><input type="radio" name="CES" value="Muy de acuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">Muy de acuerdo</H4></label><br></div>');
       var checkBoxDA = $('<div><input type="radio" name="CES" value="De acuerdo"><label><H4 style="margin-left: 15px;margin-bottom: 5px;color: #333;">De acuerdo</H4></label><br></div>');
@@ -260,6 +285,8 @@ $(document).ready(function(){
          'objeto': formCES,
          'data':reminderView.data,
          'type': 'radio',
+         'requiredQuestion':reminderView.data.required,
+         'typeQuestion': reminderView.data.questionType.value,
          'participant': urlParams["id"],
          'surveyCampaign':reminderView.surveyCampaign
       });
@@ -278,7 +305,13 @@ $(document).ready(function(){
 
         }
 
-        var label = $('<label>'+textL+'</label>');
+      //var label = $('<label>'+textL+'</label>');
+      if (reminderView.data.required == true) {
+         var label = $('<label>'+textL+' </label><span style="color: #ff0000;"> *</span>');
+      }else{
+         var label = $('<label>'+textL+' </label>');
+         
+      }
 
 
          if (reminderView.data.required == true) {
@@ -298,6 +331,7 @@ $(document).ready(function(){
             'objeto': pSHOR,
             'data':reminderView.data,
             'type': 'text',
+            'requiredQuestion':reminderView.data.required,
             'participant': urlParams["id"],
             'surveyCampaign':reminderView.surveyCampaign
          });
@@ -314,7 +348,13 @@ $(document).ready(function(){
             var textL = reminderView.data.question;
         }
 
-        var label = $('<label>'+textL+'</label>');
+      var label = $('<label>'+textL+'</label>');
+      if (reminderView.data.required == true) {
+         var label = $('<label>'+textL+' </label><span style="color: #ff0000;"> *</span>');
+         }else{
+         var label = $('<label>'+textL+' </label>');
+
+      }
 
         if (reminderView.data.required == true) {
            var pLON = $('<textarea data-id="'+reminderView.data.id+'" id ="long'+reminderView.data.orderP+'" rows="10" cols="35" style="width: 100%; height:  20%; font-size: medium; display: inline-block;" required></textarea>');
@@ -333,6 +373,7 @@ $(document).ready(function(){
             'objeto': pLON,
             'data':reminderView.data,
             'type': 'text',
+            'requiredQuestion':reminderView.data.required,
             'participant': urlParams["id"],
             'surveyCampaign':reminderView.surveyCampaign
          });
@@ -359,7 +400,9 @@ $(document).ready(function(){
 
 function getValue() {
    var reply = [];
-   for (var i = 0; i < arrayFin.length; i++) {
+   
+
+   /*for (var i = 0; i < arrayFin.length; i++) {
       if (arrayFin[i]['type'] === "radio") {
          $(arrayFin[i]['objeto']).find('input[type=radio]').each(function(check, indice, array) {          
             if ($(this).prop("checked")) {
@@ -389,6 +432,107 @@ function getValue() {
             'answerText': $(arrayFin[i]['objeto']).val()
          });
       }
+   }*/
+   for (var i = 0; i < arrayFin.length; i++) {
+      if (arrayFin[i]['type'] === "radio") {
+         if (arrayFin[i]['requiredQuestion'] == true) {
+            $(arrayFin[i]['objeto']).find('input[type=radio]').each(function(check, indice, array) {          
+               if ($(this).prop("checked")) {
+                  checkedYes += 1;
+
+                  reply.push({ 
+                     "consecutiveQuestionsSurvey":arrayFin[i]['data']["consecutive"],
+                     "textQuestionsSurvey":arrayFin[i]['data']["question"],
+                     "idQuestionsSurvey":arrayFin[i]['data']["id"],
+                     "contentQuestionType":arrayFin[i]['data']["questionType"]["content"],
+                     "valueQuestionType":arrayFin[i]['data']["questionType"]["value"],
+                     "idQuestionType":arrayFin[i]['data']["questionType"]["id"],
+                     'surveyCampaign': arrayFin[i]['surveyCampaign'],
+                     'participant': arrayFin[i]['participant'],
+                     'answerText': $(this).val()
+                  });         
+               } else{
+                  checkedNo += 1;
+               }          
+            });
+
+            if (checkedYes == 0) {
+               bootbox.alert ("Pregunta requerida NO respondida");
+               reply = null; 
+               checkedYes = 0
+               checkedNo = 0
+               break;
+            }else{
+               checkedYes = 0
+               checkedNo = 0
+
+            }
+         }else{
+            $(arrayFin[i]['objeto']).find('input[type=radio]').each(function(check, indice, array) {          
+               if ($(this).prop("checked")) {
+                  reply.push({ 
+                     "consecutiveQuestionsSurvey":arrayFin[i]['data']["consecutive"],
+                     "textQuestionsSurvey":arrayFin[i]['data']["question"],
+                     "idQuestionsSurvey":arrayFin[i]['data']["id"],
+                     "contentQuestionType":arrayFin[i]['data']["questionType"]["content"],
+                     "valueQuestionType":arrayFin[i]['data']["questionType"]["value"],
+                     "idQuestionType":arrayFin[i]['data']["questionType"]["id"],
+                     'surveyCampaign': arrayFin[i]['surveyCampaign'],
+                     'participant': arrayFin[i]['participant'],
+                     'answerText': $(this).val()
+                  });         
+               }           
+            });
+         }
+
+      } else {
+         if (arrayFin[i]['type'] === "text") {
+            if (arrayFin[i]['requiredQuestion'] == true) {
+               if ($(arrayFin[i]['objeto']).val() == "") {
+                  textNo += 1;
+                  
+               }else{
+                  textYes += 1;
+
+                  reply.push({ 
+                     "consecutiveQuestionsSurvey":arrayFin[i]['data']["consecutive"],
+                     "textQuestionsSurvey":arrayFin[i]['data']["question"],
+                     "idQuestionsSurvey":arrayFin[i]['data']["id"],
+                     "contentQuestionType":arrayFin[i]['data']["questionType"]["content"],
+                     "valueQuestionType":arrayFin[i]['data']["questionType"]["value"],
+                     "idQuestionType":arrayFin[i]['data']["questionType"]["id"],
+                     'surveyCampaign': arrayFin[i]['surveyCampaign'],
+                     'participant': arrayFin[i]['participant'],
+                     'answerText': $(arrayFin[i]['objeto']).val()
+                  });
+
+               }
+            }else{
+               textYes += 1;
+               reply.push({ 
+                  "consecutiveQuestionsSurvey":arrayFin[i]['data']["consecutive"],
+                  "textQuestionsSurvey":arrayFin[i]['data']["question"],
+                  "idQuestionsSurvey":arrayFin[i]['data']["id"],
+                  "contentQuestionType":arrayFin[i]['data']["questionType"]["content"],
+                  "valueQuestionType":arrayFin[i]['data']["questionType"]["value"],
+                  "idQuestionType":arrayFin[i]['data']["questionType"]["id"],
+                  'surveyCampaign': arrayFin[i]['surveyCampaign'],
+                  'participant': arrayFin[i]['participant'],
+                  'answerText': $(arrayFin[i]['objeto']).val()
+               });
+            }
+         }
+         if (textYes == 0) {
+            bootbox.alert ("Pregunta requerida NO respondida");
+            reply = null; 
+            textYes = 0
+            textNo = 0
+            break;
+         }else{
+            textYes = 0
+            textNo = 0
+         }
+      }
    }
    return reply;
 };
@@ -396,52 +540,62 @@ function getValue() {
 
 $(document).on('click','#Btnsuccess', function() {      
    var replaies = getValue();
-   $(".loader").fadeIn("slow");
 
-      
+   var contRequired = 0;
+   var contRequiredEsta = 0;
+   var contRequiredNoEsta = 0;
 
-   console.log(replaies);
 
-   var data = {
-      'replay': replaies,
-      'participant': {'id': urlParams["id"]}
-   };
+    if (replaies) {
+      $(".loader").fadeIn("slow");
 
-   $.ajax({
-      url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
-      type:  'GET',
-      success:  function (response) {
-         //$("#modal-header").html(response["name"]);
-         if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN" || response["participantStatus"]["value"] ==   "CAN") {
-            surveyEncuestado();
-            
-         }else{
-            $.ajax({
-               //data:  parametros,
-               url:   host+'survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
-               type:  'PUT',
-               contentType: 'application/json',
-               dataType: "json",
-               data: JSON.stringify(data),
-               beforeSend: function () {
-                  //$("#resultado").html("Procesando, espere por favor...");
-                  $(window).load(function() {
-                      $(".loader").fadeOut("slow");
-                  });
-                  openWin();
-               },
-               success:  function (response) {
-                  $("#resultado").html(response);
-               }
-            });
 
-         }
-      },
-      error: function () {
-         bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
 
-      },
-   });
+      console.log(replaies);
+
+
+
+      var data = {
+         'replay': replaies,
+         'participant': {'id': urlParams["id"]}
+      };
+
+      $.ajax({
+         url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
+         type:  'GET',
+         success:  function (response) {
+            //$("#modal-header").html(response["name"]);
+            if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN" || response["participantStatus"]["value"] ==   "CAN") {
+               surveyEncuestado();
+               
+            }else{
+               $.ajax({
+                  //data:  parametros,
+                  url:   host+'survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
+                  type:  'PUT',
+                  contentType: 'application/json',
+                  dataType: "json",
+                  data: JSON.stringify(data),
+                  beforeSend: function () {
+                     //$("#resultado").html("Procesando, espere por favor...");
+                     $(window).load(function() {
+                         $(".loader").fadeOut("slow");
+                     });
+                     openWin();
+                  },
+                  success:  function (response) {
+                     $("#resultado").html(response);
+                  }
+               });
+
+            }
+         },
+         error: function () {
+            bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+
+         },
+      });
+   }
 
    function openWin() {
     //myWindow = window.open("SurveyFin.html", "width=500, height=500");
