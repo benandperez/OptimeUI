@@ -216,6 +216,7 @@ $(document).on('click','#Btnsuccess', function() {
          data:JSON.stringify(replaies),
          success:  function (response) {
             $(".loader").fadeOut("slow");
+            idGlobal = null;
               loadTable();
             
          },
