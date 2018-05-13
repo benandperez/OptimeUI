@@ -156,19 +156,38 @@ $(document).ready(function(){
 function getValue() {
    var setDataFrom = {};
 
-  if (arrayFin.length > 0) {
+  if (idGlobal == null) {
+      if (arrayFin.length > 0) {
 
-      setDataFrom = { 
-         "nombres":arrayFin[0]['cName'].val(),
-         "apellidos":arrayFin[0]['cLastName'].val(),
-         "correo":arrayFin[0]['pEmail'].val(),
-         "telefono":arrayFin[0]['cPhone'].val(),
-         "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
-         "comentarios":arrayFin[0]['CComment'].val(),
-         //'adjuntar': arrayFin[0]['cAdjuntar'].val(),
-         'adjuntar': null,
-         //'adjuntarBase64': getBase64(arrayFin[0]['file']),
-      };
+        setDataFrom = { 
+           "nombres":arrayFin[0]['cName'].val(),
+           "apellidos":arrayFin[0]['cLastName'].val(),
+           "correo":arrayFin[0]['pEmail'].val(),
+           "telefono":arrayFin[0]['cPhone'].val(),
+           "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
+           "comentarios":arrayFin[0]['CComment'].val(),
+           //'adjuntar': arrayFin[0]['cAdjuntar'].val(),
+           'adjuntar': null,
+           //'adjuntarBase64': getBase64(arrayFin[0]['file']),
+        };
+    }  
+  }else{
+
+    if (arrayFin.length > 0) {
+
+        setDataFrom = { 
+           "id":idGlobal,
+           "nombres":arrayFin[0]['cName'].val(),
+           "apellidos":arrayFin[0]['cLastName'].val(),
+           "correo":arrayFin[0]['pEmail'].val(),
+           "telefono":arrayFin[0]['cPhone'].val(),
+           "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
+           "comentarios":arrayFin[0]['CComment'].val(),
+           //'adjuntar': arrayFin[0]['cAdjuntar'].val(),
+           'adjuntar': null,
+           //'adjuntarBase64': getBase64(arrayFin[0]['file']),
+        };
+    }
   }
    return setDataFrom;
 };
@@ -188,6 +207,7 @@ $(document).on('click','#Btnsuccess', function() {
 
 
       console.log(replaies);
+
 
 
       $.ajax({
@@ -280,6 +300,13 @@ function loadTable(){
 function crearContacto(){
   var divcrearcontacto = $("#divcrearcontacto");
   var divTableListaContacto = $("#divTableListaContacto");
+
+  arrayFin[0]['cName'].val(""),
+  arrayFin[0]['cLastName'].val(""),
+  arrayFin[0]['pEmail'].val(""),
+  arrayFin[0]['cPhone'].val(""),
+  //arrayFin[0]['cClientType'].val(""),
+  arrayFin[0]['CComment'].val(""),
   divcrearcontacto.show();
   divTableListaContacto.hide();
 }
@@ -290,7 +317,7 @@ function updateContacto(dataContacto){
   divcrearcontacto.show();
   divTableListaContacto.hide();
 
-  idGlobal = dataContacto.nombre;
+  idGlobal = dataContacto.id;
 
   arrayFin[0]['cName'].val(dataContacto.nombre);
   arrayFin[0]['cLastName'].val(dataContacto.apellido);
