@@ -7,13 +7,13 @@
 
 
 <link rel="shortcut icon" type="image/x-icon" href="desktop/icono_sifinca.png">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="./bootstrap.min.css">
 <link rel="stylesheet" href="./encuesta.css">
 
  <title>Test</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="./jquery.min.js"></script>
 <script type="text/javascript" src="./Test.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+<script src="./bootstrap.min.js" ></script>
 
 <script type="text/javascript" src="./bootbox.js"></script>
 
@@ -35,9 +35,27 @@ $(window).load(function() {
 <body style=" margin-top: 0px;">
 <div class="loader"></div>
 
+    <div id="divTableListaContacto" class="col-md-6 col-md-offset-3">
+    <button class="btn btn-success" id="btnCrearContacto" onclick="crearContacto()" type="button" style="display: block;">Crear</button>
+  <table class="table" id="tableContactos">
+    <thead>
+      <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Email</th>
+        <th>Telefono</th>
+        <th>Cliente</th>
+        <th>Comentarios</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
 <!-- <div class="col-md-6 col-md-offset-3" style="border-top-style: outset;border-right-style: inset;border-bottom-style: inset;border-left-style: outset;">
  -->
- <div class="col-md-6 col-md-offset-3">
+ <div id="divcrearcontacto" class="col-md-6 col-md-offset-3" style="display:none">
    <div class="modal-header" id="modal-header">
       <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
       <FONT FACE="arial"><strong><h4 id="modalTitle"></h4></strong></FONT>
@@ -54,6 +72,10 @@ $(window).load(function() {
       
       
    </div>
+
+   <div class="container"></div>
+
+
    <div class="modal-footer"></div>
 
 

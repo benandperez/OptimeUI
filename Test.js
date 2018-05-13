@@ -17,12 +17,9 @@ var urlParams;
 });*/
 
 var arrayFin=[];
-var checkedYes = 0;
-var checkedNo = 0;
-var textYes = 0;
-var textNo = 0;
+var idGlobal = null;
 //var host = 'http://localhost/sifinca/web/app_dev.php/';
-var host = 'https://www.sifinca.net/sifinca/web/app.php/';
+var host = 'http://localhost:8080/pruebaBejamin/web/app_dev.php/';
 
 $(document).ready(function(){
 
@@ -30,24 +27,19 @@ $(document).ready(function(){
   var titleDescription = "";
 
      
-
+      loadTable();
         var reminderView = {                                    
            renderTo: $("#modal-body"),
         };
         FromContact(reminderView);
-    /* if (h.questionType.value == "LON") {
-        var reminderView = {                                    
-           //modal: windowModalSaveReminder,
-           idNPS: h.questionType.value + "_" + i,                                    
-           renderTo: $("#modal-body"),
-           surveyCampaign:response["surveyCampaign"],
-           data: h
-        };
-        LongText(reminderView);
-     }*/
+
     
-  var Btnsuccess = $('<button class="btn btn-success" id="Btnsuccess" type="button" style="display: block;">Crear</button>');
-  $(".modal-footer").html(Btnsuccess);
+  var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="button" style="display: block; float:  left; margin-right: 10px;">Enviar</button>');
+  var BtnUpdate = $('<button class="btn btn-primary" id="BtnUpdate" type="button" style="display: none; float:  left; margin-right: 10px;">Actualizar</button>');
+  var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;">Atras</button>');
+  $(".modal-footer").append(Btnsuccess);
+  $(".modal-footer").append(BtnUpdate);
+  $(".modal-footer").append(BtnTurn);
 
   function FromContact(reminderView){
 
@@ -81,7 +73,7 @@ $(document).ready(function(){
        var inputFile2 = $('<input class="form-control-file" type="file" style="display: none;"/>');
         var labelNomArchi = $('<span style="margin-left: 10px;"></span>');            
         var imgAdj = $('<button style="margin-right: 15px;" id="Save" type="button" data-toggle="tooltip" data-placement="top" title="Adjuntar">'+
-                            '<span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>'+
+                            '<span class="glyphicon-paperclip" aria-hidden="true"></span>'+
                        '</button>');
         imgAdj.click(function(){
             inputFile2.click();
@@ -119,12 +111,13 @@ $(document).ready(function(){
 
       //reminderView.renderTo.append(labelName);
       reminderView.renderTo.append(formSHO);
-
+      newFile = null;
       inputFile2.change(function(event){
             event.preventDefault();
             labelNomArchi.empty();
             labelNomArchi.html((this).files[0].name);
-            newFile = (this).files;
+            newFile = (this).files[0];
+            arrayFin[0]["file"] = (this).files[0];
             //onChangeAr((this).files,fieldTextName.getJObject(),labelNomArchi);
         });
 
@@ -136,6 +129,7 @@ $(document).ready(function(){
         'cClientType': cClientType,
         'CComment': CComment,
         'cAdjuntar': inputFile2,
+        'file': newFile
       });
   };
 
@@ -160,19 +154,21 @@ $(document).ready(function(){
 });
 
 function getValue() {
-   var setDataFrom = [];
+   var setDataFrom = {};
 
-  for (var i = 0; i < arrayFin.length; i++) {
+  if (arrayFin.length > 0) {
 
-      setDataFrom.push({ 
-         "Nombres":arrayFin[i]['cName'].val(),
-         "Apellidos":arrayFin[i]['cLastName'].val(),
-         "Email":arrayFin[i]['pEmail'].val(),
-         "Teléfono":arrayFin[i]['cPhone'].val(),
-         "Tipo de Cliente":arrayFin[i]['cClientType'].val(),
-         "Comentarios":arrayFin[i]['CComment'].val(),
-         'Adjuntar': arrayFin[i]['cAdjuntar'].val(),
-      });
+      setDataFrom = { 
+         "nombres":arrayFin[0]['cName'].val(),
+         "apellidos":arrayFin[0]['cLastName'].val(),
+         "correo":arrayFin[0]['pEmail'].val(),
+         "telefono":arrayFin[0]['cPhone'].val(),
+         "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
+         "comentarios":arrayFin[0]['CComment'].val(),
+         //'adjuntar': arrayFin[0]['cAdjuntar'].val(),
+         'adjuntar': null,
+         //'adjuntarBase64': getBase64(arrayFin[0]['file']),
+      };
   }
    return setDataFrom;
 };
@@ -194,45 +190,19 @@ $(document).on('click','#Btnsuccess', function() {
       console.log(replaies);
 
 
-
-      var data = {
-         'replay': replaies,
-         'participant': {'id': urlParams["id"]}
-      };
-
       $.ajax({
-         url:   host+'survey/main/sifinca/survey/participant/email/'+urlParams["id"],
-         type:  'GET',
+         url:   host+"contacto/create",
+         type:  'POST',
+         data:JSON.stringify(replaies),
          success:  function (response) {
-            //$("#modal-header").html(response["name"]);
-            if (response["participantStatus"]["value"] ==   "ENC" || response["participantStatus"]["value"] ==   "VEN" || response["participantStatus"]["value"] ==   "CAN") {
-               surveyEncuestado();
-               
-            }else{
-               $.ajax({
-                  //data:  parametros,
-                  url:   host+'survey/main/sifinca/survey/participant/email/update/'+urlParams["id"],
-                  type:  'PUT',
-                  contentType: 'application/json',
-                  dataType: "json",
-                  data: JSON.stringify(data),
-                  beforeSend: function () {
-                     //$("#resultado").html("Procesando, espere por favor...");
-                     $(window).load(function() {
-                         $(".loader").fadeOut("slow");
-                     });
-                     openWin();
-                  },
-                  success:  function (response) {
-                     $("#resultado").html(response);
-                  }
-               });
-
-            }
+            $(".loader").fadeOut("slow");
+              loadTable();
+            
          },
          error: function () {
-            bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
-
+            bootbox.alert("Error crear contacto");
+            //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+            $(".loader").fadeOut("slow");
          },
       });
    }
@@ -252,13 +222,95 @@ $(document).on('click','#Btnsuccess', function() {
 
 }); 
 
+$(document).on('click','#BtnTurn', function() {
+  myWindow = window.open("TestRun.html","_self", "");
+});
 
+function loadTable(){
+  var tableContactos = $("#tableContactos");
+  var divcrearcontacto = $("#divcrearcontacto");
+  var divTableListaContacto = $("#divTableListaContacto");
 
+  divcrearcontacto.hide();
+  divTableListaContacto.show();
+    tableContactos.find("tbody").find("tr").remove();
+        $.ajax({
+         url:   host+"contacto/list",
+         type:  'GET',
+         success:  function (response) {
+            console.log(response);
+            response.forEach(function(valor, indice) {
+            
 
+            //for (var i = 0; i < response.length; i++) {
+              var btnEdit = $('<button class="btn btn-info" type="button" style="display: block;">Actualizar</button>');
+              var tr = $("<tr></tr>");
+              var tdNombre = $("<td></td>").html(valor.nombre);
+              var tdApellido = $("<td></td>").html(valor.apellido);
+              var tdCorreo = $("<td></td>").html(valor.correo);
+              var tdTelefono = $("<td></td>").html(valor.telefono);
+              var tdTipo_de_cliente = $("<td></td>").html(valor.tipo_de_cliente);
+              var tdComentarios = $("<td></td>").html(valor.comentarios);
+              var tdbtn = $("<td></td>")
+              tdbtn.append(btnEdit);
+              tr.append(tdNombre);
+              tr.append(tdApellido);
+              tr.append(tdCorreo);
+              tr.append(tdTelefono);
+              tr.append(tdTipo_de_cliente);
+              tr.append(tdComentarios);
+              tr.append(tdbtn);
+              tableContactos.append(tr);
+              var dataContacto = valor;
 
+              btnEdit.click(function(){
+                updateContacto(valor);
+              });
+            });
+            //};
 
+         },
+         error: function () {
+            //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+         },
+      });
 
+}
 
+function crearContacto(){
+  var divcrearcontacto = $("#divcrearcontacto");
+  var divTableListaContacto = $("#divTableListaContacto");
+  divcrearcontacto.show();
+  divTableListaContacto.hide();
+}
 
+function updateContacto(dataContacto){
+  var divcrearcontacto = $("#divcrearcontacto");
+  var divTableListaContacto = $("#divTableListaContacto");
+  divcrearcontacto.show();
+  divTableListaContacto.hide();
 
+  idGlobal = dataContacto.nombre;
 
+  arrayFin[0]['cName'].val(dataContacto.nombre);
+  arrayFin[0]['cLastName'].val(dataContacto.apellido);
+  arrayFin[0]['pEmail'].val(dataContacto.correo);
+  arrayFin[0]['cPhone'].val(dataContacto.telefono);
+  arrayFin[0]['cClientType'].val(dataContacto.tipo_de_cliente);
+  arrayFin[0]['CComment'].val(dataContacto.comentarios);
+  arrayFin[0]['cAdjuntar'].val(dataContacto.adjuntar);
+
+}
+
+/*function getBase64(file) {
+   var reader = new FileReader();
+   reader.readAsDataURL(file);
+   reader.onload = function () {
+     console.log(reader.result);
+   };
+   reader.onerror = function (error) {
+     console.log('Error: ', error);
+   };
+}*/
+
+//tableContactos
