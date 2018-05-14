@@ -36,13 +36,13 @@ $varIdContact = $_POST['var'];
 			}				
 			
 			if($_FILES["imagen"]["size"] > $totalBytes){
-				array_push($errors, "File size must be less than 100KB. Name:- ".$file_name);
+				array_push($errors, "El archivo pesa mas de  2000KB. Name:- ".$file_name);
 				$uploadThisFile = false;
 			}
 			
 			if(file_exists("Upload/".$_FILES["imagen"]["name"]))
 			{
-				array_push($errors, "File is already exist. Name:- ". $file_name);
+				array_push($errors, "Photo ya existe con el nombre:- ". $file_name);
 				$uploadThisFile = false;
 			}
 			
@@ -67,9 +67,7 @@ $varIdContact = $_POST['var'];
 				echo $error."<br/>";
 			}
 		}
-		echo "Imagen Creada.....".$last_inserted;
-		echo "\n";
+	
 		echo "Atras para retornar al formulario...";
-		return $last_inserted;
 	}
 ?>

@@ -179,7 +179,12 @@ $(document).on('click','#Btnsuccess', function() {
             idGlobal = null;
             var idContact = $("#idContact");
             idContact[0].setAttribute('value',response.id);
+            if ($("#uploadForm").find('#imagen').val() == "" || $("#uploadForm").find('#imagen').val() == null) {
+
+            }else{
               var fileResult = $("#uploadForm").find('#btnSumi').click();
+
+            }
               loadTable();
             
          },
@@ -210,6 +215,10 @@ $(document).on('click','#BtnTurn', function() {
   myWindow = window.open("TestRun.html","_self", "");
 });
 
+$(document).on('click','#BtnTurn', function() {
+  myWindow = window.open("TestRun.html","_self", "");
+});
+
 function loadTable(){
   var tableContactos = $("#tableContactos");
   var divcrearcontacto = $("#divcrearcontacto");
@@ -228,6 +237,7 @@ function loadTable(){
 
             //for (var i = 0; i < response.length; i++) {
               var btnEdit = $('<button class="btn btn-info" type="button" style="display: block;">Actualizar</button>');
+              var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
               var tr = $("<tr></tr>");
               var tdNombre = $("<td></td>").html(valor.nombre);
               var tdApellido = $("<td></td>").html(valor.apellido);
@@ -235,20 +245,44 @@ function loadTable(){
               var tdTelefono = $("<td></td>").html(valor.telefono);
               var tdTipo_de_cliente = $("<td></td>").html(valor.tipo_de_cliente);
               var tdComentarios = $("<td></td>").html(valor.comentarios);
-              var tdbtn = $("<td></td>")
-              tdbtn.append(btnEdit);
+              var tdbtnEd = $("<td></td>")
+              var tdbtnDel = $("<td></td>")
+              tdbtnEd.append(btnEdit);
+              tdbtnDel.append(btnDelete);
               tr.append(tdNombre);
               tr.append(tdApellido);
               tr.append(tdCorreo);
               tr.append(tdTelefono);
               tr.append(tdTipo_de_cliente);
               tr.append(tdComentarios);
-              tr.append(tdbtn);
+              tr.append(tdbtnEd);
+              tr.append(tdbtnDel);
               tableContactos.append(tr);
               var dataContacto = valor;
 
               btnEdit.click(function(){
                 updateContacto(valor);
+              });
+
+               btnDelete.click(function(){
+                bootbox.confirm({
+                  message: "¿Desea Eliminar el contacto "+valor.nombre+"?",
+                  buttons: {
+                      confirm: {
+                          label: 'Si',
+                          className: 'btn-success'
+                      },
+                      cancel: {
+                          label: 'No',
+                          className: 'btn-danger'
+                      }
+                  },
+                  callback: function (result) {
+                    if (result) {
+                      deleteContact(valor);
+                    }
+                  }
+                });
               });
             });
             //};
@@ -285,6 +319,13 @@ function updateContacto(dataContacto){
   BtnViewPhoto.css("display","block");
   idContact[0].setAttribute('value',dataContacto.id);
 
+  var hrefNew = "view.php"+"?idContact="+dataContacto.id
+
+  
+
+  BtnViewPhoto[0].setAttribute('href', hrefNew);
+
+
   idGlobal = dataContacto.id;
 
   arrayFin[0]['cName'].val(dataContacto.nombre);
@@ -297,15 +338,25 @@ function updateContacto(dataContacto){
 
 }
 
-/*function getBase64(file) {
-   var reader = new FileReader();
-   reader.readAsDataURL(file);
-   reader.onload = function () {
-     console.log(reader.result);
-   };
-   reader.onerror = function (error) {
-     console.log('Error: ', error);
-   };
-}*/
+function deleteContact(dataContacto) {
+
+  var url = host+"contacto/borrar/"
+
+  var sendData = dataContacto.id;
+
+  $.ajax({
+      url: url+dataContacto.id,    //Your api url
+      type: 'PUT',   //type is any HTTP method
+      data: {
+          data: sendData
+      },      //Data as js object
+      success: function () {
+        bootbox.alert("Contacto eliminado", function(){ 
+          loadTable(); 
+        });
+      }
+  });
+   
+}
 
 //tableContactos

@@ -1,6 +1,9 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
 	<header>
+			
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,10 +38,12 @@
 					<a href="TestRun.html" class="btn btn-info">Atras</a>
 					<h3>Photos subidas(Clic para ver grande) :</h3>
 					<br/>
+
 					<?php 
+					$idContact = $_GET["idContact"];
 						$conn = mysqli_connect("localhost","root","password","contactos");
 						
-						$query = "SELECT * FROM UserFiles WHERE idContact = '1'";
+						$query = "SELECT * FROM UserFiles WHERE idContact = '".$idContact."'";
 						
 						$result = mysqli_query($conn, $query);
 						
@@ -55,7 +60,7 @@
 						else
 						{
 					?>
-						<p>There are no images uploaded to display.</p>
+						<p>Este contacto no tiene imagenes para mostrar.</p>
 					<?php
 						}
 					?>					
