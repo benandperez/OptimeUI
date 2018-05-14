@@ -1,6 +1,10 @@
 <?php
-print_r("hola q tal");
-	if(isset($_POST["Btnsuccess"])){		
+//print_r("hola");
+//print_r($_FILES);
+//print_r($_POST);
+$last_inserted = null;
+$varIdContact = $_POST['var'];
+	if(isset($_POST["subir"])){		
 		$errors = array();
 		
 		$extension = array("jpeg","jpg","png","gif");
@@ -9,20 +13,19 @@ print_r("hola q tal");
 		$allowedKB = 2000;
 		$totalBytes = $allowedKB * $bytes;
 		
-		if(isset($_FILES["files"])==false)
+		if(isset($_FILES["imagen"])==false)
 		{
 			echo "<b>Por favor, seleccione el archivo a subir!!!</b>";
 			return;
 		}
 		
-		$conn = mysqli_connect("localhost","root","password","phpfiles");	
+		$conn = mysqli_connect("localhost","root","password","contactos");	
 		
-		foreach($_FILES["files"]["tmp_name"] as $key=>$tmp_name)
-		{
+		
 			$uploadThisFile = true;
 			
-			$file_name=$_FILES["files"]["name"][$key];
-			$file_tmp=$_FILES["files"]["tmp_name"][$key];
+			$file_name=$_FILES["imagen"]["name"];
+			$file_tmp=$_FILES["imagen"]["tmp_name"];
 			
 			$ext=pathinfo($file_name,PATHINFO_EXTENSION);
 
@@ -32,12 +35,12 @@ print_r("hola q tal");
 				$uploadThisFile = false;
 			}				
 			
-			if($_FILES["files"]["size"][$key] > $totalBytes){
+			if($_FILES["imagen"]["size"] > $totalBytes){
 				array_push($errors, "File size must be less than 100KB. Name:- ".$file_name);
 				$uploadThisFile = false;
 			}
 			
-			if(file_exists("Upload/".$_FILES["files"]["name"][$key]))
+			if(file_exists("Upload/".$_FILES["imagen"]["name"]))
 			{
 				array_push($errors, "File is already exist. Name:- ". $file_name);
 				$uploadThisFile = false;
@@ -46,13 +49,14 @@ print_r("hola q tal");
 			if($uploadThisFile){
 				$filename=basename($file_name,$ext);
 				$newFileName=$filename.$ext;				
-				move_uploaded_file($_FILES["files"]["tmp_name"][$key],"Upload/".$newFileName);
+				move_uploaded_file($_FILES["imagen"]["tmp_name"],"Upload/".$newFileName);
 				
-				$query = "INSERT INTO UserFiles(FilePath, FileName) VALUES('Upload','".$newFileName."')";
+				$query = "INSERT INTO UserFiles(FilePath, FileName,idContact) VALUES('Upload','".$newFileName."','".$varIdContact."')";
 				
-				mysqli_query($conn, $query);			
+				mysqli_query($conn, $query);
+
+				$last_inserted = mysqli_insert_id($conn);;			
 			}
-		}
 		
 		mysqli_close($conn);
 		
@@ -62,6 +66,10 @@ print_r("hola q tal");
 			foreach($errors as $error){
 				echo $error."<br/>";
 			}
-		}		
+		}
+		echo "Imagen Creada.....".$last_inserted;
+		echo "\n";
+		echo "Atras para retornar al formulario...";
+		return $last_inserted;
 	}
 ?>

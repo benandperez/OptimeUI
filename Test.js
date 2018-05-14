@@ -18,7 +18,6 @@ var urlParams;
 
 var arrayFin=[];
 var idGlobal = null;
-//var host = 'http://localhost/sifinca/web/app_dev.php/';
 var host = 'http://localhost:8080/pruebaBejamin/web/app_dev.php/';
 
 $(document).ready(function(){
@@ -35,11 +34,11 @@ $(document).ready(function(){
 
     
   var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="button" style="display: block; float:  left; margin-right: 10px;">Enviar</button>');
-  var BtnUpdate = $('<button class="btn btn-primary" id="BtnUpdate" type="button" style="display: none; float:  left; margin-right: 10px;">Actualizar</button>');
-  var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;">Atras</button>');
+  var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;float:  left; margin-right: 10px;">Atras</button>');
+  var BtnViewPhoto = $('<a href="view.php" id ="BtnViewPhoto" class="btn btn-info" style="float: left;display: none">Ver Fotos</a>');
   $(".modal-footer").append(Btnsuccess);
-  $(".modal-footer").append(BtnUpdate);
   $(".modal-footer").append(BtnTurn);
+  $(".modal-footer").append(BtnViewPhoto);
 
   function FromContact(reminderView){
 
@@ -66,18 +65,7 @@ $(document).ready(function(){
 
 
       var CComment = $('<textarea data-id="Comment" id ="comment" rows="10" cols="35" style="width: 100%; height:  20%; font-size: medium; display: inline-block;" required></textarea>');
-      //var cAdjuntar = $('<button id="Save" type="button" data-toggle="tooltip" data-placement="top" title="Adjuntar">'+ '<span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>'+
-       // '</button>');
-
-       //var inputFile2 = $('<input class="file" type="file" style="display: none;"/>');
-       var inputFile2 = $('<input class="form-control-file" type="file" style="display: none;"/>');
-        var labelNomArchi = $('<span style="margin-left: 10px;"></span>');            
-        var imgAdj = $('<button style="margin-right: 15px;" id="Save" type="button" data-toggle="tooltip" data-placement="top" title="Adjuntar">'+
-                            '<span class="glyphicon-paperclip" aria-hidden="true"></span>'+
-                       '</button>');
-        imgAdj.click(function(){
-            inputFile2.click();
-        });
+ 
         
 
       divSHO.append(labelName);
@@ -98,28 +86,13 @@ $(document).ready(function(){
       divSHO.append(labelComment);
       divSHO.append(CComment);
 
-      //divAjuntar.append(labelAdjuntar);
-      //divAjuntar.append(cAdjuntar);
-
-      divAjuntar.append(labelAdjuntar);
-      divAjuntar.append(imgAdj);
-      divAjuntar.append(labelNomArchi);
-      divAjuntar.append(inputFile2);
 
       formSHO.append(divSHO);
       formSHO.append(divAjuntar);
 
-      //reminderView.renderTo.append(labelName);
       reminderView.renderTo.append(formSHO);
       newFile = null;
-      inputFile2.change(function(event){
-            event.preventDefault();
-            labelNomArchi.empty();
-            labelNomArchi.html((this).files[0].name);
-            newFile = (this).files[0];
-            arrayFin[0]["file"] = (this).files[0];
-            //onChangeAr((this).files,fieldTextName.getJObject(),labelNomArchi);
-        });
+
 
       arrayFin.push({
         'cName': cName,
@@ -128,29 +101,9 @@ $(document).ready(function(){
         'cPhone': cPhone,
         'cClientType': cClientType,
         'CComment': CComment,
-        'cAdjuntar': inputFile2,
-        'file': newFile
       });
   };
-
-
-   function surveyFin() {
-       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
-       myWindow = window.open("SurveyFin.html","_self", "");
-   };
-   function surveyEncuestado() {
-       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
-       myWindow = window.open("SurveyEncuestado.html","_self", "");
-   };
-
-   function error(e) {
-       //myWindow = window.open("SurveyFin.html", "width=500, height=500");
-        myWindow =window.open("Error.html","_self", "");
-       //alert("hola");
-
-       //window.close();
       
-   };       
 });
 
 function getValue() {
@@ -166,8 +119,9 @@ function getValue() {
            "telefono":arrayFin[0]['cPhone'].val(),
            "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
            "comentarios":arrayFin[0]['CComment'].val(),
-           //'adjuntar': arrayFin[0]['cAdjuntar'].val(),
-           'adjuntar': null,
+           'adjuntar': arrayFin[0]['cAdjuntar'],
+           'file': arrayFin[0]['file'],
+           //'adjuntar': null,
            //'adjuntarBase64': getBase64(arrayFin[0]['file']),
         };
     }  
@@ -183,8 +137,9 @@ function getValue() {
            "telefono":arrayFin[0]['cPhone'].val(),
            "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
            "comentarios":arrayFin[0]['CComment'].val(),
-           //'adjuntar': arrayFin[0]['cAdjuntar'].val(),
-           'adjuntar': null,
+           'adjuntar': arrayFin[0]['cAdjuntar'],
+           'file': arrayFin[0]['file'],
+           //'adjuntar': null,
            //'adjuntarBase64': getBase64(arrayFin[0]['file']),
         };
     }
@@ -196,17 +151,22 @@ function getValue() {
 $(document).on('click','#Btnsuccess', function() {      
    var replaies = getValue();
 
+       
+
+
    var contRequired = 0;
    var contRequiredEsta = 0;
    var contRequiredNoEsta = 0;
 
 
     if (replaies) {
-      $(".loader").fadeIn("slow");
+      //$(".loader").fadeIn("slow");
 
 
 
       console.log(replaies);
+
+        
 
 
 
@@ -217,6 +177,9 @@ $(document).on('click','#Btnsuccess', function() {
          success:  function (response) {
             $(".loader").fadeOut("slow");
             idGlobal = null;
+            var idContact = $("#idContact");
+            idContact[0].setAttribute('value',response.id);
+              var fileResult = $("#uploadForm").find('#btnSumi').click();
               loadTable();
             
          },
@@ -315,8 +278,12 @@ function crearContacto(){
 function updateContacto(dataContacto){
   var divcrearcontacto = $("#divcrearcontacto");
   var divTableListaContacto = $("#divTableListaContacto");
+  var BtnViewPhoto = $("#BtnViewPhoto");
+  var idContact = $("#idContact");
   divcrearcontacto.show();
   divTableListaContacto.hide();
+  BtnViewPhoto.css("display","block");
+  idContact[0].setAttribute('value',dataContacto.id);
 
   idGlobal = dataContacto.id;
 
@@ -326,7 +293,7 @@ function updateContacto(dataContacto){
   arrayFin[0]['cPhone'].val(dataContacto.telefono);
   arrayFin[0]['cClientType'].val(dataContacto.tipo_de_cliente);
   arrayFin[0]['CComment'].val(dataContacto.comentarios);
-  arrayFin[0]['cAdjuntar'].val(dataContacto.adjuntar);
+  //arrayFin[0]['cAdjuntar'].val(dataContacto.adjuntar);
 
 }
 
