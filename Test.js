@@ -1,21 +1,4 @@
 var urlParams;
-/*$(document).ready(function(){
-   //$('#btnCALCULAR').click(function() { 
-   (window.onpopstate = function () {
-       var match,
-           pl     = /\+/g,  // Regex for replacing addition symbol with a space
-           search = /([^&=]+)=?([^&]*)/g,
-           decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
-           query  = window.location.search.substring(1);
-
-       urlParams = {};
-       while (match = search.exec(query))
-          urlParams[decode(match[1])] = decode(match[2]);
-   })();
-
-  // });
-});*/
-
 var arrayFin=[];
 var idGlobal = null;
 var host = 'http://localhost:8080/pruebaBejamin/web/app_dev.php/';
@@ -27,24 +10,28 @@ $(document).ready(function(){
 
      
       loadTable();
+      
+
         var reminderView = {                                    
            renderTo: $("#modal-body"),
         };
         FromContact(reminderView);
 
     
-  var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="button" style="display: block; float:  left; margin-right: 10px;">Enviar</button>');
-  var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;float:  left; margin-right: 10px;">Atras</button>');
-  var BtnViewPhoto = $('<a href="view.php" id ="BtnViewPhoto" class="btn btn-info" style="float: left;display: none">Ver Fotos</a>');
-  $(".modal-footer").append(Btnsuccess);
-  $(".modal-footer").append(BtnTurn);
-  $(".modal-footer").append(BtnViewPhoto);
+  //var BtnViewPhoto = $('<a href="view.php" id ="BtnViewPhoto" class="btn btn-info" style="float: left;display: none">Ver Fotos</a>');
+  //$(".modal-footer").append(Btnsuccess);
+  //$(".modal-footer").append(BtnTurn);
+  //$(".modal-footer").append(BtnViewPhoto);
 
   function FromContact(reminderView){
 
       var formSHO = $('<form class="floating-from"></form>');
       var divSHO = $('<div><div>');
-      var divAjuntar = $('<div id ="adjuntar" style="margin-top: 2%;"><div>');
+      var divAction = $('<div><div>');
+
+      var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="submit" style="display: block; float:  left; margin-right: 10px;">Enviar</button>');
+      var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;float:  left; margin-right: 10px;">Atras</button>');
+  
 
       var onChangeAr = null;
 
@@ -54,7 +41,6 @@ $(document).ready(function(){
       var labelPhone = $('<label>Teléfono: </label>');
       var labelClientType = $('<label>Tipo de Cliente: </label>');
       var labelComment = $('<label>Comentarios: </label>');
-      var labelAdjuntar = $('<label>Adjuntar: </label> <br>');
 
 
       var cName = $('<input type="text" class="form-control" data-id="Name" name="name" id ="name" required>');
@@ -86,9 +72,12 @@ $(document).ready(function(){
       divSHO.append(labelComment);
       divSHO.append(CComment);
 
+      divSHO.append(Btnsuccess);
+      divSHO.append(BtnTurn);
+
 
       formSHO.append(divSHO);
-      formSHO.append(divAjuntar);
+      formSHO.append(divAction);
 
       reminderView.renderTo.append(formSHO);
       newFile = null;
@@ -106,8 +95,9 @@ $(document).ready(function(){
       
 });
 
+
 function getValue() {
-   var setDataFrom = {};
+  var setDataFrom = {};
 
   if (idGlobal == null) {
       if (arrayFin.length > 0) {
@@ -119,10 +109,7 @@ function getValue() {
            "telefono":arrayFin[0]['cPhone'].val(),
            "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
            "comentarios":arrayFin[0]['CComment'].val(),
-           'adjuntar': arrayFin[0]['cAdjuntar'],
            'file': arrayFin[0]['file'],
-           //'adjuntar': null,
-           //'adjuntarBase64': getBase64(arrayFin[0]['file']),
         };
     }  
   }else{
@@ -137,10 +124,7 @@ function getValue() {
            "telefono":arrayFin[0]['cPhone'].val(),
            "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
            "comentarios":arrayFin[0]['CComment'].val(),
-           'adjuntar': arrayFin[0]['cAdjuntar'],
            'file': arrayFin[0]['file'],
-           //'adjuntar': null,
-           //'adjuntarBase64': getBase64(arrayFin[0]['file']),
         };
     }
   }
@@ -215,9 +199,7 @@ $(document).on('click','#BtnTurn', function() {
   myWindow = window.open("TestRun.html","_self", "");
 });
 
-$(document).on('click','#BtnTurn', function() {
-  myWindow = window.open("TestRun.html","_self", "");
-});
+
 
 function loadTable(){
   var tableContactos = $("#tableContactos");
@@ -231,14 +213,13 @@ function loadTable(){
          url:   host+"contacto/list",
          type:  'GET',
          success:  function (response) {
-            console.log(response);
-            response.forEach(function(valor, indice) {
+          console.log(response);
+          response.forEach(function(valor, indice) {
             
 
-            //for (var i = 0; i < response.length; i++) {
-              var btnEdit = $('<button class="btn btn-info" type="button" style="display: block;">Actualizar</button>');
-              var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
-              var tr = $("<tr></tr>");
+              var btnEdit = $('<button class="btn btn-info" type="button" style="display: block; float: left">Actualizar</button>');
+              var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block; margin-left: 55%">Eliminar</button>');
+              var tr = $("<tr ></tr>");
               var tdNombre = $("<td></td>").html(valor.nombre);
               var tdApellido = $("<td></td>").html(valor.apellido);
               var tdCorreo = $("<td></td>").html(valor.correo);
@@ -246,9 +227,9 @@ function loadTable(){
               var tdTipo_de_cliente = $("<td></td>").html(valor.tipo_de_cliente);
               var tdComentarios = $("<td></td>").html(valor.comentarios);
               var tdbtnEd = $("<td></td>")
-              var tdbtnDel = $("<td></td>")
+             // var tdbtnDel = $("<td></td>")
               tdbtnEd.append(btnEdit);
-              tdbtnDel.append(btnDelete);
+              tdbtnEd.append(btnDelete);
               tr.append(tdNombre);
               tr.append(tdApellido);
               tr.append(tdCorreo);
@@ -256,7 +237,7 @@ function loadTable(){
               tr.append(tdTipo_de_cliente);
               tr.append(tdComentarios);
               tr.append(tdbtnEd);
-              tr.append(tdbtnDel);
+              //tr.append(tdbtnDel);
               tableContactos.append(tr);
               var dataContacto = valor;
 
@@ -285,15 +266,63 @@ function loadTable(){
                 });
               });
             });
-            //};
+          $("#tableContactos").kendoGrid({
+            /*toolbar: ["excel"],
+            excel: {
+              fileName: "Respuestas.xlsx",
+              filterable: true,
+              allPages: true
+
+            },*/
+            allowCopy: true,
+            filterable: true,
+            filterable: {
+            messages: {
+            filter: "Agregar",
+            info: "Filtrar por: "
+            },
+              //mode: "row",
+              extra: false,
+              //width:"90%",
+              operators: {
+                  string: {
+                      startswith: "Contiene",
+                      eq: "Igual a"
+                  }
+              }
+            },
+            //dataBound: onDataBound,
+            pageable: {
+              messages: {
+                display: "{0}-{1} de {2}",
+                empty: "0 registros",
+                first: "Primera página",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Última página",
+                refresh: "Actualizar",
+                itemsPerPage: ""
+              },
+              input: false,
+              refresh: true,
+              pageSize: 10,
+              pageSizes: [10, 20, 30, 50]
+            },
+            sortable: true
+          });
 
          },
+        
+
          error: function () {
             //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
          },
       });
 
+    
+
 }
+
 
 function crearContacto(){
   var divcrearcontacto = $("#divcrearcontacto");
@@ -334,7 +363,6 @@ function updateContacto(dataContacto){
   arrayFin[0]['cPhone'].val(dataContacto.telefono);
   arrayFin[0]['cClientType'].val(dataContacto.tipo_de_cliente);
   arrayFin[0]['CComment'].val(dataContacto.comentarios);
-  //arrayFin[0]['cAdjuntar'].val(dataContacto.adjuntar);
 
 }
 

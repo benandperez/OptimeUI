@@ -6,9 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<link rel="shortcut icon" type="image/x-icon" href="desktop/icono_sifinca.png">
+<link rel="shortcut icon" type="image/x-icon" href="desktop/favicon.png">
 <link rel="stylesheet" href="./bootstrap.min.css">
-<link rel="stylesheet" href="./encuesta.css">
+<link rel="stylesheet" href="./Optime.css">
 
  <title>Test</title>
 <script src="./jquery.min.js"></script>
@@ -18,6 +18,14 @@
 
 <script type="text/javascript" src="./Test.js"></script>
 <script src="./bootstrap.min.js" ></script>
+
+ 
+
+ <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.common-material.min.css" />
+ <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.material.min.css" />
+<script src="https://kendo.cdn.telerik.com/2018.2.516/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.all.min.js">
+
 
 <script type="text/javascript" src="./bootbox.js"></script>
 
@@ -46,7 +54,7 @@ $(window).load(function() {
 
 
 <form style="display: block;">
-  <div style="text-align: center;"><img src="desktop/tissi.png" id="tissi_logo" style="cursor: pointer; padding-bottom: 8px; padding-top: 8px;width: 150px"></div>
+  <div style="text-align: center;"><img src="desktop/logo.png" id="tissi_logo" style="cursor: pointer; padding-bottom: 8px; padding-top: 8px;width: 230px"></div>
 </form>
 
 
@@ -55,27 +63,28 @@ $(window).load(function() {
 <body style=" margin-top: 0px;">
 <div class="loader"></div>
 
-    <div id="divTableListaContacto" class="col-md-6 col-md-offset-3">
+    <div id="divTableListaContacto" class="col-md-6 col-md-offset-3" style=" margin-left: 0px;width: 100%;">
     <button class="btn btn-success" id="btnCrearContacto" onclick="crearContacto()" type="button" style="display: block;">Crear</button>
-  <table class="table" id="tableContactos">
+  <table class="table table-striped" id="tableContactos">
     <thead>
       <tr>
-        <th>Nombres</th>
-        <th>Apellidos</th>
-        <th>Email</th>
-        <th>Telefono</th>
-        <th>Cliente</th>
-        <th>Comentarios</th>
+        <th data-field="code" >Codigo</th>
+        <th data-field="name">Nombre</th>
+        <th data-field="descripcion">Descripción</th>
+        <th data-field="make">Marca</th>
+        <th data-field="category">Categoria</th>
+        <th data-field="price">Precio</th>
+        <th data-field="action">Acciones</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="developers">
 
     </tbody>
   </table>
 </div>
 <!-- <div class="col-md-6 col-md-offset-3" style="border-top-style: outset;border-right-style: inset;border-bottom-style: inset;border-left-style: outset;">
  -->
- <div id="divcrearcontacto" class="col-md-6 col-md-offset-3" style="display:none">
+ <div id="divcrearcontacto" class="col-md-6 col-md-offset-3" style="display:none;">
    <div class="modal-header" id="modal-header">
       <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
       <FONT FACE="arial"><strong><h4 id="modalTitle"></h4></strong></FONT>
