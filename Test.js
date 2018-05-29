@@ -12,10 +12,15 @@ $(document).ready(function(){
       loadTable();
       
 
-        var reminderView = {                                    
-           renderTo: $("#modal-body"),
+        var reminderViewProduct = {                                    
+           renderTo: $("#modal-body_product"),
         };
-        FromContact(reminderView);
+        FromProduct(reminderViewProduct);
+
+        var reminderViewCategory = {                                    
+           renderTo: $("#modal-body_category"),
+        };
+        FromCategory(reminderViewProduct);
 
     
   //var BtnViewPhoto = $('<a href="view.php" id ="BtnViewPhoto" class="btn btn-info" style="float: left;display: none">Ver Fotos</a>');
@@ -23,54 +28,55 @@ $(document).ready(function(){
   //$(".modal-footer").append(BtnTurn);
   //$(".modal-footer").append(BtnViewPhoto);
 
-  function FromContact(reminderView){
+  function FromProduct(reminderViewProduct){
 
       var formSHO = $('<form class="floating-from"></form>');
       var divSHO = $('<div><div>');
       var divAction = $('<div><div>');
 
-      var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="submit" style="display: block; float:  left; margin-right: 10px;">Enviar</button>');
-      var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;float:  left; margin-right: 10px;">Atras</button>');
+      var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="submit" style="display: block; float:  left; margin-right: 10px;margin-top: 10px;">Enviar</button>');
+      var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;float:  left; margin-right: 10px;margin-top: 10px;">Atras</button>');
   
 
       var onChangeAr = null;
 
-      var labelName = $('<label>Nombres: </label>');
-      var labelLastName = $('<label>Apellidos: </label>');
-      var labelEmail = $('<label>Email: </label>');
-      var labelPhone = $('<label>Teléfono: </label>');
-      var labelClientType = $('<label>Tipo de Cliente: </label>');
-      var labelComment = $('<label>Comentarios: </label>');
+      var labelCode = $('<label>Codigo: </label>');
+      var labelName = $('<label>Nombre: </label>');
+      var labelDescription = $('<label>Descripción: </label>');
+      var labelMark = $('<label>Marca: </label>');
+      var labelCategory = $('<label>Categoria: </label>');
+      var labelPrice = $('<label>Precio: </label>');
 
 
+      var cCode = $('<input type="text" class="form-control" data-id="code" name="code" id ="code" required>');
       var cName = $('<input type="text" class="form-control" data-id="Name" name="name" id ="name" required>');
-      var cLastName = $('<input type="text" class="form-control" data-id="LastName" name="lastName" id ="lastname" required>');
-      var pEmail = $('<input type="email" class="form-control" data-id="Email" name="email" id ="email" required>');
-      var cPhone = $('<input type="number" class="form-control" data-id="Phone" name="phone" id ="phone" required>');
-      var cClientType = $('<select class="form-control" id="client"> <option>Customer</option><option>Lead</option></select>');
+      var cDescription = $('<input type="text" class="form-control" data-id="LastName" name="lastName" id ="lastname" required>');
+      var pMark = $('<input type="text" class="form-control" data-id="mark" name="mark" id ="mark" required>');
+      var cCategory = $('<select class="form-control" id="client"> <option>Customer</option><option>Lead</option></select>');
+      var cPrice = $('<input type="number" class="form-control" data-id="Phone" name="phone" id ="phone" required>');
 
 
-      var CComment = $('<textarea data-id="Comment" id ="comment" rows="10" cols="35" style="width: 100%; height:  20%; font-size: medium; display: inline-block;" required></textarea>');
  
         
+      divSHO.append(labelCode);
+      divSHO.append(cCode); 
 
       divSHO.append(labelName);
       divSHO.append(cName);
 
-      divSHO.append(labelLastName);
-      divSHO.append(cLastName);
+      divSHO.append(labelDescription);
+      divSHO.append(cDescription);
 
-      divSHO.append(labelEmail);
-      divSHO.append(pEmail);
+      divSHO.append(labelMark);
+      divSHO.append(pMark);
 
-      divSHO.append(labelPhone);
-      divSHO.append(cPhone);
+      divSHO.append(labelCategory);
+      divSHO.append(cCategory);
 
-      divSHO.append(labelClientType);
-      divSHO.append(cClientType);
+      divSHO.append(labelPrice);
+      divSHO.append(cPrice);
+      
 
-      divSHO.append(labelComment);
-      divSHO.append(CComment);
 
       divSHO.append(Btnsuccess);
       divSHO.append(BtnTurn);
@@ -79,19 +85,80 @@ $(document).ready(function(){
       formSHO.append(divSHO);
       formSHO.append(divAction);
 
-      reminderView.renderTo.append(formSHO);
+      $("#fromProduct").append(formSHO);
       newFile = null;
 
 
       arrayFin.push({
+        'cCode': cCode,
         'cName': cName,
-        'cLastName': cLastName,
-        'pEmail': pEmail,
-        'cPhone': cPhone,
-        'cClientType': cClientType,
-        'CComment': CComment,
+        'cDescription': cDescription,
+        'pMark': pMark,
+        'cCategory': cCategory,
+        'cPrice': cPrice,
       });
   };
+
+  function FromCategory(reminderViewCategory){
+
+      var FromCategoryFlot = $('<form class="floating-from-category"></form>');
+      var divSHO = $('<div><div>');
+      var divAction = $('<div><div>');
+
+      //var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="submit" style="display: block; float:  left; margin-right: 10px;margin-top: 10px;">Enviar</button>');
+      //var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;float:  left; margin-right: 10px;margin-top: 10px;">Atras</button>');
+  
+      var onChangeAr = null;
+
+      var labelCodeCate = $('<label>Codigo: </label>');
+      var labelNameCate = $('<label>Nombre: </label>');
+      var labelDescriptionCategory = $('<label>Descripción: </label>');
+      var labelActive = $('<label>Activo: </label>');
+
+
+      var cCode = $('<input type="text" class="form-control" data-id="code" name="code" id ="code" required>');
+      var cName = $('<input type="text" class="form-control" data-id="Name" name="name" id ="name" required>');
+      var cDescription = $('<input type="text" class="form-control" data-id="LastName" name="lastName" id ="lastname" required style = "margin-bottom: 10px">');
+      var pActive = $('<input type="checkbox" checked data-toggle="toggle" data-width="100" data-on="Activo" data-off="Inactivo" data-onstyle="success" data-offstyle="danger" >');
+
+
+ 
+        
+      divSHO.append(labelCodeCate);
+      divSHO.append(cCode); 
+
+      divSHO.append(labelNameCate);
+      divSHO.append(cName);
+
+      divSHO.append(labelDescriptionCategory);
+      divSHO.append(cDescription);
+
+      //divSHO.append(labelActive);
+      divSHO.append(pActive);
+
+      
+
+
+      //divSHO.append(Btnsuccess);
+      //divSHO.append(BtnTurn);
+
+
+      FromCategoryFlot.append(divSHO);
+      FromCategoryFlot.append(divAction);
+
+      $("#fromCategory").append(FromCategoryFlot);
+      newFile = null;
+
+
+      arrayFin.push({
+        'cCode': cCode,
+        'cName': cName,
+        'cDescription': cDescription,
+        'pActive': pActive,
+      });
+  };
+
+
       
 });
 
@@ -103,13 +170,12 @@ function getValue() {
       if (arrayFin.length > 0) {
 
         setDataFrom = { 
-           "nombres":arrayFin[0]['cName'].val(),
-           "apellidos":arrayFin[0]['cLastName'].val(),
-           "correo":arrayFin[0]['pEmail'].val(),
-           "telefono":arrayFin[0]['cPhone'].val(),
-           "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
-           "comentarios":arrayFin[0]['CComment'].val(),
-           'file': arrayFin[0]['file'],
+           "code":arrayFin[0]['cCode'].val(),
+           "nombre":arrayFin[0]['cName'].val(),
+           "description":arrayFin[0]['cDescription'].val(),
+           "mark":arrayFin[0]['pMark'].val(),
+           "category":arrayFin[0]['cCategory'].val(),
+           "price":arrayFin[0]['cPrice'].val(),
         };
     }  
   }else{
@@ -118,13 +184,12 @@ function getValue() {
 
         setDataFrom = { 
            "id":idGlobal,
-           "nombres":arrayFin[0]['cName'].val(),
-           "apellidos":arrayFin[0]['cLastName'].val(),
-           "correo":arrayFin[0]['pEmail'].val(),
-           "telefono":arrayFin[0]['cPhone'].val(),
-           "tipo_de_cliente":arrayFin[0]['cClientType'].val(),
-           "comentarios":arrayFin[0]['CComment'].val(),
-           'file': arrayFin[0]['file'],
+           "code":arrayFin[0]['cCode'].val(),
+           "nombre":arrayFin[0]['cName'].val(),
+           "description":arrayFin[0]['cDescription'].val(),
+           "mark":arrayFin[0]['pMark'].val(),
+           "price":arrayFin[0]['cCategory'].val(),
+           "category":arrayFin[0]['cPrice'].val(),
         };
     }
   }
@@ -202,12 +267,12 @@ $(document).on('click','#BtnTurn', function() {
 
 
 function loadTable(){
-  var tableContactos = $("#tableContactos");
-  var divcrearcontacto = $("#divcrearcontacto");
-  var divTableListaContacto = $("#divTableListaContacto");
+  var tableContactos = $("#bodyCategory");
+  var divcreateProduct = $("#divcreateProduct");
+  var divTableListProduct = $("#divTableListProduct");
 
-  divcrearcontacto.hide();
-  divTableListaContacto.show();
+  divcreateProduct.hide();
+  divTableListProduct.show();
     tableContactos.find("tbody").find("tr").remove();
         $.ajax({
          url:   host+"contacto/list",
@@ -266,14 +331,8 @@ function loadTable(){
                 });
               });
             });
-          $("#tableContactos").kendoGrid({
-            /*toolbar: ["excel"],
-            excel: {
-              fileName: "Respuestas.xlsx",
-              filterable: true,
-              allPages: true
-
-            },*/
+         /* $("#tableProduct").kendoGrid({
+            
             allowCopy: true,
             filterable: true,
             filterable: {
@@ -309,7 +368,9 @@ function loadTable(){
               pageSizes: [10, 20, 30, 50]
             },
             sortable: true
-          });
+          });*/
+
+         //$("#tableProduct").DataTable();
 
          },
         
@@ -318,33 +379,60 @@ function loadTable(){
             //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
          },
       });
+         $("#tableProduct").DataTable({
+          "language": {
+              "lengthMenu": "Ver _MENU_ numero de paginas",
+              "zeroRecords": "No hay datos",
+              "info": "Pagina _PAGE_ de _PAGES_",
+              "infoEmpty": "No hay datos",
+              "infoFiltered": "(filtered from _MAX_ total records)",
+              "search":         "Buscar:",
+              "paginate": {
+                  "first":      "Primero",
+                  "last":       "Ultimo",
+                  "next":       "Siguiente",
+                  "previous":   "Anterior"
+              },
+          }
+        });
 
     
 
 }
 
 
-function crearContacto(){
-  var divcrearcontacto = $("#divcrearcontacto");
-  var divTableListaContacto = $("#divTableListaContacto");
+function createProduct(){
+  var divcreateProduct = $("#divCreateProduct");
+  var divTableListProduct = $("#divTableListProduct");
 
   arrayFin[0]['cName'].val(""),
-  arrayFin[0]['cLastName'].val(""),
-  arrayFin[0]['pEmail'].val(""),
-  arrayFin[0]['cPhone'].val(""),
-  //arrayFin[0]['cClientType'].val(""),
-  arrayFin[0]['CComment'].val(""),
-  divcrearcontacto.show();
-  divTableListaContacto.hide();
+  arrayFin[0]['cDescription'].val(""),
+  arrayFin[0]['pMark'].val(""),
+  arrayFin[0]['cPrice'].val(""),
+  divcreateProduct.show();
+  //divTableListProduct.hide();
+}
+
+function createCategory(){
+  var divcreateCategory = $("#divcreateCategory");
+  var divTableListCategory = $("#divTableListCategory");
+
+  arrayFin[0]['cName'].val(""),
+  arrayFin[0]['cDescription'].val(""),
+  arrayFin[0]['pMark'].val(""),
+  arrayFin[0]['cPrice'].val(""),
+  //arrayFin[0]['cCategory'].val(""),
+  divcreateCategory.show();
+  divTableListCategory.hide();
 }
 
 function updateContacto(dataContacto){
-  var divcrearcontacto = $("#divcrearcontacto");
-  var divTableListaContacto = $("#divTableListaContacto");
+  var divcreateProduct = $("#divcreateProduct");
+  var divTableListProduct = $("#divTableListProduct");
   var BtnViewPhoto = $("#BtnViewPhoto");
   var idContact = $("#idContact");
-  divcrearcontacto.show();
-  divTableListaContacto.hide();
+  divcreateProduct.show();
+  divTableListProduct.hide();
   BtnViewPhoto.css("display","block");
   idContact[0].setAttribute('value',dataContacto.id);
 
@@ -358,11 +446,10 @@ function updateContacto(dataContacto){
   idGlobal = dataContacto.id;
 
   arrayFin[0]['cName'].val(dataContacto.nombre);
-  arrayFin[0]['cLastName'].val(dataContacto.apellido);
-  arrayFin[0]['pEmail'].val(dataContacto.correo);
-  arrayFin[0]['cPhone'].val(dataContacto.telefono);
-  arrayFin[0]['cClientType'].val(dataContacto.tipo_de_cliente);
-  arrayFin[0]['CComment'].val(dataContacto.comentarios);
+  arrayFin[0]['cDescription'].val(dataContacto.apellido);
+  arrayFin[0]['pMark'].val(dataContacto.correo);
+  arrayFin[0]['cPrice'].val(dataContacto.telefono);
+  arrayFin[0]['cCategory'].val(dataContacto.tipo_de_cliente);
 
 }
 
@@ -387,4 +474,24 @@ function deleteContact(dataContacto) {
    
 }
 
+
+
+$(document).ready(function () {
+        $('.navbar li').click(function(e) {
+            $('.navbar li').removeClass('active');
+            var $this = $(this);
+            if (!$this.hasClass('active')) {
+                $this.addClass('active');
+                if ($this.text() == "Catedoria") {
+                  $("#div_product").hide();
+                  $("#div_category").show();
+                }else{
+                  $("#div_product").show();
+                  $("#div_category").hide();
+                }
+
+            }
+        e.preventDefault();
+        });         
+    });
 //tableContactos

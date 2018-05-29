@@ -63,59 +63,63 @@ $(window).load(function() {
 <body style=" margin-top: 0px;">
 <div class="loader"></div>
 
-    <div id="divTableListaContacto" class="col-md-6 col-md-offset-3" style=" margin-left: 0px;width: 100%;">
-    <button class="btn btn-success" id="btnCrearContacto" onclick="crearContacto()" type="button" style="display: block;">Crear</button>
-  <table class="table table-striped" id="tableContactos">
-    <thead>
-      <tr>
-        <th data-field="code" >Codigo</th>
-        <th data-field="name">Nombre</th>
-        <th data-field="descripcion">Descripción</th>
-        <th data-field="make">Marca</th>
-        <th data-field="category">Categoria</th>
-        <th data-field="price">Precio</th>
-        <th data-field="action">Acciones</th>
-      </tr>
-    </thead>
-    <tbody id="developers">
+    <div id="divTableListProduct" class="col-md-6 col-md-offset-3" style=" margin-left: 0px;width: 100%;">
+    <div id="divTableListCategory" class="col-md-6 col-md-offset-3" style=" margin-left: 0px;width: 100%;">
+    <button class="btn btn-success" id="btnCreateProduct" onclick="createProduct()" type="button" style="display: block;float: left;margin-right: 5px">Crear Producto</button>
+    <button class="btn btn-info" id="btnCreateCategory" onclick="createCategory()" type="button" style="display: block;">Crear Categoria</button>
+    <table class="table table-striped" id="tableContactos">
+      <thead>
+        <tr>
+          <th data-field="code" >Codigo</th>
+          <th data-field="name">Nombre</th>
+          <th data-field="descripcion">Descripción</th>
+          <th data-field="make">Marca</th>
+          <th data-field="category">Categoria</th>
+          <th data-field="price">Precio</th>
+          <th data-field="action">Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="developers">
 
-    </tbody>
-  </table>
+      </tbody>
+    </table>
 </div>
 <!-- <div class="col-md-6 col-md-offset-3" style="border-top-style: outset;border-right-style: inset;border-bottom-style: inset;border-left-style: outset;">
  -->
- <div id="divcrearcontacto" class="col-md-6 col-md-offset-3" style="display:none;">
-   <div class="modal-header" id="modal-header">
-      <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
-      <FONT FACE="arial"><strong><h4 id="modalTitle"></h4></strong></FONT>
-      <br>
-      <FONT FACE="arial"><h5 id="modalTitleDescription"></h5></FONT>
-      <div id="containerInformation" style="overflow: auto; display: block;">
-         <div class="form-group col-sm-8" id="containerDataClient" style="margin-bottom: 0px; margin-top: 10px; display: block;">
-         </div> 
+<div id="divCreateProduct" class="col-md-6 col-md-offset-3" style="display:none;">
+  <div class="modal-header" id="modal-header_product" style="text-align: center;"">
+    <FONT FACE="arial"><strong><h4 id="modalTitle"></h4></strong></FONT>
+    <br>
+    <FONT FACE="arial"><h5 id="modalTitleDescription"></h5></FONT>
+    <div id="containerInformation" style="overflow: auto; display: block;">
+      <div class="form-group col-sm-8" id="containerDataClient" style="margin-bottom: 0px; margin-top: 10px; display: block;">
+      </div> 
       </div>
-   </div>
+    </div>
    
-   <div class="modal-body" id="modal-body" style="margin-bottom: 0px; text-align: inherit; background: #f7f7f7">
-
-      
-      
-   </div>
-
-   <form action="upload.php?func_name=updateRecord" id = "uploadForm" method="POST" enctype="multipart/form-data">
-      <label for="imagen">Imagen:</label>
-      <input type="file" name="imagen" id="imagen" />
-      <input type="text"  id ="idContact" style="display: none" name="var" />
-      <input type="submit" id = "btnSumi" name="subir" style="display: none" value="Subir Imagen"/>
-    </form>
-
-   <div class="container"></div>
-
-
-   <div class="modal-footer"></div>
-
-
+  <div class="modal-body" id="modal-body_product" style="margin-bottom: 0px; text-align: inherit; background: #f7f7f7">
 </div>
+<div class="container"></div>
+<div class="modal-footer"></div>
+
+
+
+<div id="divcreateCategory" class="col-md-6 col-md-offset-3" style="display:none;">
+  <div class="modal-header" id="modal-header_category" style="text-align: center;"">
+    <FONT FACE="arial"><strong><h4 id="modalTitle"></h4></strong></FONT>
+    <br>
+    <FONT FACE="arial"><h5 id="modalTitleDescription"></h5></FONT>
+    <div id="containerInformation" style="overflow: auto; display: block;">
+      <div class="form-group col-sm-8" id="containerDataClient" style="margin-bottom: 0px; margin-top: 10px; display: block;">
+    </div> 
+  </div>
+</div>
+<div class="modal-body" id="modal-body_category" style="margin-bottom: 0px; text-align: inherit; background: #f7f7f7">
+</div>
+<div class="container"></div>
+<div class="modal-footer"></div>
+
+
 
 
 

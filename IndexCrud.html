@@ -1,0 +1,207 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <link rel="stylesheet" href="./Optime.css">
+    <link href="css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="css/jquery.dataTables.css" rel="stylesheet">
+
+  </head>
+
+<body cz-shortcut-listen="true">
+    <nav class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="desktop/logo.png" id="tissi_logo" style="width: 60%"></div></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#TestRun.html" target="_top">Producto</a></li>
+            <li><a name = "category" href="#about">Catedoria</a></li>
+          </ul>
+        </div><!-- /.nav-collapse -->
+      </div><!-- /.container -->
+    </nav><!-- /.navbar -->
+
+    <div class="container" id="contentAll">
+
+      <div class="row" id="div_product">
+        <br>
+        <br>
+        <br>
+        <br>
+        <button type="button" style="margin-bottom: 10px" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          Crear
+        </button>
+        <br>
+          <div class="bs-example" data-example-id="simple-table">
+             <table class="table table-striped" id="tableProduct"> 
+              <caption>Productos.</caption> 
+                <thead>
+                    <tr>
+                      <th data-field="code" >Codigo</th>
+                      <th data-field="name">Nombre</th>
+                      <th data-field="descripcion">Descripción</th>
+                      <th data-field="make">Marca</th>
+                      <th data-field="category">Categoria</th>
+                      <th data-field="price">Precio</th>
+                      <th data-field="action">Acciones</th>
+                    </tr>
+                </thead>
+               <tbody> 
+                 <tr> 
+                    <th scope="row">1</th> 
+                    <td>Mark</td> 
+                    <td>Otto</td> 
+                    <td>@mdo</td> 
+                    <td>@mdo</td> 
+                    <td>@mdo</td> 
+                    <td>@mdo</td> 
+                </tr>
+                  <tr> 
+                    <th scope="row">2</th> 
+                      <td>Jacob</td>
+                     <td>Thornton</td> 
+                     <td>@fat</td> 
+                     <td>@fat</td> 
+                     <td>@fat</td> 
+                     <td>@fat</td> 
+                  </tr>
+                  <tr> 
+                    <th scope="row">3</th> 
+                    <td>Larry</td> 
+                    <td>the Bird</td> 
+                    <td>@twitter</td>
+                    <td>@twitter</td>
+                    <td>@twitter</td>
+                    <td>@twitter</td>
+                  </tr> 
+              </tbody> 
+            </table> 
+         </div>
+
+
+          <!--Seccion de Modal-->
+         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header" id="">
+                <h5 class="modal-title" id="exampleModalLabel">Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div id="fromProduct" class="modal-body">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+          <!--Seccion de Modal-->
+      </div><!--/row-->
+
+      <div class="row" id="div_category" style="display: none;">
+        <br>
+        <br>
+        <br>
+        <br>
+        <button type="button" style="margin-bottom: : 10px"  class="btn btn-primary" data-toggle="modal" data-target="#modalCategory">
+          Crear
+        </button>
+        <br>
+          <div class="bs-example" data-example-id="simple-table">
+             <table id="bodyCategory" class="table">
+              <caption>Categorias.</caption> 
+                <thead>
+                  <tr>
+                    <th data-field="code" >Codigo</th>
+                    <th data-field="name">Nombre</th>
+                    <th data-field="descripcion">Descripción</th>
+                    <th data-field="make">Marca</th>
+                    <th data-field="category">Categoria</th>
+                    <th data-field="price">Precio</th>
+                    <th data-field="action">Acciones</th>
+                  </tr>
+                </thead>
+               <tbody > 
+                 
+              </tbody> 
+            </table> 
+         </div>
+
+
+          <!--Seccion de Modal-->
+         <div class="modal fade" id="modalCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Categoria</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div id="fromCategory" class="modal-body">
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+              </div>
+            </div>
+          </div>
+          </div>
+          <!--Seccion de Modal-->
+      </div><!--/row-->
+
+        <hr>
+
+        <footer>
+          <p></p>
+        </footer>
+
+    </div><!--/.container-->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="js/jquery3.min.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./jquery.js"></script>
+    <script src="./jQuery.Form.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="./dataTables.bootstrap.min.js"></script>
+  <script type="text/javascript" src="./Test.js"></script>
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment.min.js"></script>
+    
+    <script type="text/javascript" src="./bootbox.js"></script>
+    <script type="text/javascript" src="./bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+   <!--  <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="offcanvas.js"></script> -->
+    <script type="text/javascript">
+      $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+      })
+    </script>
+    <script src="js/bootstrap-toggle.min.js"></script>
+
+
+</body>
+</html>
