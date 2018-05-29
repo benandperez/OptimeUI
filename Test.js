@@ -1,7 +1,7 @@
 var urlParams;
 var arrayFin=[];
 var idGlobal = null;
-var host = 'http://localhost:8080/pruebaBejamin/web/app_dev.php/';
+var host = 'http://localhost:8080/OptimeUI/web/app_dev.php/';
 
 $(document).ready(function(){
 
@@ -86,7 +86,6 @@ $(document).ready(function(){
       formSHO.append(divAction);
 
       $("#fromProduct").append(formSHO);
-      newFile = null;
 
 
       arrayFin.push({
@@ -119,7 +118,9 @@ $(document).ready(function(){
       var cCode = $('<input type="text" class="form-control" data-id="code" name="code" id ="code" required>');
       var cName = $('<input type="text" class="form-control" data-id="Name" name="name" id ="name" required>');
       var cDescription = $('<input type="text" class="form-control" data-id="LastName" name="lastName" id ="lastname" required style = "margin-bottom: 10px">');
-      var pActive = $('<input type="checkbox" checked data-toggle="toggle" data-width="100" data-on="Activo" data-off="Inactivo" data-onstyle="success" data-offstyle="danger" >');
+      //var pActive = $('<input type="checkbox"  checked data-toggle="toggle" data-width="100" data-on="Activo" data-off="Inactivo" data-onstyle="success" data-offstyle="danger" >');
+      //var pActive = $('<input type="checkbox" name="aceptar">');
+      var pActive = $('<input type="checkbox" checked data-toggle="toggle">');
 
 
  
@@ -163,100 +164,102 @@ $(document).ready(function(){
 });
 
 
-function getValue() {
+function getValue(vari) {
   var setDataFrom = {};
 
-  if (idGlobal == null) {
+  if (vari == "BtnsuccessCategory") {
+
+    if (idGlobal == null) {
       if (arrayFin.length > 0) {
 
         setDataFrom = { 
-           "code":arrayFin[0]['cCode'].val(),
-           "nombre":arrayFin[0]['cName'].val(),
-           "description":arrayFin[0]['cDescription'].val(),
-           "mark":arrayFin[0]['pMark'].val(),
-           "category":arrayFin[0]['cCategory'].val(),
-           "price":arrayFin[0]['cPrice'].val(),
+           "code":arrayFin[1]['cCode'].val(),
+           "nombre":arrayFin[1]['cName'].val(),
+           "description":arrayFin[1]['cDescription'].val(),
+           "mark":arrayFin[1]['pActive'].val(),
         };
     }  
+    }else{
+
+      if (arrayFin.length > 0) {
+
+          setDataFrom = { 
+             "id":idGlobal,
+             "code":arrayFin[0]['cCode'].val(),
+             "nombre":arrayFin[0]['cName'].val(),
+             "description":arrayFin[0]['cDescription'].val(),
+             "mark":arrayFin[0]['pMark'].val(),
+             "price":arrayFin[0]['cCategory'].val(),
+             "category":arrayFin[0]['cPrice'].val(),
+          };
+      }
+    }
   }else{
 
-    if (arrayFin.length > 0) {
-
-        setDataFrom = { 
-           "id":idGlobal,
-           "code":arrayFin[0]['cCode'].val(),
-           "nombre":arrayFin[0]['cName'].val(),
-           "description":arrayFin[0]['cDescription'].val(),
-           "mark":arrayFin[0]['pMark'].val(),
-           "price":arrayFin[0]['cCategory'].val(),
-           "category":arrayFin[0]['cPrice'].val(),
-        };
-    }
   }
+
+
+
+  
    return setDataFrom;
 };
 
 
-$(document).on('click','#Btnsuccess', function() {      
-   var replaies = getValue();
+$(document).on('click','#BtnsuccessCategory', function() {    
 
-       
+   var vari= "BtnsuccessCategory";
+ var replaies = getValue(vari);
 
-
-   var contRequired = 0;
-   var contRequiredEsta = 0;
-   var contRequiredNoEsta = 0;
-
-
-    if (replaies) {
-      //$(".loader").fadeIn("slow");
+ var contRequired = 0;
+ var contRequiredEsta = 0;
+ var contRequiredNoEsta = 0;
 
 
+  if (replaies) {
+    //$(".loader").fadeIn("slow");
 
-      console.log(replaies);
-
-        
+    console.log(replaies);
 
 
 
-      $.ajax({
-         url:   host+"contacto/create",
-         type:  'POST',
-         data:JSON.stringify(replaies),
-         success:  function (response) {
-            $(".loader").fadeOut("slow");
-            idGlobal = null;
-            var idContact = $("#idContact");
-            idContact[0].setAttribute('value',response.id);
-            if ($("#uploadForm").find('#imagen').val() == "" || $("#uploadForm").find('#imagen').val() == null) {
+    $.ajax({
+       url:   host+"contacto/create",
+       type:  'POST',
+       data:JSON.stringify(replaies),
+       success:  function (response) {
+          $(".loader").fadeOut("slow");
+          idGlobal = null;
+          var idContact = $("#idContact");
+          idContact[0].setAttribute('value',response.id);
+          if ($("#uploadForm").find('#imagen').val() == "" || $("#uploadForm").find('#imagen').val() == null) {
 
-            }else{
-              var fileResult = $("#uploadForm").find('#btnSumi').click();
+          }else{
+            var fileResult = $("#uploadForm").find('#btnSumi').click();
 
-            }
-              loadTable();
-            
-         },
-         error: function () {
-            bootbox.alert("Error crear contacto");
-            //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
-            $(".loader").fadeOut("slow");
-         },
-      });
-   }
+          }
+            loadTable();
+          
+       },
+       error: function () {
+          bootbox.alert("Error crear contacto");
+          //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+          $(".loader").fadeOut("slow");
+       },
+    });
+ }
 
-   function openWin() {
-    //myWindow = window.open("SurveyFin.html", "width=500, height=500");
-    myWindow = window.open("SurveyFin.html","_self", "");
-   }
+ function openWin() {
+  //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+  myWindow = window.open("SurveyFin.html","_self", "");
+ }
 
-   function closeWin() {
-       myWindow.close();
-   }
-   function surveyEncuestado() {
-    //myWindow = window.open("SurveyFin.html", "width=500, height=500");
-    myWindow = window.open("SurveyEncuestado.html","_self", "");
-   };
+ function closeWin() {
+     myWindow.close();
+ }
+ function surveyEncuestado() {
+  //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+  myWindow = window.open("SurveyEncuestado.html","_self", "");
+ };
 
 }); 
 
