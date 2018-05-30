@@ -13,13 +13,13 @@ $(document).ready(function(){
 
   loadTableCategory(ini);
   loadTableProduct(ini);
-
+FromProduct()
+FromCategory();
 
   
 
 
-  setTimeout(function(){ FromProduct();
-  FromCategory(); }, 1000);
+  //setTimeout(function(){ FromProduct(); FromCategory(); }, 1000);
   
   
 
