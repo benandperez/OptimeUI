@@ -512,7 +512,7 @@ function loadTableCategory(typeAction){
               var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
               var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
               var tr = $("<tr ></tr>");
-              var tdId = $("<td></td>").html(valor.id);
+              //var tdId = $("<td></td>").html(valor.id);
               var tdCode = $("<td></td>").html(valor.code);
               var tdName = $("<td></td>").html(valor.name);
               var tdDescription = $("<td></td>").html(valor.description);
@@ -527,7 +527,7 @@ function loadTableCategory(typeAction){
               //var tdbtnDel = $("<td></td>")
               tdbtnEd.append(btnEditCategory);
               tdbtnEd.append(btnDelete);
-              tr.append(tdId);
+              //tr.append(tdId);
               tr.append(tdCode);
               tr.append(tdName);
               tr.append(tdDescription);
