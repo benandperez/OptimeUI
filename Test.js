@@ -3,7 +3,7 @@ var arrayFin=[];
 var idGlobal = null;
 var typeTable = true;
 var categoryGlobal = null;
-  var dataTemporal = [{"id":1,"code":"jjffff","name":"hi","description":"hola","active":false},{"id":9,"code":"jj","name":"jj","description":"jj","active":true},{"id":10,"code":"ff","name":"fffffff","description":"fff","active":true},{"id":11,"code":"ee","name":"ee","description":"ee","active":true},{"id":12,"code":"ccc","name":"cccc","description":"cccc","active":true},{"id":13,"code":"nnn","name":"nnn","description":"nnn","active":true},{"id":14,"code":"kkk","name":"kkk","description":"kkk","active":true},{"id":17,"code":"ttt","name":"ttt","description":"ttt","active":false},{"id":18,"code":"zzz","name":"zzz","description":"zzz","active":true},{"id":19,"code":"aaa","name":"aaaa","description":"aaaa","active":false},{"id":20,"code":"qwqw","name":"qwqw","description":"qwqw","active":false}];
+  //var dataTemporal = [{"id":1,"code":"jjffff","name":"hi","description":"hola","active":false},{"id":9,"code":"jj","name":"jj","description":"jj","active":true},{"id":10,"code":"ff","name":"fffffff","description":"fff","active":true},{"id":11,"code":"ee","name":"ee","description":"ee","active":true},{"id":12,"code":"ccc","name":"cccc","description":"cccc","active":true},{"id":13,"code":"nnn","name":"nnn","description":"nnn","active":true},{"id":14,"code":"kkk","name":"kkk","description":"kkk","active":true},{"id":17,"code":"ttt","name":"ttt","description":"ttt","active":false},{"id":18,"code":"zzz","name":"zzz","description":"zzz","active":true},{"id":19,"code":"aaa","name":"aaaa","description":"aaaa","active":false},{"id":20,"code":"qwqw","name":"qwqw","description":"qwqw","active":false}];
 var host = 'http://localhost:8080/OptimeBack/web/app_dev.php/';
 
 $(document).ready(function(){
@@ -13,7 +13,7 @@ $(document).ready(function(){
   //var restoredSession = JSON.parse(titleFinTitle);
 
   loadTableCategory(ini);
-  //loadTableProduct(ini);
+  loadTableProduct(ini);
   FromProduct()
   FromCategory();
 
@@ -102,16 +102,7 @@ $(document).ready(function(){
 
       $("#fromProduct").append(formSHO);
 
-      _.each(dataTemporal, function (valorTittle, indiceTittle) {
-        if (valorTittle.active == true) {
-          $('#opCategory').append(
-              $('<option></option>').val(valorTittle.id).html(valorTittle.name)
-          );
-        }
-           
-
-
-      });
+      
 
 
 
@@ -502,11 +493,20 @@ function loadTableCategory(typeAction){
           console.log(response);
 
           categoryGlobal = response;
+          _.each(categoryGlobal, function (valorTittle, indiceTittle) {
+              if (valorTittle.active == true) {
+                $('#opCategory').append(
+                    $('<option></option>').val(valorTittle.id).html(valorTittle.name)
+                );
+              }
+            });
 
           //var myJSON = JSON.stringify(categoryGlobal);
             //console.log(myJSON);
-          //response.forEach(function(valor, indice) {
-          dataTemporal.forEach(function(valor, indice) {
+          response.forEach(function(valor, indice) {
+          //dataTemporal.forEach(function(valor, indice) {
+
+
             
 
               var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
@@ -759,7 +759,7 @@ function loadTableProduct(typeAction){
         
 
          error: function () {
-          bootbox.alert("Error cargar tabla Categoria");
+          bootbox.alert("Error cargar tabla Producto");
             //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
          },
       });
