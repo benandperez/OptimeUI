@@ -37,12 +37,13 @@
 
     <div class="container" id="contentAll">
 
+      <!--Seccion de product-->
       <div class="row" id="div_product">
         <br>
         <br>
         <br>
         <br>
-        <button type="button" style="margin-bottom: 10px" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" id = "BtnCreateProduct" style="margin-bottom: 10px" class="btn btn-primary" data-toggle="modal" data-target="#modalProduct">
           Crear
         </button>
         <br>
@@ -60,41 +61,15 @@
                       <th data-field="action">Acciones</th>
                     </tr>
                 </thead>
-               <tbody> 
-                 <tr> 
-                    <th scope="row">1</th> 
-                    <td>Mark</td> 
-                    <td>Otto</td> 
-                    <td>@mdo</td> 
-                    <td>@mdo</td> 
-                    <td>@mdo</td> 
-                    <td>@mdo</td> 
-                </tr>
-                  <tr> 
-                    <th scope="row">2</th> 
-                      <td>Jacob</td>
-                     <td>Thornton</td> 
-                     <td>@fat</td> 
-                     <td>@fat</td> 
-                     <td>@fat</td> 
-                     <td>@fat</td> 
-                  </tr>
-                  <tr> 
-                    <th scope="row">3</th> 
-                    <td>Larry</td> 
-                    <td>the Bird</td> 
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                  </tr> 
+               <tbody id="bodyProduct"> 
+                 
               </tbody> 
             </table> 
          </div>
 
 
           <!--Seccion de Modal-->
-         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal fade" id="modalProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header" id="">
@@ -107,7 +82,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-primary" id="BtnsuccessProduct">Guardar</button>
               </div>
             </div>
           </div>
@@ -115,30 +90,30 @@
           <!--Seccion de Modal-->
       </div><!--/row-->
 
+      <!--Seccion de category-->
       <div class="row" id="div_category" style="display: none;">
         <br>
         <br>
         <br>
         <br>
-        <button type="button" style="margin-bottom: : 10px"  class="btn btn-primary" data-toggle="modal" data-target="#modalCategory">
+        <button type="button" id = "BtnCreateCategory" style="margin-bottom : 10px"  class="btn btn-primary" data-toggle="modal" data-target="#modalCategory">
           Crear
         </button>
         <br>
           <div class="bs-example" data-example-id="simple-table">
-             <table id="bodyCategory" class="table">
+             <table id="tableCategory" class="table">
               <caption>Categorias.</caption> 
                 <thead>
                   <tr>
-                    <th data-field="code" >Codigo</th>
+                    <th data-field="id" >Id</th>
+                    <th data-field="code">Codigo</th>
                     <th data-field="name">Nombre</th>
-                    <th data-field="descripcion">Descripción</th>
-                    <th data-field="make">Marca</th>
-                    <th data-field="category">Categoria</th>
-                    <th data-field="price">Precio</th>
-                    <th data-field="action">Acciones</th>
+                    <th data-field="description">Descripción</th>
+                    <th data-field="active">Activo</th>
+                    <th data-field="update"></th>
                   </tr>
                 </thead>
-               <tbody > 
+               <tbody id="bodyCategory"> 
                  
               </tbody> 
             </table> 

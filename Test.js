@@ -1,26 +1,27 @@
 var urlParams;
 var arrayFin=[];
 var idGlobal = null;
-var host = 'http://localhost:8080/OptimeUI/web/app_dev.php/';
+var typeTable = true;
+var categoryGlobal = null;
+var host = 'http://localhost:8080/OptimeBack/web/app_dev.php/';
 
 $(document).ready(function(){
 
   var titleFinTitle = "";
   var titleDescription = "";
+  var ini = "ini";
 
-     
-      loadTable();
-      
+  loadTableCategory(ini);
+  loadTableProduct(ini);
 
-        var reminderViewProduct = {                                    
-           renderTo: $("#modal-body_product"),
-        };
-        FromProduct(reminderViewProduct);
 
-        var reminderViewCategory = {                                    
-           renderTo: $("#modal-body_category"),
-        };
-        FromCategory(reminderViewProduct);
+  
+
+
+  setTimeout(function(){ FromProduct();
+  FromCategory(); }, 1000);
+  
+  
 
     
   //var BtnViewPhoto = $('<a href="view.php" id ="BtnViewPhoto" class="btn btn-info" style="float: left;display: none">Ver Fotos</a>');
@@ -28,14 +29,14 @@ $(document).ready(function(){
   //$(".modal-footer").append(BtnTurn);
   //$(".modal-footer").append(BtnViewPhoto);
 
-  function FromProduct(reminderViewProduct){
+  function FromProduct(){
 
       var formSHO = $('<form class="floating-from"></form>');
       var divSHO = $('<div><div>');
       var divAction = $('<div><div>');
 
-      var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="submit" style="display: block; float:  left; margin-right: 10px;margin-top: 10px;">Enviar</button>');
-      var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;float:  left; margin-right: 10px;margin-top: 10px;">Atras</button>');
+      //var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="submit" style="display: block; float:  left; margin-right: 10px;margin-top: 10px;">Enviar</button>');
+      //var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;float:  left; margin-right: 10px;margin-top: 10px;">Atras</button>');
   
 
       var onChangeAr = null;
@@ -78,8 +79,8 @@ $(document).ready(function(){
       
 
 
-      divSHO.append(Btnsuccess);
-      divSHO.append(BtnTurn);
+      //divSHO.append(Btnsuccess);
+      //divSHO.append(BtnTurn);
 
 
       formSHO.append(divSHO);
@@ -98,7 +99,7 @@ $(document).ready(function(){
       });
   };
 
-  function FromCategory(reminderViewCategory){
+  function FromCategory(){
 
       var FromCategoryFlot = $('<form class="floating-from-category"></form>');
       var divSHO = $('<div><div>');
@@ -120,7 +121,7 @@ $(document).ready(function(){
       var cDescription = $('<input type="text" class="form-control" data-id="LastName" name="lastName" id ="lastname" required style = "margin-bottom: 10px">');
       //var pActive = $('<input type="checkbox"  checked data-toggle="toggle" data-width="100" data-on="Activo" data-off="Inactivo" data-onstyle="success" data-offstyle="danger" >');
       //var pActive = $('<input type="checkbox" name="aceptar">');
-      var pActive = $('<input type="checkbox" checked data-toggle="toggle">');
+      var pActive = $('<input type="checkbox" checked = "true" data-width="100" data-on="Activo" data-off="Inactivo" checked data-toggle="toggle">');
 
 
  
@@ -174,9 +175,9 @@ function getValue(vari) {
 
         setDataFrom = { 
            "code":arrayFin[1]['cCode'].val(),
-           "nombre":arrayFin[1]['cName'].val(),
+           "name":arrayFin[1]['cName'].val(),
            "description":arrayFin[1]['cDescription'].val(),
-           "mark":arrayFin[1]['pActive'].val(),
+           "active":arrayFin[1]['pActive'].prop("checked"),
         };
     }  
     }else{
@@ -184,17 +185,47 @@ function getValue(vari) {
       if (arrayFin.length > 0) {
 
           setDataFrom = { 
-             "id":idGlobal,
-             "code":arrayFin[0]['cCode'].val(),
-             "nombre":arrayFin[0]['cName'].val(),
-             "description":arrayFin[0]['cDescription'].val(),
-             "mark":arrayFin[0]['pMark'].val(),
-             "price":arrayFin[0]['cCategory'].val(),
-             "category":arrayFin[0]['cPrice'].val(),
+
+            "id":idGlobal,
+            "code":arrayFin[1]['cCode'].val(),
+            "name":arrayFin[1]['cName'].val(),
+            "description":arrayFin[1]['cDescription'].val(),
+            "active":arrayFin[1]['pActive'].prop("checked"),
           };
       }
     }
   }else{
+    if (vari == "BtnsuccessProduct") {
+
+      if (idGlobal == null) {
+        if (arrayFin.length > 0) {
+
+          setDataFrom = { 
+             "code":arrayFin[0]['cCode'].val(),
+             "name":arrayFin[0]['cName'].val(),
+             "description":arrayFin[1]['cDescription'].val(),
+             "mark":arrayFin[0]['pMark'].val(),
+             "category":arrayFin[0]['cCategory'],
+             "price":arrayFin[0]['cPrice'].val(),
+          };
+      }  
+      }else{
+
+        if (arrayFin.length > 0) {
+
+            setDataFrom = { 
+
+              "id":idGlobal,
+              "code":arrayFin[0]['cCode'].val(),
+              "name":arrayFin[0]['cName'].val(),
+              "description":arrayFin[1]['cDescription'].val(),
+              "mark":arrayFin[0]['pMark'].val(),
+              "category":arrayFin[0]['cCategory'],
+              "price":arrayFin[0]['cPrice'].val(),
+            };
+        }
+      }
+    }
 
   }
 
@@ -207,7 +238,7 @@ function getValue(vari) {
 
 $(document).on('click','#BtnsuccessCategory', function() {    
 
-   var vari= "BtnsuccessCategory";
+ var vari= "BtnsuccessCategory";
  var replaies = getValue(vari);
 
  var contRequired = 0;
@@ -223,25 +254,24 @@ $(document).on('click','#BtnsuccessCategory', function() {
 
 
     $.ajax({
-       url:   host+"contacto/create",
+       url:   host+"category/createcategory",
        type:  'POST',
        data:JSON.stringify(replaies),
        success:  function (response) {
           $(".loader").fadeOut("slow");
           idGlobal = null;
-          var idContact = $("#idContact");
-          idContact[0].setAttribute('value',response.id);
-          if ($("#uploadForm").find('#imagen').val() == "" || $("#uploadForm").find('#imagen').val() == null) {
 
-          }else{
-            var fileResult = $("#uploadForm").find('#btnSumi').click();
-
-          }
-            loadTable();
+          arrayFin[1]['cCode'].val("");
+          arrayFin[1]['cName'].val("");
+          arrayFin[1]['cDescription'].val("");
+          arrayFin[1]['pActive'].val(true);
+          
+           //$("#modalCategory").remove();
+          loadTableCategory(typeTable); 
           
        },
-       error: function () {
-          bootbox.alert("Error crear contacto");
+       error: function (e) {
+          bootbox.alert("Error crear Categoria");
           //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
           $(".loader").fadeOut("slow");
        },
@@ -261,61 +291,134 @@ $(document).on('click','#BtnsuccessCategory', function() {
   myWindow = window.open("SurveyEncuestado.html","_self", "");
  };
 
-}); 
+});
+
+$(document).on('click','#BtnsuccessProduct', function() {    
+
+ var vari= "BtnsuccessProduct";
+ var replaies = getValue(vari);
+
+ var contRequired = 0;
+ var contRequiredEsta = 0;
+ var contRequiredNoEsta = 0;
+
+
+  if (replaies) {
+    //$(".loader").fadeIn("slow");
+
+    console.log(replaies);
+
+
+
+    $.ajax({
+       url:   host+"product/createproduct",
+       type:  'POST',
+       data:JSON.stringify(replaies),
+       success:  function (response) {
+          $(".loader").fadeOut("slow");
+          idGlobal = null;
+
+          arrayFin[0]['cCode'].val("");
+          arrayFin[0]['cName'].val("");
+          arrayFin[0]['cDescription'].val("");
+          arrayFin[0]['pMark'].val("");
+          arrayFin[0]['cCategory'].val("");
+          arrayFin[0]['cPrice'].val("");
+
+          
+           //$("#modalCategory").remove();
+          loadTableProduct(typeTable); 
+          
+       },
+       error: function (e) {
+          bootbox.alert("Error crear Producto");
+          //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+          $(".loader").fadeOut("slow");
+       },
+    });
+ }
+
+ function openWin() {
+  //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+  myWindow = window.open("SurveyFin.html","_self", "");
+ }
+
+ function closeWin() {
+     myWindow.close();
+ }
+ function surveyEncuestado() {
+  //myWindow = window.open("SurveyFin.html", "width=500, height=500");
+  myWindow = window.open("SurveyEncuestado.html","_self", "");
+ };
+
+});  
 
 $(document).on('click','#BtnTurn', function() {
   myWindow = window.open("TestRun.html","_self", "");
 });
 
+$(document).on('click','#BtnCreateCategory', function() {
+  arrayFin[1]['cCode'].val("");
+  arrayFin[1]['cName'].val("");
+  arrayFin[1]['cDescription'].val("");
+  arrayFin[1]['pActive'].val(true);
+});
 
 
-function loadTable(){
-  var tableContactos = $("#bodyCategory");
-  var divcreateProduct = $("#divcreateProduct");
-  var divTableListProduct = $("#divTableListProduct");
 
-  divcreateProduct.hide();
-  divTableListProduct.show();
-    tableContactos.find("tbody").find("tr").remove();
+function loadTableCategory(typeAction){
+  var tableCategory = $("#tableCategory");
+
+    tableCategory.find("tbody").find("tr").remove();
         $.ajax({
-         url:   host+"contacto/list",
+         url:   host+"category/listcategory",
          type:  'GET',
          success:  function (response) {
           console.log(response);
+
+          categoryGlobal = response;
+
+          var myJSON = JSON.stringify(categoryGlobal);
+            console.log(myJSON);
           response.forEach(function(valor, indice) {
             
 
-              var btnEdit = $('<button class="btn btn-info" type="button" style="display: block; float: left">Actualizar</button>');
-              var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block; margin-left: 55%">Eliminar</button>');
+              var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
+              var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
               var tr = $("<tr ></tr>");
-              var tdNombre = $("<td></td>").html(valor.nombre);
-              var tdApellido = $("<td></td>").html(valor.apellido);
-              var tdCorreo = $("<td></td>").html(valor.correo);
-              var tdTelefono = $("<td></td>").html(valor.telefono);
-              var tdTipo_de_cliente = $("<td></td>").html(valor.tipo_de_cliente);
-              var tdComentarios = $("<td></td>").html(valor.comentarios);
+              var tdId = $("<td></td>").html(valor.id);
+              var tdCode = $("<td></td>").html(valor.code);
+              var tdName = $("<td></td>").html(valor.name);
+              var tdDescription = $("<td></td>").html(valor.description);
+              if (valor.active == true) {
+                var tdActive = $("<td></td>").html("Si");
+              }else{
+
+                var tdActive = $("<td></td>").html("No");
+              }
+              
               var tdbtnEd = $("<td></td>")
-             // var tdbtnDel = $("<td></td>")
-              tdbtnEd.append(btnEdit);
+              //var tdbtnDel = $("<td></td>")
+              tdbtnEd.append(btnEditCategory);
               tdbtnEd.append(btnDelete);
-              tr.append(tdNombre);
-              tr.append(tdApellido);
-              tr.append(tdCorreo);
-              tr.append(tdTelefono);
-              tr.append(tdTipo_de_cliente);
-              tr.append(tdComentarios);
+              tr.append(tdId);
+              tr.append(tdCode);
+              tr.append(tdName);
+              tr.append(tdDescription);
+              tr.append(tdActive);
+
               tr.append(tdbtnEd);
               //tr.append(tdbtnDel);
-              tableContactos.append(tr);
+              tableCategory.append(tr);
               var dataContacto = valor;
 
-              btnEdit.click(function(){
-                updateContacto(valor);
+              btnEditCategory.click(function(){
+                updateCategory(valor);
               });
 
                btnDelete.click(function(){
                 bootbox.confirm({
-                  message: "¿Desea Eliminar el contacto "+valor.nombre+"?",
+                  message: "¿Desea Eliminar la Categoria "+valor.name+"?",
                   buttons: {
                       confirm: {
                           label: 'Si',
@@ -328,7 +431,7 @@ function loadTable(){
                   },
                   callback: function (result) {
                     if (result) {
-                      deleteContact(valor);
+                      deleteCategory(valor);
                     }
                   }
                 });
@@ -373,46 +476,181 @@ function loadTable(){
             sortable: true
           });*/
 
-         //$("#tableProduct").DataTable();
+          if (typeAction == "ini") {
+            tableCategory.DataTable({
+              "language": {
+                "lengthMenu": "Ver _MENU_ numero de paginas",
+                "zeroRecords": "No hay datos",
+                "info": "Pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay datos",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "search":         "Buscar:",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Ultimo",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                },
+              }
+            });
+          } 
+         
 
          },
         
 
          error: function () {
+          bootbox.alert("Error cargar tabla Categoria");
             //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
          },
       });
-         $("#tableProduct").DataTable({
-          "language": {
-              "lengthMenu": "Ver _MENU_ numero de paginas",
-              "zeroRecords": "No hay datos",
-              "info": "Pagina _PAGE_ de _PAGES_",
-              "infoEmpty": "No hay datos",
-              "infoFiltered": "(filtered from _MAX_ total records)",
-              "search":         "Buscar:",
-              "paginate": {
-                  "first":      "Primero",
-                  "last":       "Ultimo",
-                  "next":       "Siguiente",
-                  "previous":   "Anterior"
+}
+
+function loadTableProduct(typeAction){
+  var tableProduct = $("#tableProduct");
+
+    tableProduct.find("tbody").find("tr").remove();
+        $.ajax({
+         url:   host+"product/listproduct",
+         type:  'GET',
+         success:  function (response) {
+          console.log(response);
+          response.forEach(function(valor, indice) {
+
+            var btnEditProduct = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalProduct" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
+            var btnDeleteProduct = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
+            var tr = $("<tr ></tr>");
+            var tdId = $("<td></td>").html(valor.id);
+            var tdCode = $("<td></td>").html(valor.code);
+            var tdName = $("<td></td>").html(valor.name);
+            var tdDescription = $("<td></td>").html(valor.description);
+            var tdMake = $("<td></td>").html(valor.make);
+            var tdCategory = $("<td></td>").html(valor.category);
+            var tdPrice = $("<td></td>").html(valor.price);
+
+            var tdbtnEd = $("<td></td>")
+            //var tdbtnDel = $("<td></td>")
+            tdbtnEd.append(btnEditProduct);
+            tdbtnEd.append(btnDeleteProduct);
+            tr.append(tdId);
+            tr.append(tdCode);
+            tr.append(tdName);
+            tr.append(tdDescription);
+            tr.append(tdMake);
+            tr.append(tdCategory);
+            tr.append(tdPrice);
+
+            tr.append(tdbtnEd);
+            //tr.append(tdbtnDel);
+            tableProduct.append(tr);
+            var dataContacto = valor;
+
+            btnEditCategory.click(function(){
+              updateProduct(valor);
+            });
+
+             btnDelete.click(function(){
+              bootbox.confirm({
+                message: "¿Desea Eliminar el Producto "+valor.name+"?",
+                buttons: {
+                    confirm: {
+                        label: 'Si',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                  if (result) {
+                    deleteProduct(valor);
+                  }
+                }
+              });
+            });
+          });
+         /* $("#tableProduct").kendoGrid({
+            
+            allowCopy: true,
+            filterable: true,
+            filterable: {
+            messages: {
+            filter: "Agregar",
+            info: "Filtrar por: "
+            },
+              //mode: "row",
+              extra: false,
+              //width:"90%",
+              operators: {
+                  string: {
+                      startswith: "Contiene",
+                      eq: "Igual a"
+                  }
+              }
+            },
+            //dataBound: onDataBound,
+            pageable: {
+              messages: {
+                display: "{0}-{1} de {2}",
+                empty: "0 registros",
+                first: "Primera página",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Última página",
+                refresh: "Actualizar",
+                itemsPerPage: ""
               },
-          }
-        });
+              input: false,
+              refresh: true,
+              pageSize: 10,
+              pageSizes: [10, 20, 30, 50]
+            },
+            sortable: true
+          });*/
 
-    
+          if (typeAction == "ini") {
+            tableProduct.DataTable({
+              "language": {
+                "lengthMenu": "Ver _MENU_ numero de paginas",
+                "zeroRecords": "No hay datos",
+                "info": "Pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay datos",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "search":         "Buscar:",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Ultimo",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                },
+              }
+            });
+          } 
+         
 
+         },
+        
+
+         error: function () {
+          bootbox.alert("Error cargar tabla Categoria");
+            //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+         },
+      });
 }
 
 
-function createProduct(){
-  var divcreateProduct = $("#divCreateProduct");
+
+
+function createCategory(){
+  var divcreateCategory = $("#divCreateCategory");
   var divTableListProduct = $("#divTableListProduct");
 
+  arrayFin[0]['cCode'].val(""),
   arrayFin[0]['cName'].val(""),
   arrayFin[0]['cDescription'].val(""),
-  arrayFin[0]['pMark'].val(""),
-  arrayFin[0]['cPrice'].val(""),
-  divcreateProduct.show();
+  arrayFin[0]['pActive'].val(""),
+  divcreateCategory.show();
   //divTableListProduct.hide();
 }
 
@@ -429,48 +667,64 @@ function createCategory(){
   divTableListCategory.hide();
 }
 
-function updateContacto(dataContacto){
-  var divcreateProduct = $("#divcreateProduct");
-  var divTableListProduct = $("#divTableListProduct");
-  var BtnViewPhoto = $("#BtnViewPhoto");
-  var idContact = $("#idContact");
-  divcreateProduct.show();
-  divTableListProduct.hide();
-  BtnViewPhoto.css("display","block");
-  idContact[0].setAttribute('value',dataContacto.id);
+function updateCategory(dataCategory){
+  //var divcreateCategory = $("#modalCategory");
+  idGlobal = dataCategory.id;
 
-  var hrefNew = "view.php"+"?idContact="+dataContacto.id
-
-  
-
-  BtnViewPhoto[0].setAttribute('href', hrefNew);
-
-
-  idGlobal = dataContacto.id;
-
-  arrayFin[0]['cName'].val(dataContacto.nombre);
-  arrayFin[0]['cDescription'].val(dataContacto.apellido);
-  arrayFin[0]['pMark'].val(dataContacto.correo);
-  arrayFin[0]['cPrice'].val(dataContacto.telefono);
-  arrayFin[0]['cCategory'].val(dataContacto.tipo_de_cliente);
-
+  arrayFin[1]['cCode'].val(dataCategory.code);
+  arrayFin[1]['cName'].val(dataCategory.name);
+  arrayFin[1]['cDescription'].val(dataCategory.description);
+  arrayFin[1]['pActive'].prop("checked", false);
 }
 
-function deleteContact(dataContacto) {
+function updateProduct(dataCategory){
+  //var divcreateCategory = $("#modalCategory");
+  idGlobal = dataCategory.id;
+  
 
-  var url = host+"contacto/borrar/"
+  arrayFin[0]['cCode'].val(dataCategory.code);
+  arrayFin[0]['cName'].val(dataCategory.name);
+  arrayFin[0]['cDescription'].val(dataCategory.description);
+  arrayFin[0]['pMark'].val(dataCategory.mark);
+  arrayFin[0]['cCategory'].val(dataCategory.category);
+  arrayFin[0]['cPrice'].val(dataCategory.price);
+}
 
-  var sendData = dataContacto.id;
+function deleteCategory(dataCategory) {
+
+  var url = host+"category/deletecategory/"
+
+  var sendData = dataCategory.id;
 
   $.ajax({
-      url: url+dataContacto.id,    //Your api url
-      type: 'PUT',   //type is any HTTP method
+      url: url+dataCategory.id,    
+      type: 'PUT',   
       data: {
           data: sendData
       },      //Data as js object
       success: function () {
         bootbox.alert("Contacto eliminado", function(){ 
-          loadTable(); 
+          loadTableCategory(typeTable); 
+        });
+      }
+  });
+   
+}
+function deleteProduct(dataProduct) {
+
+  var url = host+"product/deleteproduct/"
+
+  var sendData = dataProduct.id;
+
+  $.ajax({
+      url: url+dataProduct.id,    
+      type: 'PUT',   
+      data: {
+          data: sendData
+      },      //Data as js object
+      success: function () {
+        bootbox.alert("Contacto eliminado", function(){ 
+          loadTableCategory(typeTable); 
         });
       }
   });
