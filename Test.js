@@ -780,7 +780,7 @@ function createCategory(){
   //divTableListProduct.hide();
 }
 
-function createCategory(){
+function createProduct(){
   var divcreateCategory = $("#divcreateCategory");
   var divTableListCategory = $("#divTableListCategory");
 
@@ -794,7 +794,6 @@ function createCategory(){
 }
 
 function updateCategory(dataCategory){
-  //var divcreateCategory = $("#modalCategory");
   idGlobal = dataCategory.id;
 
   arrayFin[1]['cCode'].val(dataCategory.code);
@@ -804,7 +803,6 @@ function updateCategory(dataCategory){
 }
 
 function updateProduct(dataCategory){
-  //var divcreateCategory = $("#modalCategory");
   idGlobal = dataCategory.id;
   
 
