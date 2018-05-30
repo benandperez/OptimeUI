@@ -11,10 +11,10 @@ $(document).ready(function(){
   var titleDescription = "";
   var ini = "ini";
 
-  loadTableCategory(ini);
-  loadTableProduct(ini);
-FromProduct()
-FromCategory();
+  //loadTableCategory(ini);
+  //loadTableProduct(ini);
+  FromProduct()
+  FromCategory();
 
   
 
@@ -54,7 +54,19 @@ FromCategory();
       var cDescription = $('<input type="text" class="form-control" data-id="LastName" name="lastName" id ="lastname" required>');
       var pMark = $('<input type="text" class="form-control" data-id="mark" name="mark" id ="mark" required>');
       var cCategory = $('<select class="form-control" id="client"> <option>Customer</option><option>Lead</option></select>');
-      var cPrice = $('<input type="number" class="form-control" data-id="Phone" name="phone" id ="phone" required>');
+      var cPrice = $('<input type="number" min="0" class="form-control" data-id="Phone" name="phone" id ="phone" required>');
+
+      cCode.keypress(function(tecla) {
+        if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && (tecla.charCode < 48 || tecla.charCode > 57) )
+          //alert('Solo letras por favor');
+          return false;
+      });
+      cPrice.keypress(function(tecla) {
+        if((tecla.charCode < 48 || tecla.charCode > 57) )
+          //alert('Solo letras por favor');
+          return false;
+      });
+
 
 
  
@@ -123,6 +135,12 @@ FromCategory();
       //var pActive = $('<input type="checkbox" name="aceptar">');
       var pActive = $('<input type="checkbox" checked = "true" data-width="100" data-on="Activo" data-off="Inactivo" checked data-toggle="toggle">');
 
+      cCode.keypress(function(tecla) {
+        if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && (tecla.charCode < 48 || tecla.charCode > 57) )
+          //alert('Solo letras por favor');
+          return false;
+      });
+
 
  
         
@@ -173,6 +191,27 @@ function getValue(vari) {
     if (idGlobal == null) {
       if (arrayFin.length > 0) {
 
+        var codeCategory = arrayFin[1]['cCode'].val();
+          var nameCategory = arrayFin[1]['cName'].val();
+          var descriptionCategory = arrayFin[1]['cDescription'].val();
+
+          if (codeCategory.length == 0){
+            bootbox.alert("Codigo no puede estar vacio");
+            return 0;
+          }
+
+          if(nameCategory.length <= 1 ){
+            bootbox.alert('Nombre tiene que tener mas de 2 caracteres');
+            return false;
+            
+          }
+
+          if (descriptionCategory.length == 0){
+            bootbox.alert("Descripción no puede estar vacio");
+            return 0;
+          }
+          
+
         setDataFrom = { 
            "code":arrayFin[1]['cCode'].val(),
            "name":arrayFin[1]['cName'].val(),
@@ -200,6 +239,38 @@ function getValue(vari) {
       if (idGlobal == null) {
         if (arrayFin.length > 0) {
 
+          var code = arrayFin[0]['cCode'].val();
+          var name = arrayFin[0]['cName'].val();
+          var description = arrayFin[1]['cDescription'].val();
+          var mark = arrayFin[0]['pMark'].val();
+          var price = arrayFin[0]['cPrice'].val();
+
+          if(code.length >= 4 && code.length <= 10 ){
+            
+          }else{
+            bootbox.alert('Codigo debe tener de 4 a 10 caracteres');
+            return false;
+          }
+
+          if(name.length <= 3 ){
+            bootbox.alert('Nombre tiene que tener mas de 4 caracteres');
+            return false;
+            
+          }
+
+          if (description.length == 0){
+            bootbox.alert("Descripción no puede estar vacio");
+            return 0;
+          }
+          if (mark.length == 0){
+            bootbox.alert("Marca no puede estar vacio");
+            return 0;
+          }
+          if (price.length == 0){
+            bootbox.alert("Precio no puede estar vacio");
+            return 0;
+          }
+
           setDataFrom = { 
              "code":arrayFin[0]['cCode'].val(),
              "name":arrayFin[0]['cName'].val(),
@@ -213,16 +284,48 @@ function getValue(vari) {
 
         if (arrayFin.length > 0) {
 
-            setDataFrom = { 
+          var code = arrayFin[0]['cCode'].val();
+          var name = arrayFin[0]['cName'].val();
+          var description = arrayFin[1]['cDescription'].val();
+          var mark = arrayFin[0]['pMark'].val();
+          var price = arrayFin[0]['cPrice'].val();
 
-              "id":idGlobal,
-              "code":arrayFin[0]['cCode'].val(),
-              "name":arrayFin[0]['cName'].val(),
-              "description":arrayFin[1]['cDescription'].val(),
-              "mark":arrayFin[0]['pMark'].val(),
-              "category":arrayFin[0]['cCategory'],
-              "price":arrayFin[0]['cPrice'].val(),
-            };
+          if(code.length >= 4 && code.length <= 10 ){
+            
+          }else{
+            bootbox.alert('Codigo debe tener de 4 a 10 caracteres');
+            return false;
+          }
+
+          if(name.length <= 3 ){
+            bootbox.alert('Nombre tiene que tener mas de 4 caracteres');
+            return false;
+            
+          }
+
+          if (description.length == 0){
+            bootbox.alert("Descripción no puede estar vacio");
+            return 0;
+          }
+          if (mark.length == 0){
+            bootbox.alert("Marca no puede estar vacio");
+            return 0;
+          }
+          if (price.length == 0){
+            bootbox.alert("Precio no puede estar vacio");
+            return 0;
+          }
+
+          setDataFrom = { 
+
+            "id":idGlobal,
+            "code":arrayFin[0]['cCode'].val(),
+            "name":arrayFin[0]['cName'].val(),
+            "description":arrayFin[1]['cDescription'].val(),
+            "mark":arrayFin[0]['pMark'].val(),
+            "category":arrayFin[0]['cCategory'],
+            "price":arrayFin[0]['cPrice'].val(),
+          };
         }
       }
     }
@@ -362,6 +465,14 @@ $(document).on('click','#BtnCreateCategory', function() {
   arrayFin[1]['cName'].val("");
   arrayFin[1]['cDescription'].val("");
   arrayFin[1]['pActive'].val(true);
+});
+
+$(document).on('click','#BtnCreateProduct', function() {
+  arrayFin[0]['cCode'].val("");
+  arrayFin[0]['cName'].val("");
+  arrayFin[0]['cDescription'].val("");
+  arrayFin[0]['pMark'].val("");
+  arrayFin[0]['cPrice'].val("");
 });
 
 
