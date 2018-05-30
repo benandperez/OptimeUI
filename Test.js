@@ -3,15 +3,16 @@ var arrayFin=[];
 var idGlobal = null;
 var typeTable = true;
 var categoryGlobal = null;
+  var dataTemporal = [{"id":1,"code":"jjffff","name":"hi","description":"hola","active":false},{"id":9,"code":"jj","name":"jj","description":"jj","active":true},{"id":10,"code":"ff","name":"fffffff","description":"fff","active":true},{"id":11,"code":"ee","name":"ee","description":"ee","active":true},{"id":12,"code":"ccc","name":"cccc","description":"cccc","active":true},{"id":13,"code":"nnn","name":"nnn","description":"nnn","active":true},{"id":14,"code":"kkk","name":"kkk","description":"kkk","active":true},{"id":17,"code":"ttt","name":"ttt","description":"ttt","active":false},{"id":18,"code":"zzz","name":"zzz","description":"zzz","active":true},{"id":19,"code":"aaa","name":"aaaa","description":"aaaa","active":false},{"id":20,"code":"qwqw","name":"qwqw","description":"qwqw","active":false}];
 var host = 'http://localhost:8080/OptimeBack/web/app_dev.php/';
 
 $(document).ready(function(){
 
-  var titleFinTitle = "";
-  var titleDescription = "";
   var ini = "ini";
 
-  //loadTableCategory(ini);
+  //var restoredSession = JSON.parse(titleFinTitle);
+
+  loadTableCategory(ini);
   //loadTableProduct(ini);
   FromProduct()
   FromCategory();
@@ -51,10 +52,10 @@ $(document).ready(function(){
 
       var cCode = $('<input type="text" class="form-control" data-id="code" name="code" id ="code" required>');
       var cName = $('<input type="text" class="form-control" data-id="Name" name="name" id ="name" required>');
-      var cDescription = $('<input type="text" class="form-control" data-id="LastName" name="lastName" id ="lastname" required>');
+      var cDescription = $('<input type="text" class="form-control" data-id="description" name="description" id ="lastname" required>');
       var pMark = $('<input type="text" class="form-control" data-id="mark" name="mark" id ="mark" required>');
-      var cCategory = $('<select class="form-control" id="client"> <option>Customer</option><option>Lead</option></select>');
-      var cPrice = $('<input type="number" min="0" class="form-control" data-id="Phone" name="phone" id ="phone" required>');
+      var cCategory = $('<select class="form-control" id="opCategory"></select>');
+      var cPrice = $('<input type="number" min="0" class="form-control" data-id="price" name="price" id ="price" required>');
 
       cCode.keypress(function(tecla) {
         if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && (tecla.charCode < 48 || tecla.charCode > 57) )
@@ -66,6 +67,7 @@ $(document).ready(function(){
           //alert('Solo letras por favor');
           return false;
       });
+
 
 
 
@@ -99,6 +101,18 @@ $(document).ready(function(){
       formSHO.append(divAction);
 
       $("#fromProduct").append(formSHO);
+
+      _.each(dataTemporal, function (valorTittle, indiceTittle) {
+        if (valorTittle.active == true) {
+          $('#opCategory').append(
+              $('<option></option>').val(valorTittle.id).html(valorTittle.name)
+          );
+        }
+           
+
+
+      });
+
 
 
       arrayFin.push({
@@ -241,7 +255,7 @@ function getValue(vari) {
 
           var code = arrayFin[0]['cCode'].val();
           var name = arrayFin[0]['cName'].val();
-          var description = arrayFin[1]['cDescription'].val();
+          var description = arrayFin[0]['cDescription'].val();
           var mark = arrayFin[0]['pMark'].val();
           var price = arrayFin[0]['cPrice'].val();
 
@@ -489,9 +503,10 @@ function loadTableCategory(typeAction){
 
           categoryGlobal = response;
 
-          var myJSON = JSON.stringify(categoryGlobal);
-            console.log(myJSON);
-          response.forEach(function(valor, indice) {
+          //var myJSON = JSON.stringify(categoryGlobal);
+            //console.log(myJSON);
+          //response.forEach(function(valor, indice) {
+          dataTemporal.forEach(function(valor, indice) {
             
 
               var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
@@ -845,21 +860,21 @@ function deleteProduct(dataProduct) {
 
 
 $(document).ready(function () {
-        $('.navbar li').click(function(e) {
-            $('.navbar li').removeClass('active');
-            var $this = $(this);
-            if (!$this.hasClass('active')) {
-                $this.addClass('active');
-                if ($this.text() == "Catedoria") {
-                  $("#div_product").hide();
-                  $("#div_category").show();
-                }else{
-                  $("#div_product").show();
-                  $("#div_category").hide();
-                }
+  $('.navbar li').click(function(e) {
+      $('.navbar li').removeClass('active');
+      var $this = $(this);
+      if (!$this.hasClass('active')) {
+          $this.addClass('active');
+          if ($this.text() == "Catedoria") {
+            $("#div_product").hide();
+            $("#div_category").show();
+          }else{
+            $("#div_product").show();
+            $("#div_category").hide();
+          }
 
-            }
-        e.preventDefault();
-        });         
-    });
+      }
+  e.preventDefault();
+  });         
+});
 //tableContactos
