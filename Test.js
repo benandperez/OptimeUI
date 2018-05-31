@@ -486,7 +486,7 @@ $(document).on('click','#BtnCreateProduct', function() {
 function loadTableCategory(typeAction){
   var tableCategory = $("#tableCategory");
 
-  tableCategory.find("tbody").find("tr").remove();
+  tableCategory.find("tbody").empty();
   $.ajax({
     url:   host+"category/listcategory",
     type:  'GET',
@@ -624,7 +624,7 @@ function loadTableCategory(typeAction){
 function loadTableProduct(typeAction){
   var tableProduct = $("#tableProduct");
 
-  tableProduct.find("tbody").find("tr").remove();
+  tableProduct.find("tbody").empty();
     $.ajax({
       url:   host+"product/listproduct",
       type:  'GET',
@@ -828,7 +828,8 @@ function deleteCategory(dataCategory) {
           data: sendData
       },      //Data as js object
       success: function () {
-        bootbox.alert("Contacto eliminado", function(){ 
+        bootbox.alert("Categoria eliminado", function(){
+          
           loadTableCategory(typeTable); 
         });
       }
@@ -848,7 +849,7 @@ function deleteProduct(dataProduct) {
           data: sendData
       },      //Data as js object
       success: function () {
-        bootbox.alert("Contacto eliminado", function(){ 
+        bootbox.alert("Producto eliminado", function(){ 
           loadTableProduct(typeTable); 
         });
       }
