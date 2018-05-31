@@ -12,12 +12,12 @@ $(document).ready(function(){
 
   //var restoredSession = JSON.parse(titleFinTitle);
 
-  loadTableCategory(ini);
-  loadTableProduct(ini);
+  
   FromProduct()
   FromCategory();
 
-  
+  loadTableCategory(ini);
+  loadTableProduct(ini);
 
 
   //setTimeout(function(){ FromProduct(); FromCategory(); }, 1000);
@@ -53,8 +53,8 @@ $(document).ready(function(){
       var cCode = $('<input type="text" class="form-control" data-id="code" name="code" id ="code" required>');
       var cName = $('<input type="text" class="form-control" data-id="Name" name="name" id ="name" required>');
       var cDescription = $('<input type="text" class="form-control" data-id="description" name="description" id ="lastname" required>');
-      var pMark = $('<input type="text" class="form-control" data-id="mark" name="mark" id ="mark" required>');
-      var cCategory = $('<select class="form-control" id="opCategory"></select>');
+      var pMake = $('<input type="text" class="form-control" data-id="make" name="make" id ="make" required>');
+      var cCategory = $('<select class="form-control" id="opCategory" name"opCategory"></select>');
       var cPrice = $('<input type="number" min="0" class="form-control" data-id="price" name="price" id ="price" required>');
 
       cCode.keypress(function(tecla) {
@@ -83,7 +83,7 @@ $(document).ready(function(){
       divSHO.append(cDescription);
 
       divSHO.append(labelMark);
-      divSHO.append(pMark);
+      divSHO.append(pMake);
 
       divSHO.append(labelCategory);
       divSHO.append(cCategory);
@@ -110,7 +110,7 @@ $(document).ready(function(){
         'cCode': cCode,
         'cName': cName,
         'cDescription': cDescription,
-        'pMark': pMark,
+        'pMake': pMake,
         'cCategory': cCategory,
         'cPrice': cPrice,
       });
@@ -247,7 +247,7 @@ function getValue(vari) {
           var code = arrayFin[0]['cCode'].val();
           var name = arrayFin[0]['cName'].val();
           var description = arrayFin[0]['cDescription'].val();
-          var mark = arrayFin[0]['pMark'].val();
+          var make = arrayFin[0]['pMake'].val();
           var price = arrayFin[0]['cPrice'].val();
 
           if(code.length >= 4 && code.length <= 10 ){
@@ -267,7 +267,7 @@ function getValue(vari) {
             bootbox.alert("Descripción no puede estar vacio");
             return 0;
           }
-          if (mark.length == 0){
+          if (make.length == 0){
             bootbox.alert("Marca no puede estar vacio");
             return 0;
           }
@@ -279,9 +279,9 @@ function getValue(vari) {
           setDataFrom = { 
              "code":arrayFin[0]['cCode'].val(),
              "name":arrayFin[0]['cName'].val(),
-             "description":arrayFin[1]['cDescription'].val(),
-             "mark":arrayFin[0]['pMark'].val(),
-             "category":arrayFin[0]['cCategory'],
+             "description":arrayFin[0]['cDescription'].val(),
+             "make":arrayFin[0]['pMake'].val(),
+             "category":arrayFin[0]['cCategory'].val(),
              "price":arrayFin[0]['cPrice'].val(),
           };
       }  
@@ -291,8 +291,8 @@ function getValue(vari) {
 
           var code = arrayFin[0]['cCode'].val();
           var name = arrayFin[0]['cName'].val();
-          var description = arrayFin[1]['cDescription'].val();
-          var mark = arrayFin[0]['pMark'].val();
+          var description = arrayFin[0]['cDescription'].val();
+          var make = arrayFin[0]['pMake'].val();
           var price = arrayFin[0]['cPrice'].val();
 
           if(code.length >= 4 && code.length <= 10 ){
@@ -312,7 +312,7 @@ function getValue(vari) {
             bootbox.alert("Descripción no puede estar vacio");
             return 0;
           }
-          if (mark.length == 0){
+          if (make.length == 0){
             bootbox.alert("Marca no puede estar vacio");
             return 0;
           }
@@ -326,9 +326,9 @@ function getValue(vari) {
             "id":idGlobal,
             "code":arrayFin[0]['cCode'].val(),
             "name":arrayFin[0]['cName'].val(),
-            "description":arrayFin[1]['cDescription'].val(),
-            "mark":arrayFin[0]['pMark'].val(),
-            "category":arrayFin[0]['cCategory'],
+            "description":arrayFin[0]['cDescription'].val(),
+            "make":arrayFin[0]['pMake'].val(),
+            "category":arrayFin[0]['cCategory'].val(),
             "price":arrayFin[0]['cPrice'].val(),
           };
         }
@@ -374,7 +374,8 @@ $(document).on('click','#BtnsuccessCategory', function() {
           arrayFin[1]['cDescription'].val("");
           arrayFin[1]['pActive'].val(true);
           
-           //$("#modalCategory").remove();
+           $('#modalCategory').modal('hide');
+
           loadTableCategory(typeTable); 
           
        },
@@ -429,12 +430,11 @@ $(document).on('click','#BtnsuccessProduct', function() {
           arrayFin[0]['cCode'].val("");
           arrayFin[0]['cName'].val("");
           arrayFin[0]['cDescription'].val("");
-          arrayFin[0]['pMark'].val("");
-          arrayFin[0]['cCategory'].val("");
+          arrayFin[0]['pMake'].val("");
+          //arrayFin[0]['cCategory'].val("");
           arrayFin[0]['cPrice'].val("");
-
+          $('#modalProduct').modal('hide');
           
-           //$("#modalCategory").remove();
           loadTableProduct(typeTable); 
           
        },
@@ -476,7 +476,7 @@ $(document).on('click','#BtnCreateProduct', function() {
   arrayFin[0]['cCode'].val("");
   arrayFin[0]['cName'].val("");
   arrayFin[0]['cDescription'].val("");
-  arrayFin[0]['pMark'].val("");
+  arrayFin[0]['pMake'].val("");
   arrayFin[0]['cPrice'].val("");
 });
 
@@ -485,180 +485,171 @@ $(document).on('click','#BtnCreateProduct', function() {
 function loadTableCategory(typeAction){
   var tableCategory = $("#tableCategory");
 
-    tableCategory.find("tbody").find("tr").remove();
-        $.ajax({
-         url:   host+"category/listcategory",
-         type:  'GET',
-         success:  function (response) {
-          console.log(response);
+  tableCategory.find("tbody").find("tr").remove();
+  $.ajax({
+    url:   host+"category/listcategory",
+    type:  'GET',
+    success:  function (response) {
+      console.log(response);
 
-          categoryGlobal = response;
-          _.each(categoryGlobal, function (valorTittle, indiceTittle) {
-              if (valorTittle.active == true) {
-                $('#opCategory').append(
-                    $('<option></option>').val(valorTittle.id).html(valorTittle.name)
-                );
-              }
-            });
-
-          //var myJSON = JSON.stringify(categoryGlobal);
-            //console.log(myJSON);
-          response.forEach(function(valor, indice) {
-          //dataTemporal.forEach(function(valor, indice) {
-
-
-            
-
-              var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
-              var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
-              var tr = $("<tr ></tr>");
-              //var tdId = $("<td></td>").html(valor.id);
-              var tdCode = $("<td></td>").html(valor.code);
-              var tdName = $("<td></td>").html(valor.name);
-              var tdDescription = $("<td></td>").html(valor.description);
-              if (valor.active == true) {
-                var tdActive = $("<td></td>").html("Si");
-              }else{
-
-                var tdActive = $("<td></td>").html("No");
-              }
-              
-              var tdbtnEd = $("<td></td>")
-              //var tdbtnDel = $("<td></td>")
-              tdbtnEd.append(btnEditCategory);
-              tdbtnEd.append(btnDelete);
-              //tr.append(tdId);
-              tr.append(tdCode);
-              tr.append(tdName);
-              tr.append(tdDescription);
-              tr.append(tdActive);
-
-              tr.append(tdbtnEd);
-              //tr.append(tdbtnDel);
-              tableCategory.append(tr);
-              var dataContacto = valor;
-
-              btnEditCategory.click(function(){
-                updateCategory(valor);
-              });
-
-               btnDelete.click(function(){
-                bootbox.confirm({
-                  message: "¿Desea Eliminar la Categoria "+valor.name+"?",
-                  buttons: {
-                      confirm: {
-                          label: 'Si',
-                          className: 'btn-success'
-                      },
-                      cancel: {
-                          label: 'No',
-                          className: 'btn-danger'
-                      }
-                  },
-                  callback: function (result) {
-                    if (result) {
-                      deleteCategory(valor);
-                    }
-                  }
-                });
-              });
-            });
-         /* $("#tableProduct").kendoGrid({
-            
-            allowCopy: true,
-            filterable: true,
-            filterable: {
-            messages: {
-            filter: "Agregar",
-            info: "Filtrar por: "
-            },
-              //mode: "row",
-              extra: false,
-              //width:"90%",
-              operators: {
-                  string: {
-                      startswith: "Contiene",
-                      eq: "Igual a"
-                  }
-              }
-            },
-            //dataBound: onDataBound,
-            pageable: {
-              messages: {
-                display: "{0}-{1} de {2}",
-                empty: "0 registros",
-                first: "Primera página",
-                previous: "Anterior",
-                next: "Siguiente",
-                last: "Última página",
-                refresh: "Actualizar",
-                itemsPerPage: ""
-              },
-              input: false,
-              refresh: true,
-              pageSize: 10,
-              pageSizes: [10, 20, 30, 50]
-            },
-            sortable: true
-          });*/
-
-          if (typeAction == "ini") {
-            tableCategory.DataTable({
-              "language": {
-                "lengthMenu": "Ver _MENU_ numero de paginas",
-                "zeroRecords": "No hay datos",
-                "info": "Pagina _PAGE_ de _PAGES_",
-                "infoEmpty": "No hay datos",
-                "infoFiltered": "(filtered from _MAX_ total records)",
-                "search":         "Buscar:",
-                "paginate": {
-                    "first":      "Primero",
-                    "last":       "Ultimo",
-                    "next":       "Siguiente",
-                    "previous":   "Anterior"
-                },
-              }
-            });
-          } 
-         
-
-         },
-        
-
-         error: function () {
-          bootbox.alert("Error cargar tabla Categoria");
-            //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
-         },
+      categoryGlobal = response;
+      _.each(categoryGlobal, function (valorTittle, indiceTittle) {
+        if (valorTittle.active == true) {
+          $('#opCategory').append(
+              $('<option></option>').val(valorTittle.id).html(valorTittle.name)
+          );
+        }
       });
+      response.forEach(function(valor, indice) {
+        var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
+        var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
+        var tr = $("<tr ></tr>");
+        //var tdId = $("<td></td>").html(valor.id);
+        var tdCode = $("<td></td>").html(valor.code);
+        var tdName = $("<td></td>").html(valor.name);
+        var tdDescription = $("<td></td>").html(valor.description);
+        if (valor.active == true) {
+          var tdActive = $("<td></td>").html("Si");
+        }else{
+
+          var tdActive = $("<td></td>").html("No");
+        }
+        
+        var tdbtnEd = $("<td></td>")
+        //var tdbtnDel = $("<td></td>")
+        tdbtnEd.append(btnEditCategory);
+        tdbtnEd.append(btnDelete);
+        //tr.append(tdId);
+        tr.append(tdCode);
+        tr.append(tdName);
+        tr.append(tdDescription);
+        tr.append(tdActive);
+
+        tr.append(tdbtnEd);
+        //tr.append(tdbtnDel);
+        tableCategory.append(tr);
+
+        btnEditCategory.click(function(){
+          updateCategory(valor);
+        });
+
+         btnDelete.click(function(){
+          bootbox.confirm({
+            message: "¿Desea Eliminar la Categoria "+valor.name+"?",
+            buttons: {
+                confirm: {
+                    label: 'Si',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+              if (result) {
+                deleteCategory(valor);
+              }
+            }
+          });
+        });
+      });
+     /* $("#tableCategory").kendoGrid({
+        
+        allowCopy: true,
+        filterable: true,
+        filterable: {
+        messages: {
+        filter: "Agregar",
+        info: "Filtrar por: "
+        },
+          //mode: "row",
+          extra: false,
+          //width:"90%",
+          operators: {
+              string: {
+                  startswith: "Contiene",
+                  eq: "Igual a"
+              }
+          }
+        },
+        //dataBound: onDataBound,
+        pageable: {
+          messages: {
+            display: "{0}-{1} de {2}",
+            empty: "0 registros",
+            first: "Primera página",
+            previous: "Anterior",
+            next: "Siguiente",
+            last: "Última página",
+            refresh: "Actualizar",
+            itemsPerPage: ""
+          },
+          input: false,
+          refresh: true,
+          pageSize: 10,
+          pageSizes: [10, 20, 30, 50]
+        },
+        sortable: true
+      });*/
+
+      if (typeAction == "ini") {
+        tableCategory.DataTable({
+          "language": {
+            "lengthMenu": "Ver _MENU_ numero de paginas",
+            "zeroRecords": "No hay datos",
+            "info": "Pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "search":         "Buscar:",
+            "paginate": {
+                "first":      "Primero",
+                "last":       "Ultimo",
+                "next":       "Siguiente",
+                "previous":   "Anterior"
+            },
+          }
+        });
+      } 
+    },
+
+
+   error: function () {
+    bootbox.alert("Error cargar tabla Categoria");
+      //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+   },
+  });
 }
 
 function loadTableProduct(typeAction){
   var tableProduct = $("#tableProduct");
 
-    tableProduct.find("tbody").find("tr").remove();
-        $.ajax({
-         url:   host+"product/listproduct",
-         type:  'GET',
-         success:  function (response) {
-          console.log(response);
-          response.forEach(function(valor, indice) {
+  tableProduct.find("tbody").find("tr").remove();
+    $.ajax({
+      url:   host+"product/listproduct",
+      type:  'GET',
+      success:  function (response) {
+        console.log(response);
+        response.forEach(function(valor, indice) {
+
+          if (valor.category.active == true) {
 
             var btnEditProduct = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalProduct" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
             var btnDeleteProduct = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
             var tr = $("<tr ></tr>");
-            var tdId = $("<td></td>").html(valor.id);
+            //var tdId = $("<td></td>").html(valor.id);
             var tdCode = $("<td></td>").html(valor.code);
             var tdName = $("<td></td>").html(valor.name);
             var tdDescription = $("<td></td>").html(valor.description);
             var tdMake = $("<td></td>").html(valor.make);
-            var tdCategory = $("<td></td>").html(valor.category);
+            var tdCategory = $("<td></td>").html(valor.category.name);
             var tdPrice = $("<td></td>").html(valor.price);
 
             var tdbtnEd = $("<td></td>")
             //var tdbtnDel = $("<td></td>")
             tdbtnEd.append(btnEditProduct);
             tdbtnEd.append(btnDeleteProduct);
-            tr.append(tdId);
+            //tr.append(tdId);
             tr.append(tdCode);
             tr.append(tdName);
             tr.append(tdDescription);
@@ -669,13 +660,12 @@ function loadTableProduct(typeAction){
             tr.append(tdbtnEd);
             //tr.append(tdbtnDel);
             tableProduct.append(tr);
-            var dataContacto = valor;
 
-            btnEditCategory.click(function(){
+            btnEditProduct.click(function(){
               updateProduct(valor);
             });
 
-             btnDelete.click(function(){
+            btnDeleteProduct.click(function(){
               bootbox.confirm({
                 message: "¿Desea Eliminar el Producto "+valor.name+"?",
                 buttons: {
@@ -695,74 +685,73 @@ function loadTableProduct(typeAction){
                 }
               });
             });
-          });
-         /* $("#tableProduct").kendoGrid({
-            
-            allowCopy: true,
-            filterable: true,
-            filterable: {
+          }
+        });
+       /* $("#tableProduct").kendoGrid({
+          
+          allowCopy: true,
+          filterable: true,
+          filterable: {
+          messages: {
+          filter: "Agregar",
+          info: "Filtrar por: "
+          },
+            //mode: "row",
+            extra: false,
+            //width:"90%",
+            operators: {
+                string: {
+                    startswith: "Contiene",
+                    eq: "Igual a"
+                }
+            }
+          },
+          //dataBound: onDataBound,
+          pageable: {
             messages: {
-            filter: "Agregar",
-            info: "Filtrar por: "
+              display: "{0}-{1} de {2}",
+              empty: "0 registros",
+              first: "Primera página",
+              previous: "Anterior",
+              next: "Siguiente",
+              last: "Última página",
+              refresh: "Actualizar",
+              itemsPerPage: ""
             },
-              //mode: "row",
-              extra: false,
-              //width:"90%",
-              operators: {
-                  string: {
-                      startswith: "Contiene",
-                      eq: "Igual a"
-                  }
-              }
-            },
-            //dataBound: onDataBound,
-            pageable: {
-              messages: {
-                display: "{0}-{1} de {2}",
-                empty: "0 registros",
-                first: "Primera página",
-                previous: "Anterior",
-                next: "Siguiente",
-                last: "Última página",
-                refresh: "Actualizar",
-                itemsPerPage: ""
+            input: false,
+            refresh: true,
+            pageSize: 10,
+            pageSizes: [10, 20, 30, 50]
+          },
+          sortable: true
+        });*/
+
+        if (typeAction == "ini") {
+          tableProduct.DataTable({
+            "language": {
+              "lengthMenu": "Ver _MENU_ numero de paginas",
+              "zeroRecords": "No hay datos",
+              "info": "Pagina _PAGE_ de _PAGES_",
+              "infoEmpty": "No hay datos",
+              "infoFiltered": "(filtered from _MAX_ total records)",
+              "search":         "Buscar:",
+              "paginate": {
+                  "first":      "Primero",
+                  "last":       "Ultimo",
+                  "next":       "Siguiente",
+                  "previous":   "Anterior"
               },
-              input: false,
-              refresh: true,
-              pageSize: 10,
-              pageSizes: [10, 20, 30, 50]
-            },
-            sortable: true
-          });*/
+            }
+          });
+        } 
+      },
+    
 
-          if (typeAction == "ini") {
-            tableProduct.DataTable({
-              "language": {
-                "lengthMenu": "Ver _MENU_ numero de paginas",
-                "zeroRecords": "No hay datos",
-                "info": "Pagina _PAGE_ de _PAGES_",
-                "infoEmpty": "No hay datos",
-                "infoFiltered": "(filtered from _MAX_ total records)",
-                "search":         "Buscar:",
-                "paginate": {
-                    "first":      "Primero",
-                    "last":       "Ultimo",
-                    "next":       "Siguiente",
-                    "previous":   "Anterior"
-                },
-              }
-            });
-          } 
-         
-
-         },
-        
-
-         error: function () {
-          bootbox.alert("Error cargar tabla Producto");
-            //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
-         },
-      });
+     error: function () {
+      bootbox.alert("Error cargar tabla Producto");
+        //bootbox.alert("Participante No existe", function(){ window.location = 'Error.html'; });
+     },
+  });
 }
 
 
@@ -786,7 +775,7 @@ function createProduct(){
 
   arrayFin[0]['cName'].val(""),
   arrayFin[0]['cDescription'].val(""),
-  arrayFin[0]['pMark'].val(""),
+  arrayFin[0]['pMake'].val(""),
   arrayFin[0]['cPrice'].val(""),
   //arrayFin[0]['cCategory'].val(""),
   divcreateCategory.show();
@@ -809,9 +798,15 @@ function updateProduct(dataCategory){
   arrayFin[0]['cCode'].val(dataCategory.code);
   arrayFin[0]['cName'].val(dataCategory.name);
   arrayFin[0]['cDescription'].val(dataCategory.description);
-  arrayFin[0]['pMark'].val(dataCategory.mark);
-  arrayFin[0]['cCategory'].val(dataCategory.category);
+  arrayFin[0]['pMake'].val(dataCategory.make);
   arrayFin[0]['cPrice'].val(dataCategory.price);
+
+   $('select#opCategory option').each(function () {
+    if ($(this).text().toLowerCase() == dataCategory.category.name) {
+        $(this).prop('selected','selected');
+        return;
+    }
+  });
 }
 
 function deleteCategory(dataCategory) {
@@ -848,7 +843,7 @@ function deleteProduct(dataProduct) {
       },      //Data as js object
       success: function () {
         bootbox.alert("Contacto eliminado", function(){ 
-          loadTableCategory(typeTable); 
+          loadTableProduct(typeTable); 
         });
       }
   });
@@ -863,7 +858,7 @@ $(document).ready(function () {
       var $this = $(this);
       if (!$this.hasClass('active')) {
           $this.addClass('active');
-          if ($this.text() == "Catedoria") {
+          if ($this.text() == "Categoria") {
             $("#div_product").hide();
             $("#div_category").show();
           }else{
