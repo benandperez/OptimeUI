@@ -497,12 +497,12 @@ $(document).on('click','#BtnSearchProduct', function() {
         var btnDeleteProduct = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
         var tr = $("<tr ></tr>");
         //var tdId = $("<td></td>").html(valor.id);
-        var tdCode = $("<td></td>").html(valor.code);
-        var tdName = $("<td></td>").html(valor.name);
-        var tdDescription = $("<td></td>").html(valor.description);
-        var tdMake = $("<td></td>").html(valor.make);
-        var tdCategory = $("<td></td>").html(valor.category.name);
-        var tdPrice = $("<td></td>").html(valor.price);
+        var tdCode = $("<td></td>").html(response.code);
+        var tdName = $("<td></td>").html(response.name);
+        var tdDescription = $("<td></td>").html(response.description);
+        var tdMake = $("<td></td>").html(response.make);
+        var tdCategory = $("<td></td>").html(response.category.name);
+        var tdPrice = $("<td></td>").html(response.price);
 
         var tdbtnEd = $("<td></td>")
         //var tdbtnDel = $("<td></td>")
@@ -521,12 +521,12 @@ $(document).on('click','#BtnSearchProduct', function() {
         tableProduct.append(tr);
 
         btnEditProduct.click(function(){
-          updateProduct(valor);
+          updateProduct(response);
         });
 
         btnDeleteProduct.click(function(){
           bootbox.confirm({
-            message: "¿Desea Eliminar el Producto "+valor.name+"?",
+            message: "¿Desea Eliminar el Producto "+response.name+"?",
             buttons: {
                 confirm: {
                     label: 'Si',
@@ -539,7 +539,7 @@ $(document).on('click','#BtnSearchProduct', function() {
             },
             callback: function (result) {
               if (result) {
-                deleteProduct(valor);
+                deleteProduct(response);
               }
             }
           });
@@ -552,6 +552,92 @@ $(document).on('click','#BtnSearchProduct', function() {
     });
   }else{
     loadTableProduct(typeTable);
+  }
+});
+
+// Buscar producto
+$(document).on('click','#BtnSearchCategory', function() {
+  var searchCategory = $("#searchCategory").val();
+  var tableCategory = $("#tableCategory");
+  if (searchCategory != "") {
+
+    searchCategoryData = { 
+     "code":searchCategory
+    };
+
+    console.log(searchCategoryData);
+
+
+
+    $.ajax({
+      url:   host+"category/searchcategory",
+      type:  'POST',
+      data:JSON.stringify(searchCategoryData),
+      success:  function (response) {
+        $(".loader").fadeOut("slow");
+
+        tableCategory.find("tbody").empty();
+
+        var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
+        var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
+        var tr = $("<tr ></tr>");
+        //var tdId = $("<td></td>").html(valor.id);
+        var tdCode = $("<td></td>").html(response.code);
+        var tdName = $("<td></td>").html(response.name);
+        var tdDescription = $("<td></td>").html(response.description);
+        if (response.active == true) {
+          var tdActive = $("<td></td>").html("Si");
+        }else{
+
+          var tdActive = $("<td></td>").html("No");
+        }
+        
+        var tdbtnEd = $("<td></td>")
+        //var tdbtnDel = $("<td></td>")
+        tdbtnEd.append(btnEditCategory);
+        tdbtnEd.append(btnDelete);
+        //tr.append(tdId);
+        tr.append(tdCode);
+        tr.append(tdName);
+        tr.append(tdDescription);
+        tr.append(tdActive);
+
+        tr.append(tdbtnEd);
+        //tr.append(tdbtnDel);
+        tableCategory.append(tr);
+
+        btnEditCategory.click(function(){
+          updateCategory(response);
+        });
+
+         btnDelete.click(function(){
+          bootbox.confirm({
+            message: "¿Desea Eliminar la Categoria "+response.name+"?",
+            buttons: {
+                confirm: {
+                    label: 'Si',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+              if (result) {
+                deleteCategory(response);
+              }
+            }
+          });
+        }); 
+      },
+      error: function (e) {
+        bootbox.alert("Error filtrar por codigo del producto");
+        $(".loader").fadeOut("slow");
+      },
+    });
+  }else{
+    loadTableCategory(typeTable);
   }
 });
 
@@ -576,7 +662,7 @@ function loadTableCategory(typeAction){
         }
       });
 
-      $("#tableCategory tbody").empty();
+      tableCategory.find("tbody").empty();
       response.forEach(function(valor, indice) {
         var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
         var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
@@ -807,6 +893,7 @@ function loadTableProduct(typeAction){
 
         if (typeAction == "ini") {
           tableProduct.DataTable({
+            "dom": '<"top"i>rt<"bottom"lp><"clear">',
             "language": {
               "lengthMenu": "Ver _MENU_ numero de paginas",
               "zeroRecords": "No hay datos",
