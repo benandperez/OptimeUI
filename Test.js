@@ -1,9 +1,7 @@
-var urlParams;
 var arrayFin=[];
 var idGlobal = null;
 var typeTable = true;
-var categoryGlobal = null;
-  var dataTemporal = [{"id":1,"code":"jjffff","name":"hi","description":"hola","active":false},{"id":9,"code":"jj","name":"jj","description":"jj","active":true},{"id":10,"code":"ff","name":"fffffff","description":"fff","active":true},{"id":11,"code":"ee","name":"ee","description":"ee","active":true},{"id":12,"code":"ccc","name":"cccc","description":"cccc","active":true},{"id":13,"code":"nnn","name":"nnn","description":"nnn","active":true},{"id":14,"code":"kkk","name":"kkk","description":"kkk","active":true},{"id":17,"code":"ttt","name":"ttt","description":"ttt","active":false},{"id":18,"code":"zzz","name":"zzz","description":"zzz","active":true},{"id":19,"code":"aaa","name":"aaaa","description":"aaaa","active":false},{"id":20,"code":"qwqw","name":"qwqw","description":"qwqw","active":false}];
+//var dataTemporal = [{"id":1,"code":"jjffff","name":"hi","description":"hola","active":false},{"id":9,"code":"jj","name":"jj","description":"jj","active":true},{"id":10,"code":"ff","name":"fffffff","description":"fff","active":true},{"id":11,"code":"ee","name":"ee","description":"ee","active":true},{"id":12,"code":"ccc","name":"cccc","description":"cccc","active":true},{"id":13,"code":"nnn","name":"nnn","description":"nnn","active":true},{"id":14,"code":"kkk","name":"kkk","description":"kkk","active":true},{"id":17,"code":"ttt","name":"ttt","description":"ttt","active":false},{"id":18,"code":"zzz","name":"zzz","description":"zzz","active":true},{"id":19,"code":"aaa","name":"aaaa","description":"aaaa","active":false},{"id":20,"code":"qwqw","name":"qwqw","description":"qwqw","active":false}];
 var host = 'http://localhost:8080/OptimeBack/web/app_dev.php/';
 
 $(document).ready(function(){
@@ -21,15 +19,9 @@ $(document).ready(function(){
 
 
   //setTimeout(function(){ FromProduct(); FromCategory(); }, 1000);
-  
-  
 
-    
-  //var BtnViewPhoto = $('<a href="view.php" id ="BtnViewPhoto" class="btn btn-info" style="float: left;display: none">Ver Fotos</a>');
-  //$(".modal-footer").append(Btnsuccess);
-  //$(".modal-footer").append(BtnTurn);
-  //$(".modal-footer").append(BtnViewPhoto);
 
+  // Crear modal producto
   function FromProduct(){
 
       var formSHO = $('<form class="floating-from"></form>');
@@ -116,6 +108,7 @@ $(document).ready(function(){
       });
   };
 
+  // crear modal categoria
   function FromCategory(){
 
       var FromCategoryFlot = $('<form class="floating-from-category"></form>');
@@ -187,7 +180,7 @@ $(document).ready(function(){
       
 });
 
-
+// obtener el valor de los campos 
 function getValue(vari) {
   var setDataFrom = {};
 
@@ -344,6 +337,7 @@ function getValue(vari) {
 };
 
 
+//  Vaciar Modal Categoria
 $(document).on('click','#BtnsuccessCategory', function() {    
 
  var vari= "BtnsuccessCategory";
@@ -400,6 +394,7 @@ $(document).on('click','#BtnsuccessCategory', function() {
 
 });
 
+//  Vaciar Modal Producto
 $(document).on('click','#BtnsuccessProduct', function() {    
 
  var vari= "BtnsuccessProduct";
@@ -456,9 +451,7 @@ $(document).on('click','#BtnsuccessProduct', function() {
 
 }); 
 
-
-
-
+// Crear Categoria
 $(document).on('click','#BtnCreateCategory', function() {
   arrayFin[1]['cCode'].val("");
   arrayFin[1]['cName'].val("");
@@ -466,6 +459,7 @@ $(document).on('click','#BtnCreateCategory', function() {
   arrayFin[1]['pActive'].val(true);
 });
 
+// Crear Producto
 $(document).on('click','#BtnCreateProduct', function() {
   arrayFin[0]['cCode'].val("");
   arrayFin[0]['cName'].val("");
@@ -474,6 +468,7 @@ $(document).on('click','#BtnCreateProduct', function() {
   arrayFin[0]['cPrice'].val("");
 });
 
+// Buscar producto
 $(document).on('click','#BtnSearchProduct', function() {
   var searchProduct = $("#searchProduct").val();
   var tableProduct = $("#tableProduct");
@@ -558,14 +553,10 @@ $(document).on('click','#BtnSearchProduct', function() {
   }else{
     loadTableProduct(typeTable);
   }
-
-
-
-
 });
 
 
-
+// Cargar tabla Categoria
 function loadTableCategory(typeAction){
   var tableCategory = $("#tableCategory");
 
@@ -708,6 +699,7 @@ function loadTableCategory(typeAction){
   });
 }
 
+// Cargar tabla Producto
 function loadTableProduct(typeAction){
   var tableProduct = $("#tableProduct");
 
@@ -842,6 +834,7 @@ function loadTableProduct(typeAction){
 }
 
 
+// Actualizar tabla Categoria
 function updateCategory(dataCategory){
   idGlobal = dataCategory.id;
 
@@ -857,6 +850,7 @@ function updateCategory(dataCategory){
   //arrayFin[1]['pActive'].prop("checked", false);
 }
 
+// Actualizar tabla Producto
 function updateProduct(dataCategory){
   idGlobal = dataCategory.id;
   
@@ -875,6 +869,7 @@ function updateProduct(dataCategory){
   });
 }
 
+// Eliminar tabla Categoria
 function deleteCategory(dataCategory) {
 
   var url = host+"category/deletecategory/"
@@ -896,6 +891,8 @@ function deleteCategory(dataCategory) {
   });
    
 }
+
+// Eliminar tabla Producto
 function deleteProduct(dataProduct) {
 
   var url = host+"product/deleteproduct/"
@@ -918,7 +915,7 @@ function deleteProduct(dataProduct) {
 }
 
 
-
+// Cambiar las pestañas
 $(document).ready(function () {
   $('.navbar li').click(function(e) {
       $('.navbar li').removeClass('active');
