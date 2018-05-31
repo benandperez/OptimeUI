@@ -138,7 +138,7 @@ $(document).ready(function(){
       var cDescription = $('<input type="text" class="form-control" data-id="LastName" name="lastName" id ="lastname" required style = "margin-bottom: 10px">');
       //var pActive = $('<input type="checkbox"  checked data-toggle="toggle" data-width="100" data-on="Activo" data-off="Inactivo" data-onstyle="success" data-offstyle="danger" >');
       //var pActive = $('<input type="checkbox" name="aceptar">');
-      var pActive = $('<input type="checkbox" checked = "true" data-width="100" data-on="Activo" data-off="Inactivo" checked data-toggle="toggle">');
+      var pActive = $('<input type="checkbox"  id = "activeCheck"checked = "true" data-width="100" data-on="Activo" data-off="Inactivo" checked data-toggle="toggle">');
 
       cCode.keypress(function(tecla) {
         if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && (tecla.charCode < 48 || tecla.charCode > 57) )
@@ -376,6 +376,7 @@ $(document).on('click','#BtnsuccessCategory', function() {
           
            $('#modalCategory').modal('hide');
 
+
           loadTableCategory(typeTable); 
           
        },
@@ -492,8 +493,7 @@ function loadTableCategory(typeAction){
     success:  function (response) {
       console.log(response);
 
-      categoryGlobal = response;
-      _.each(categoryGlobal, function (valorTittle, indiceTittle) {
+      _.each(response, function (valorTittle, indiceTittle) {
         if (valorTittle.active == true) {
           $('#opCategory').append(
               $('<option></option>').val(valorTittle.id).html(valorTittle.name)
@@ -788,7 +788,13 @@ function updateCategory(dataCategory){
   arrayFin[1]['cCode'].val(dataCategory.code);
   arrayFin[1]['cName'].val(dataCategory.name);
   arrayFin[1]['cDescription'].val(dataCategory.description);
-  arrayFin[1]['pActive'].prop("checked", false);
+  if (dataCategory.active == true) {
+   $("#activeCheck").bootstrapToggle("on");
+  }else{
+   $("#activeCheck").bootstrapToggle("off");
+  }
+  //$("#activeCheck").val(dataCategory.active);
+  //arrayFin[1]['pActive'].prop("checked", false);
 }
 
 function updateProduct(dataCategory){
