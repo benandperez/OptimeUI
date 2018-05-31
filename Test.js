@@ -42,12 +42,12 @@ $(document).ready(function(){
 
       var onChangeAr = null;
 
-      var labelCode = $('<label>Codigo: </label>');
-      var labelName = $('<label>Nombre: </label>');
-      var labelDescription = $('<label>Descripción: </label>');
-      var labelMark = $('<label>Marca: </label>');
-      var labelCategory = $('<label>Categoria: </label>');
-      var labelPrice = $('<label>Precio: </label>');
+      var labelCode = $('<label>Codigo:<span style="color: #ff0000;"> *</span> </label>');
+      var labelName = $('<label>Nombre:<span style="color: #ff0000;"> *</span> </label>');
+      var labelDescription = $('<label>Descripción:<span style="color: #ff0000;"> *</span> </label>');
+      var labelMark = $('<label>Marca:<span style="color: #ff0000;"> *</span> </label>');
+      var labelCategory = $('<label>Categoria:<span style="color: #ff0000;"> *</span> </label>');
+      var labelPrice = $('<label>Precio:<span style="color: #ff0000;"> *</span> </label>');
 
 
       var cCode = $('<input type="text" class="form-control" data-id="code" name="code" id ="code" required>');
@@ -127,10 +127,10 @@ $(document).ready(function(){
   
       var onChangeAr = null;
 
-      var labelCodeCate = $('<label>Codigo: </label>');
-      var labelNameCate = $('<label>Nombre: </label>');
-      var labelDescriptionCategory = $('<label>Descripción: </label>');
-      var labelActive = $('<label>Activo: </label>');
+      var labelCodeCate = $('<label>Codigo:<span style="color: #ff0000;"> *</span> </label>');
+      var labelNameCate = $('<label>Nombre:<span style="color: #ff0000;"> *</span> </label>');
+      var labelDescriptionCategory = $('<label>Descripción:<span style="color: #ff0000;"> *</span> </label>');
+      var labelActive = $('<label>Activo:<span style="color: #ff0000;"> *</span> </label>');
 
 
       var cCode = $('<input type="text" class="form-control" data-id="code" name="code" id ="code" required>');
