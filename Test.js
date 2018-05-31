@@ -3,7 +3,7 @@ var arrayFin=[];
 var idGlobal = null;
 var typeTable = true;
 var categoryGlobal = null;
-  //var dataTemporal = [{"id":1,"code":"jjffff","name":"hi","description":"hola","active":false},{"id":9,"code":"jj","name":"jj","description":"jj","active":true},{"id":10,"code":"ff","name":"fffffff","description":"fff","active":true},{"id":11,"code":"ee","name":"ee","description":"ee","active":true},{"id":12,"code":"ccc","name":"cccc","description":"cccc","active":true},{"id":13,"code":"nnn","name":"nnn","description":"nnn","active":true},{"id":14,"code":"kkk","name":"kkk","description":"kkk","active":true},{"id":17,"code":"ttt","name":"ttt","description":"ttt","active":false},{"id":18,"code":"zzz","name":"zzz","description":"zzz","active":true},{"id":19,"code":"aaa","name":"aaaa","description":"aaaa","active":false},{"id":20,"code":"qwqw","name":"qwqw","description":"qwqw","active":false}];
+  var dataTemporal = [{"id":1,"code":"jjffff","name":"hi","description":"hola","active":false},{"id":9,"code":"jj","name":"jj","description":"jj","active":true},{"id":10,"code":"ff","name":"fffffff","description":"fff","active":true},{"id":11,"code":"ee","name":"ee","description":"ee","active":true},{"id":12,"code":"ccc","name":"cccc","description":"cccc","active":true},{"id":13,"code":"nnn","name":"nnn","description":"nnn","active":true},{"id":14,"code":"kkk","name":"kkk","description":"kkk","active":true},{"id":17,"code":"ttt","name":"ttt","description":"ttt","active":false},{"id":18,"code":"zzz","name":"zzz","description":"zzz","active":true},{"id":19,"code":"aaa","name":"aaaa","description":"aaaa","active":false},{"id":20,"code":"qwqw","name":"qwqw","description":"qwqw","active":false}];
 var host = 'http://localhost:8080/OptimeBack/web/app_dev.php/';
 
 $(document).ready(function(){
@@ -349,9 +349,6 @@ $(document).on('click','#BtnsuccessCategory', function() {
  var vari= "BtnsuccessCategory";
  var replaies = getValue(vari);
 
- var contRequired = 0;
- var contRequiredEsta = 0;
- var contRequiredNoEsta = 0;
 
 
   if (replaies) {
@@ -408,9 +405,6 @@ $(document).on('click','#BtnsuccessProduct', function() {
  var vari= "BtnsuccessProduct";
  var replaies = getValue(vari);
 
- var contRequired = 0;
- var contRequiredEsta = 0;
- var contRequiredNoEsta = 0;
 
 
   if (replaies) {
@@ -460,11 +454,10 @@ $(document).on('click','#BtnsuccessProduct', function() {
   myWindow = window.open("SurveyEncuestado.html","_self", "");
  };
 
-});  
+}); 
 
-$(document).on('click','#BtnTurn', function() {
-  myWindow = window.open("TestRun.html","_self", "");
-});
+
+
 
 $(document).on('click','#BtnCreateCategory', function() {
   arrayFin[1]['cCode'].val("");
@@ -481,12 +474,158 @@ $(document).on('click','#BtnCreateProduct', function() {
   arrayFin[0]['cPrice'].val("");
 });
 
+$(document).on('click','#BtnSearchProduct', function() {
+  var searchProduct = $("#searchProduct").val();
+  var tableProduct = $("#tableProduct");
+  if (searchProduct != "") {
+
+    searchProductData = { 
+     "code":searchProduct
+    };
+
+    console.log(searchProductData);
+
+
+
+    $.ajax({
+      url:   host+"product/searchproduct",
+      type:  'POST',
+      data:JSON.stringify(searchProductData),
+      success:  function (response) {
+        $(".loader").fadeOut("slow");
+
+        
+
+        tableProduct.find("tbody").empty();
+
+        var btnEditProduct = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalProduct" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
+        var btnDeleteProduct = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
+        var tr = $("<tr ></tr>");
+        //var tdId = $("<td></td>").html(valor.id);
+        var tdCode = $("<td></td>").html(valor.code);
+        var tdName = $("<td></td>").html(valor.name);
+        var tdDescription = $("<td></td>").html(valor.description);
+        var tdMake = $("<td></td>").html(valor.make);
+        var tdCategory = $("<td></td>").html(valor.category.name);
+        var tdPrice = $("<td></td>").html(valor.price);
+
+        var tdbtnEd = $("<td></td>")
+        //var tdbtnDel = $("<td></td>")
+        tdbtnEd.append(btnEditProduct);
+        tdbtnEd.append(btnDeleteProduct);
+        //tr.append(tdId);
+        tr.append(tdCode);
+        tr.append(tdName);
+        tr.append(tdDescription);
+        tr.append(tdMake);
+        tr.append(tdCategory);
+        tr.append(tdPrice);
+
+        tr.append(tdbtnEd);
+        //tr.append(tdbtnDel);
+        tableProduct.append(tr);
+
+        btnEditProduct.click(function(){
+          updateProduct(valor);
+        });
+
+        btnDeleteProduct.click(function(){
+          bootbox.confirm({
+            message: "¿Desea Eliminar el Producto "+valor.name+"?",
+            buttons: {
+                confirm: {
+                    label: 'Si',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+              if (result) {
+                deleteProduct(valor);
+              }
+            }
+          });
+        }); 
+      },
+      error: function (e) {
+        bootbox.alert("Error filtrar por codigo del producto");
+        $(".loader").fadeOut("slow");
+      },
+    });
+  }else{
+    loadTableProduct(typeTable);
+  }
+
+
+
+
+});
+
 
 
 function loadTableCategory(typeAction){
   var tableCategory = $("#tableCategory");
 
   tableCategory.find("tbody").find("tr").remove();
+
+
+  dataTemporal.forEach(function(valor, indice) {
+        var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
+        var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
+        var tr = $("<tr ></tr>");
+        //var tdId = $("<td></td>").html(valor.id);
+        var tdCode = $("<td></td>").html(valor.code);
+        var tdName = $("<td></td>").html(valor.name);
+        var tdDescription = $("<td></td>").html(valor.description);
+        if (valor.active == true) {
+          var tdActive = $("<td></td>").html("Si");
+        }else{
+
+          var tdActive = $("<td></td>").html("No");
+        }
+        
+        var tdbtnEd = $("<td></td>")
+        //var tdbtnDel = $("<td></td>")
+        tdbtnEd.append(btnEditCategory);
+        tdbtnEd.append(btnDelete);
+        //tr.append(tdId);
+        tr.append(tdCode);
+        tr.append(tdName);
+        tr.append(tdDescription);
+        tr.append(tdActive);
+
+        tr.append(tdbtnEd);
+        //tr.append(tdbtnDel);
+        tableCategory.append(tr);
+
+        btnEditCategory.click(function(){
+          updateCategory(valor);
+        });
+
+         btnDelete.click(function(){
+          bootbox.confirm({
+            message: "¿Desea Eliminar la Categoria "+valor.name+"?",
+            buttons: {
+                confirm: {
+                    label: 'Si',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+              if (result) {
+                deleteCategory(valor);
+              }
+            }
+          });
+        });
+      });
   $.ajax({
     url:   host+"category/listcategory",
     type:  'GET',
@@ -500,7 +639,7 @@ function loadTableCategory(typeAction){
           );
         }
       });
-      response.forEach(function(valor, indice) {
+      dataTemporal.forEach(function(valor, indice) {
         var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
         var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
         var tr = $("<tr ></tr>");
@@ -595,6 +734,7 @@ function loadTableCategory(typeAction){
 
       if (typeAction == "ini") {
         tableCategory.DataTable({
+          "dom": '<"top"i>rt<"bottom"lp><"clear">',
           "language": {
             "lengthMenu": "Ver _MENU_ numero de paginas",
             "zeroRecords": "No hay datos",
@@ -624,7 +764,7 @@ function loadTableCategory(typeAction){
 function loadTableProduct(typeAction){
   var tableProduct = $("#tableProduct");
 
-  tableProduct.find("tbody").find("tr").remove();
+  tableProduct.find("tbody").empty();
     $.ajax({
       url:   host+"product/listproduct",
       type:  'GET',
@@ -754,33 +894,6 @@ function loadTableProduct(typeAction){
   });
 }
 
-
-
-
-function createCategory(){
-  var divcreateCategory = $("#divCreateCategory");
-  var divTableListProduct = $("#divTableListProduct");
-
-  arrayFin[0]['cCode'].val(""),
-  arrayFin[0]['cName'].val(""),
-  arrayFin[0]['cDescription'].val(""),
-  arrayFin[0]['pActive'].val(""),
-  divcreateCategory.show();
-  //divTableListProduct.hide();
-}
-
-function createProduct(){
-  var divcreateCategory = $("#divcreateCategory");
-  var divTableListCategory = $("#divTableListCategory");
-
-  arrayFin[0]['cName'].val(""),
-  arrayFin[0]['cDescription'].val(""),
-  arrayFin[0]['pMake'].val(""),
-  arrayFin[0]['cPrice'].val(""),
-  //arrayFin[0]['cCategory'].val(""),
-  divcreateCategory.show();
-  divTableListCategory.hide();
-}
 
 function updateCategory(dataCategory){
   idGlobal = dataCategory.id;
