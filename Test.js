@@ -569,63 +569,8 @@ $(document).on('click','#BtnSearchProduct', function() {
 function loadTableCategory(typeAction){
   var tableCategory = $("#tableCategory");
 
-  tableCategory.find("tbody").find("tr").remove();
+  //tableCategory.find("tbody").find("tr").remove();
 
-
-  dataTemporal.forEach(function(valor, indice) {
-        var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
-        var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
-        var tr = $("<tr ></tr>");
-        //var tdId = $("<td></td>").html(valor.id);
-        var tdCode = $("<td></td>").html(valor.code);
-        var tdName = $("<td></td>").html(valor.name);
-        var tdDescription = $("<td></td>").html(valor.description);
-        if (valor.active == true) {
-          var tdActive = $("<td></td>").html("Si");
-        }else{
-
-          var tdActive = $("<td></td>").html("No");
-        }
-        
-        var tdbtnEd = $("<td></td>")
-        //var tdbtnDel = $("<td></td>")
-        tdbtnEd.append(btnEditCategory);
-        tdbtnEd.append(btnDelete);
-        //tr.append(tdId);
-        tr.append(tdCode);
-        tr.append(tdName);
-        tr.append(tdDescription);
-        tr.append(tdActive);
-
-        tr.append(tdbtnEd);
-        //tr.append(tdbtnDel);
-        tableCategory.append(tr);
-
-        btnEditCategory.click(function(){
-          updateCategory(valor);
-        });
-
-         btnDelete.click(function(){
-          bootbox.confirm({
-            message: "¿Desea Eliminar la Categoria "+valor.name+"?",
-            buttons: {
-                confirm: {
-                    label: 'Si',
-                    className: 'btn-success'
-                },
-                cancel: {
-                    label: 'No',
-                    className: 'btn-danger'
-                }
-            },
-            callback: function (result) {
-              if (result) {
-                deleteCategory(valor);
-              }
-            }
-          });
-        });
-      });
   $.ajax({
     url:   host+"category/listcategory",
     type:  'GET',
@@ -639,7 +584,9 @@ function loadTableCategory(typeAction){
           );
         }
       });
-      dataTemporal.forEach(function(valor, indice) {
+
+      $("#tableCategory tbody").empty();
+      response.forEach(function(valor, indice) {
         var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
         var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
         var tr = $("<tr ></tr>");
@@ -941,7 +888,8 @@ function deleteCategory(dataCategory) {
           data: sendData
       },      //Data as js object
       success: function () {
-        bootbox.alert("Contacto eliminado", function(){ 
+        bootbox.alert("Categoria eliminado", function(){
+          
           loadTableCategory(typeTable); 
         });
       }
@@ -961,7 +909,7 @@ function deleteProduct(dataProduct) {
           data: sendData
       },      //Data as js object
       success: function () {
-        bootbox.alert("Contacto eliminado", function(){ 
+        bootbox.alert("Producto eliminado", function(){ 
           loadTableProduct(typeTable); 
         });
       }
