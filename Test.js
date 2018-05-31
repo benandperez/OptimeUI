@@ -486,7 +486,7 @@ $(document).on('click','#BtnCreateProduct', function() {
 function loadTableCategory(typeAction){
   var tableCategory = $("#tableCategory");
 
-  tableCategory.find("tbody").empty();
+  
   $.ajax({
     url:   host+"category/listcategory",
     type:  'GET',
@@ -500,6 +500,7 @@ function loadTableCategory(typeAction){
           );
         }
       });
+      $("#tableCategory tbody").empty();
       response.forEach(function(valor, indice) {
         var btnEditCategory = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalCategory" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
         var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
@@ -595,6 +596,7 @@ function loadTableCategory(typeAction){
 
       if (typeAction == "ini") {
         tableCategory.DataTable({
+          "dom": '<"top"i>rt<"bottom"lp><"clear">',
           "language": {
             "lengthMenu": "Ver _MENU_ numero de paginas",
             "zeroRecords": "No hay datos",
