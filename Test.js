@@ -2,7 +2,7 @@ var arrayFin=[];
 var idGlobal = null;
 var typeTable = true;
 //var dataTemporal = [{"id":1,"code":"jjffff","name":"hi","description":"hola","active":false},{"id":9,"code":"jj","name":"jj","description":"jj","active":true},{"id":10,"code":"ff","name":"fffffff","description":"fff","active":true},{"id":11,"code":"ee","name":"ee","description":"ee","active":true},{"id":12,"code":"ccc","name":"cccc","description":"cccc","active":true},{"id":13,"code":"nnn","name":"nnn","description":"nnn","active":true},{"id":14,"code":"kkk","name":"kkk","description":"kkk","active":true},{"id":17,"code":"ttt","name":"ttt","description":"ttt","active":false},{"id":18,"code":"zzz","name":"zzz","description":"zzz","active":true},{"id":19,"code":"aaa","name":"aaaa","description":"aaaa","active":false},{"id":20,"code":"qwqw","name":"qwqw","description":"qwqw","active":false}];
-var host = 'http://localhost:8080/OptimeBackW/web/app_dev.php/';
+var host = 'http://localhost:8080/OptimeBack/web/app_dev.php/';
 
 $(document).ready(function(){
 
@@ -12,10 +12,10 @@ $(document).ready(function(){
   //var restoredSession = JSON.parse(titleFinTitle);
 
   
-  FromEmpleador()
-  FromEmpleado();
+  FromProduct()
+  FromCategory();
 
-  loadTableTipoContrato(ini);
+  loadTableCategory(ini);
   loadTableProduct(ini);
 
 
@@ -23,7 +23,7 @@ $(document).ready(function(){
 
 
   // Crear modal producto
-  function FromEmpleador(){
+  function FromProduct(){
 
       var formSHO = $('<form class="floating-from"></form>');
       var divSHO = $('<div><div>');
@@ -35,39 +35,54 @@ $(document).ready(function(){
 
       var onChangeAr = null;
 
-      var labelCode = $('<label>Cedula:<span style="color: #ff0000;"> *</span> </label>');
-      var labelName = $('<label>Nombre Completo:<span style="color: #ff0000;"> *</span> </label>');
-      var labelDireccion = $('<label>Direccion:<span style="color: #ff0000;"> *</span> </label>');
-      var labelTelefono = $('<label>Telefono:<span style="color: #ff0000;"> *</span> </label>');
-      var labelSexo = $('<label>Sexo:<span style="color: #ff0000;"> *</span> </label>');
-      var labelFecha = $('<label>Fecha:<span style="color: #ff0000;"> *</span> </label>');
+      var labelCode = $('<label>Codigo:<span style="color: #ff0000;"> *</span> </label>');
+      var labelName = $('<label>Nombre:<span style="color: #ff0000;"> *</span> </label>');
+      var labelDescription = $('<label>Descripción:<span style="color: #ff0000;"> *</span> </label>');
+      var labelMark = $('<label>Marca:<span style="color: #ff0000;"> *</span> </label>');
+      var labelCategory = $('<label>Categoria:<span style="color: #ff0000;"> *</span> </label>');
+      var labelPrice = $('<label>Precio:<span style="color: #ff0000;"> *</span> </label>');
 
 
       var cCode = $('<input type="text" class="form-control" data-id="code" name="code" id ="code" required>');
       var cName = $('<input type="text" class="form-control" data-id="Name" name="name" id ="name" required>');
-      var cDireccion = $('<input type="text" class="form-control" data-id="direccion" name="direccion" id ="direccion" required>');
-      var pTelefono = $('<input type="text" class="form-control" data-id="telefono" name="make" id ="telefono" required>');
-      var cSexo = $('<input type="text" class="form-control" data-id="sexo" name="sexo" id ="sexo" required>');
-      var cFecha = $('<input type="text" class="form-control" data-id="fecha" name="fecha" id ="fecha" required>');
+      var cDescription = $('<input type="text" class="form-control" data-id="description" name="description" id ="lastname" required>');
+      var pMake = $('<input type="text" class="form-control" data-id="make" name="make" id ="make" required>');
+      var cCategory = $('<select class="form-control" id="opCategory" name"opCategory"></select>');
+      var cPrice = $('<input type="number" min="0" class="form-control" data-id="price" name="price" id ="price" required>');
 
-      
+      cCode.keypress(function(tecla) {
+        if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && (tecla.charCode < 48 || tecla.charCode > 57) )
+          //alert('Solo letras por favor');
+          return false;
+      });
+      cPrice.keypress(function(tecla) {
+        if((tecla.charCode < 48 || tecla.charCode > 57) )
+          //alert('Solo letras por favor');
+          return false;
+      });
+
+
+
+
+ 
+        
       divSHO.append(labelCode);
       divSHO.append(cCode); 
 
       divSHO.append(labelName);
       divSHO.append(cName);
 
-      divSHO.append(labelDireccion);
-      divSHO.append(cDireccion);
+      divSHO.append(labelDescription);
+      divSHO.append(cDescription);
 
-      divSHO.append(labelTelefono);
-      divSHO.append(pTelefono);
+      divSHO.append(labelMark);
+      divSHO.append(pMake);
 
-      divSHO.append(labelSexo);
-      divSHO.append(cSexo);
+      divSHO.append(labelCategory);
+      divSHO.append(cCategory);
 
-      divSHO.append(labelFecha);
-      divSHO.append(cFecha);
+      divSHO.append(labelPrice);
+      divSHO.append(cPrice);
       
 
 
@@ -87,70 +102,59 @@ $(document).ready(function(){
       arrayFin.push({
         'cCode': cCode,
         'cName': cName,
-        'cDireccion': cDireccion,
-        'pTelefono': pTelefono,
-        'cSexo': cSexo,
-        'cFecha': cFecha,
+        'cDescription': cDescription,
+        'pMake': pMake,
+        'cCategory': cCategory,
+        'cPrice': cPrice,
       });
   };
 
   // crear modal categoria
-  function FromEmpleado(){
+  function FromCategory(){
 
-      var formSHO = $('<form class="floating-from"></form>');
+      var FromCategoryFlot = $('<form class="floating-from-category"></form>');
       var divSHO = $('<div><div>');
       var divAction = $('<div><div>');
 
       //var Btnsuccess = $('<button class="btn btn-primary" id="Btnsuccess" type="submit" style="display: block; float:  left; margin-right: 10px;margin-top: 10px;">Enviar</button>');
       //var BtnTurn = $('<button class="btn btn-warning" id="BtnTurn" type="button" style="display: block;float:  left; margin-right: 10px;margin-top: 10px;">Atras</button>');
   
-
       var onChangeAr = null;
 
-      var labelCode = $('<label>Cedula:<span style="color: #ff0000;"> *</span> </label>');
-      var labelName = $('<label>Nombre Completo:<span style="color: #ff0000;"> *</span> </label>');
-      var labelDireccion = $('<label>Direccion:<span style="color: #ff0000;"> *</span> </label>');
-      var labelTelefono = $('<label>Telefono:<span style="color: #ff0000;"> *</span> </label>');
-      var labelSexo = $('<label>Sexo:<span style="color: #ff0000;"> *</span> </label>');
-      var labelFecha = $('<label>Fecha:<span style="color: #ff0000;"> *</span> </label>');
-      var labelTipoDeContrato = $('<label>Tipo de contrato: </label>');
-      var labelEmpleador = $('<label>Empleador:<span style="color: #ff0000;"> *</span> </label>');
-
+      var labelCodeCate = $('<label>Codigo:<span style="color: #ff0000;"> *</span> </label>');
+      var labelNameCate = $('<label>Nombre:<span style="color: #ff0000;"> *</span> </label>');
+      var labelDescriptionCategory = $('<label>Descripción:<span style="color: #ff0000;"> *</span> </label>');
+      var labelActive = $('<label>Activo:<span style="color: #ff0000;"> *</span> </label>');
 
 
       var cCode = $('<input type="text" class="form-control" data-id="code" name="code" id ="code" required>');
       var cName = $('<input type="text" class="form-control" data-id="Name" name="name" id ="name" required>');
-      var cDireccion = $('<input type="text" class="form-control" data-id="direccion" name="direccion" id ="direccion" required>');
-      var pTelefono = $('<input type="text" class="form-control" data-id="telefono" name="make" id ="telefono" required>');
-      var cSexo = $('<input type="text" class="form-control" data-id="sexo" name="sexo" id ="sexo" required>');
-      var cFecha = $('<input type="text" class="form-control" data-id="fecha" name="fecha" id ="fecha" required>');
-      var cTipoContrato = $('<select class="form-control" id="client"> <option>Término indefinido</option><option>Termino definido</option><option>Tiempo parcia</option></select>');
-      var cEmpleador = $('<select class="form-control" id="opCategory" name"opCategory"></select>');
+      var cDescription = $('<input type="text" class="form-control" data-id="LastName" name="lastName" id ="lastname" required style = "margin-bottom: 10px">');
+      //var pActive = $('<input type="checkbox"  checked data-toggle="toggle" data-width="100" data-on="Activo" data-off="Inactivo" data-onstyle="success" data-offstyle="danger" >');
+      //var pActive = $('<input type="checkbox" name="aceptar">');
+      var pActive = $('<input type="checkbox"  id = "activeCheck"checked = "true" data-width="100" data-on="Activo" data-off="Inactivo" checked data-toggle="toggle">');
 
-      
-      divSHO.append(labelCode);
+      cCode.keypress(function(tecla) {
+        if((tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90) && (tecla.charCode < 48 || tecla.charCode > 57) )
+          //alert('Solo letras por favor');
+          return false;
+      });
+
+
+ 
+        
+      divSHO.append(labelCodeCate);
       divSHO.append(cCode); 
 
-      divSHO.append(labelName);
+      divSHO.append(labelNameCate);
       divSHO.append(cName);
 
-      divSHO.append(labelDireccion);
-      divSHO.append(cDireccion);
+      divSHO.append(labelDescriptionCategory);
+      divSHO.append(cDescription);
 
-      divSHO.append(labelTelefono);
-      divSHO.append(pTelefono);
+      //divSHO.append(labelActive);
+      divSHO.append(pActive);
 
-      divSHO.append(labelSexo);
-      divSHO.append(cSexo);
-
-      divSHO.append(labelFecha);
-      divSHO.append(cFecha);
-
-      divSHO.append(labelTipoDeContrato);
-      divSHO.append(cTipoContrato);
-
-      divSHO.append(labelEmpleador);
-      divSHO.append(cEmpleador);
       
 
 
@@ -158,24 +162,18 @@ $(document).ready(function(){
       //divSHO.append(BtnTurn);
 
 
-      formSHO.append(divSHO);
-      formSHO.append(divAction);
+      FromCategoryFlot.append(divSHO);
+      FromCategoryFlot.append(divAction);
 
-      $("#fromCategory").append(formSHO);
-
-      
-
+      $("#fromCategory").append(FromCategoryFlot);
+      newFile = null;
 
 
       arrayFin.push({
         'cCode': cCode,
         'cName': cName,
-        'cDireccion': cDireccion,
-        'pTelefono': pTelefono,
-        'cSexo': cSexo,
-        'cFecha': cFecha,
-        'cTipoContrato': cTipoContrato,
-        'cEmpleador': cEmpleador,
+        'cDescription': cDescription,
+        'pActive': pActive,
       });
   };
 
@@ -192,28 +190,32 @@ function getValue(vari) {
     if (idGlobal == null) {
       if (arrayFin.length > 0) {
 
-        var cedulaEmpleado = arrayFin[1]['cCode'].val();
-        var nameEmpleado = arrayFin[1]['cName'].val();
-        var direccionEmpleado = arrayFin[1]['cDireccion'].val();
-        var telefonoEmpleado = arrayFin[1]['pTelefono'].val();
-        var sexoEmpleado = arrayFin[1]['cSexo'].val();
-        var fechaEmpleado = arrayFin[1]['cFecha'].val(); 
-        var tipoEmpleado = arrayFin[1]['cTipoContrato'].val();
-        var empleadorEmpleado = arrayFin[1]['cEmpleador'].val();
+        var codeCategory = arrayFin[1]['cCode'].val();
+          var nameCategory = arrayFin[1]['cName'].val();
+          var descriptionCategory = arrayFin[1]['cDescription'].val();
 
-          
+          if (codeCategory.length == 0){
+            bootbox.alert("Codigo no puede estar vacio");
+            return 0;
+          }
+
+          if(nameCategory.length <= 1 ){
+            bootbox.alert('Nombre tiene que tener mas de 2 caracteres');
+            return false;
+            
+          }
+
+          if (descriptionCategory.length == 0){
+            bootbox.alert("Descripción no puede estar vacio");
+            return 0;
+          }
           
 
         setDataFrom = { 
-           "cedula":arrayFin[1]['cCode'].val(),
+           "code":arrayFin[1]['cCode'].val(),
            "name":arrayFin[1]['cName'].val(),
-           "dir":arrayFin[1]['cDireccion'].val(),
-           "telefono":arrayFin[1]['pTelefono'].val(),
-           "sexo":arrayFin[1]['cSexo'].val(),
-           "fecha":arrayFin[1]['cFecha'].val(),
-           "tipocontrato":arrayFin[1]['cTipoContrato'].val(),
-           "empleador":arrayFin[1]['cEmpleador'].val()
-
+           "description":arrayFin[1]['cDescription'].val(),
+           "active":arrayFin[1]['pActive'].prop("checked"),
         };
     }  
     }else{
@@ -222,14 +224,11 @@ function getValue(vari) {
 
           setDataFrom = { 
 
-           "cedula":arrayFin[1]['cCode'].val(),
-           "name":arrayFin[1]['cName'].val(),
-           "dir":arrayFin[1]['cDireccion'].val(),
-           "telefono":arrayFin[1]['pTelefono'].val(),
-           "sexo":arrayFin[1]['cSexo'].val(),
-           "fecha":arrayFin[1]['cFecha'].val(),
-           "tipocontrato":arrayFin[1]['cTipoContrato'].val(),
-           "empleador":arrayFin[1]['cEmpleador'].val()
+            "id":idGlobal,
+            "code":arrayFin[1]['cCode'].val(),
+            "name":arrayFin[1]['cName'].val(),
+            "description":arrayFin[1]['cDescription'].val(),
+            "active":arrayFin[1]['pActive'].prop("checked"),
           };
       }
     }
@@ -239,46 +238,92 @@ function getValue(vari) {
       if (idGlobal == null) {
         if (arrayFin.length > 0) {
 
-        var cedulaEmpleado = arrayFin[0]['cCode'].val();
-        var nameEmpleado = arrayFin[0]['cName'].val();
-        var direccionEmpleado = arrayFin[0]['cDireccion'].val();
-        var telefonoEmpleado = arrayFin[0]['pTelefono'].val();
-        var sexoEmpleado = arrayFin[0]['cSexo'].val();
-        var fechaEmpleado = arrayFin[0]['cFecha'].val(); 
+          var code = arrayFin[0]['cCode'].val();
+          var name = arrayFin[0]['cName'].val();
+          var description = arrayFin[0]['cDescription'].val();
+          var make = arrayFin[0]['pMake'].val();
+          var price = arrayFin[0]['cPrice'].val();
+
+          if(code.length >= 4 && code.length <= 10 ){
+            
+          }else{
+            bootbox.alert('Codigo debe tener de 4 a 10 caracteres');
+            return false;
+          }
+
+          if(name.length <= 3 ){
+            bootbox.alert('Nombre tiene que tener mas de 4 caracteres');
+            return false;
+            
+          }
+
+          if (description.length == 0){
+            bootbox.alert("Descripción no puede estar vacio");
+            return 0;
+          }
+          if (make.length == 0){
+            bootbox.alert("Marca no puede estar vacio");
+            return 0;
+          }
+          if (price.length == 0){
+            bootbox.alert("Precio no puede estar vacio");
+            return 0;
+          }
 
           setDataFrom = { 
-             "cedula":arrayFin[0]['cCode'].val(),
-           "name":arrayFin[0]['cName'].val(),
-           "dir":arrayFin[0]['cDireccion'].val(),
-           "telefono":arrayFin[0]['pTelefono'].val(),
-           "sexo":arrayFin[0]['cSexo'].val(),
-           "fecha":arrayFin[0]['cFecha'].val()
+             "code":arrayFin[0]['cCode'].val(),
+             "name":arrayFin[0]['cName'].val(),
+             "description":arrayFin[0]['cDescription'].val(),
+             "make":arrayFin[0]['pMake'].val(),
+             "category":arrayFin[0]['cCategory'].val(),
+             "price":arrayFin[0]['cPrice'].val(),
           };
-      }
+      }  
       }else{
 
         if (arrayFin.length > 0) {
 
-        var cedulaEmpleado = arrayFin[0]['cCode'].val();
-        var nameEmpleado = arrayFin[0]['cName'].val();
-        var direccionEmpleado = arrayFin[0]['cDireccion'].val();
-        var telefonoEmpleado = arrayFin[0]['pTelefono'].val();
-        var sexoEmpleado = arrayFin[0]['cSexo'].val();
-        var fechaEmpleado = arrayFin[0]['cFecha'].val(); 
+          var code = arrayFin[0]['cCode'].val();
+          var name = arrayFin[0]['cName'].val();
+          var description = arrayFin[0]['cDescription'].val();
+          var make = arrayFin[0]['pMake'].val();
+          var price = arrayFin[0]['cPrice'].val();
 
-         
+          if(code.length >= 4 && code.length <= 10 ){
+            
+          }else{
+            bootbox.alert('Codigo debe tener de 4 a 10 caracteres');
+            return false;
+          }
+
+          if(name.length <= 3 ){
+            bootbox.alert('Nombre tiene que tener mas de 4 caracteres');
+            return false;
+            
+          }
+
+          if (description.length == 0){
+            bootbox.alert("Descripción no puede estar vacio");
+            return 0;
+          }
+          if (make.length == 0){
+            bootbox.alert("Marca no puede estar vacio");
+            return 0;
+          }
+          if (price.length == 0){
+            bootbox.alert("Precio no puede estar vacio");
+            return 0;
+          }
 
           setDataFrom = { 
 
-           "id":idGlobal,
-           "cedula":arrayFin[1]['cCode'].val(),
-           "name":arrayFin[1]['cName'].val(),
-           "dir":arrayFin[1]['cDireccion'].val(),
-           "telefono":arrayFin[1]['pTelefono'].val(),
-           "sexo":arrayFin[1]['cSexo'].val(),
-           "fecha":arrayFin[1]['cFecha'].val(),
-           "tipocontrato":arrayFin[1]['cTipoContrato'].val(),
-           "empleador":arrayFin[1]['cEmpleador'].val()
+            "id":idGlobal,
+            "code":arrayFin[0]['cCode'].val(),
+            "name":arrayFin[0]['cName'].val(),
+            "description":arrayFin[0]['cDescription'].val(),
+            "make":arrayFin[0]['pMake'].val(),
+            "category":arrayFin[0]['cCategory'].val(),
+            "price":arrayFin[0]['cPrice'].val(),
           };
         }
       }
@@ -286,6 +331,9 @@ function getValue(vari) {
 
   }
 
+
+
+  
    return setDataFrom;
 };
 
@@ -306,7 +354,7 @@ $(document).on('click','#BtnsuccessCategory', function() {
 
 
     $.ajax({
-       url:   host+"empleado/createempleado",
+       url:   host+"category/createcategory",
        type:  'POST',
        data:JSON.stringify(replaies),
        success:  function (response) {
@@ -314,12 +362,14 @@ $(document).on('click','#BtnsuccessCategory', function() {
           idGlobal = null;
 
           arrayFin[1]['cCode'].val("");
+          arrayFin[1]['cName'].val("");
           arrayFin[1]['cDescription'].val("");
+          arrayFin[1]['pActive'].val(true);
           
            $('#modalCategory').modal('hide');
 
 
-          loadTableTipoContrato(typeTable); 
+          loadTableCategory(typeTable); 
           
        },
        error: function (e) {
@@ -361,7 +411,7 @@ $(document).on('click','#BtnsuccessProduct', function() {
 
 
     $.ajax({
-       url:   host+"empleador/createempleador",
+       url:   host+"product/createproduct",
        type:  'POST',
        data:JSON.stringify(replaies),
        success:  function (response) {
@@ -372,7 +422,7 @@ $(document).on('click','#BtnsuccessProduct', function() {
           arrayFin[0]['cName'].val("");
           arrayFin[0]['cDescription'].val("");
           arrayFin[0]['pMake'].val("");
-          //arrayFin[0]['cEmpleador'].val("");
+          //arrayFin[0]['cCategory'].val("");
           arrayFin[0]['cPrice'].val("");
           $('#modalProduct').modal('hide');
           
@@ -404,23 +454,19 @@ $(document).on('click','#BtnsuccessProduct', function() {
 
 // Crear Categoria
 $(document).on('click','#BtnCreateCategory', function() {
-  arrayFin[0]['cCode'].val("");
-  arrayFin[0]['cName'].val("");
-  arrayFin[0]['cDireccion'].val("");
-  arrayFin[0]['pTelefono'].val("");
-  arrayFin[0]['cSexo'].val("");
-  arrayFin[0]['cFecha'].val("");
+  arrayFin[1]['cCode'].val("");
+  arrayFin[1]['cName'].val("");
+  arrayFin[1]['cDescription'].val("");
+  arrayFin[1]['pActive'].val(true);
 });
 
-// Crear Empleador
+// Crear Producto
 $(document).on('click','#BtnCreateProduct', function() {
   arrayFin[0]['cCode'].val("");
   arrayFin[0]['cName'].val("");
-  arrayFin[0]['cDireccion'].val("");
-  arrayFin[0]['pTelefono'].val("");
-  arrayFin[0]['cSexo'].val("");
-  arrayFin[0]['cFecha'].val("");
-
+  arrayFin[0]['cDescription'].val("");
+  arrayFin[0]['pMake'].val("");
+  arrayFin[0]['cPrice'].val("");
 });
 
 // Buscar producto
@@ -598,21 +644,23 @@ $(document).on('click','#BtnSearchCategory', function() {
 
 
 // Cargar tabla Categoria
-function loadTableTipoContrato(typeAction){
+function loadTableCategory(typeAction){
   var tableCategory = $("#tableCategory");
 
   //tableCategory.find("tbody").find("tr").remove();
 
   $.ajax({
-    url:   host+"empleado/listempleado",
+    url:   host+"category/listcategory",
     type:  'GET',
     success:  function (response) {
       console.log(response);
 
       _.each(response, function (valorTittle, indiceTittle) {
+        if (valorTittle.active == true) {
           $('#opCategory').append(
               $('<option></option>').val(valorTittle.id).html(valorTittle.name)
           );
+        }
       });
 
       tableCategory.find("tbody").empty();
@@ -621,23 +669,25 @@ function loadTableTipoContrato(typeAction){
         var btnDelete = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
         var tr = $("<tr ></tr>");
         //var tdId = $("<td></td>").html(valor.id);
-        var tdCode = $("<td></td>").html(valor.cedula);
-        var tdname = $("<td></td>").html(valor.name);
-        var tddireccion = $("<td></td>").html(valor.direccion);
-        var tdsexo = $("<td></td>").html(valor.sexo);
-        var tdtelefono = $("<td></td>").html(valor.telefono);
-        var tdfecha = $("<td></td>").html(valor.fecha);
-        
+        var tdCode = $("<td></td>").html(valor.code);
+        var tdName = $("<td></td>").html(valor.name);
+        var tdDescription = $("<td></td>").html(valor.description);
+        if (valor.active == true) {
+          var tdActive = $("<td></td>").html("Si");
+        }else{
+
+          var tdActive = $("<td></td>").html("No");
+        }
         
         var tdbtnEd = $("<td></td>")
         //var tdbtnDel = $("<td></td>")
+        tdbtnEd.append(btnEditCategory);
+        tdbtnEd.append(btnDelete);
         //tr.append(tdId);
         tr.append(tdCode);
-        tr.append(tdname);
-        tr.append(tddireccion);
-        tr.append(tdsexo);
-        tr.append(tdtelefono);
-        tr.append(tdfecha);
+        tr.append(tdName);
+        tr.append(tdDescription);
+        tr.append(tdActive);
 
         tr.append(tdbtnEd);
         //tr.append(tdbtnDel);
@@ -742,35 +792,29 @@ function loadTableProduct(typeAction){
 
   tableProduct.find("tbody").empty();
     $.ajax({
-      url:   host+"empleador/listempleador",
+      url:   host+"product/listproduct",
       type:  'GET',
       success:  function (response) {
         console.log(response);
-        _.each(response, function (valorTittle, indiceTittle) {
-              $('#opCategory').append(
-                  $('<option></option>').val(valorTittle.id).html(valorTittle.name)
-              );
-          });
         response.forEach(function(valor, indice) {
 
+          if (valor.category.active == true) {
 
-
-          
-
-            
-            
+            var btnEditProduct = $('<button class="btn btn-info" data-toggle="modal" data-target="#modalProduct" type="button" style="display: block; float: left; margin-right:  2%;">Actualizar</button>');
+            var btnDeleteProduct = $('<button class="btn btn-danger" type="button" style="display: block;">Eliminar</button>');
             var tr = $("<tr ></tr>");
             //var tdId = $("<td></td>").html(valor.id);
-            var tdCode = $("<td></td>").html(valor.name);
-            var tdName = $("<td></td>").html(valor.code);
-            var tdDescription = $("<td></td>").html(valor.direccion);
-            var tdMake = $("<td></td>").html(valor.sexo);
-            var tdCategory = $("<td></td>").html(valor.telefono);
-            var tdPrice = $("<td></td>").html(valor.fecha);
+            var tdCode = $("<td></td>").html(valor.code);
+            var tdName = $("<td></td>").html(valor.name);
+            var tdDescription = $("<td></td>").html(valor.description);
+            var tdMake = $("<td></td>").html(valor.make);
+            var tdCategory = $("<td></td>").html(valor.category.name);
+            var tdPrice = $("<td></td>").html(valor.price);
 
             var tdbtnEd = $("<td></td>")
             //var tdbtnDel = $("<td></td>")
-            
+            tdbtnEd.append(btnEditProduct);
+            tdbtnEd.append(btnDeleteProduct);
             //tr.append(tdId);
             tr.append(tdCode);
             tr.append(tdName);
@@ -783,10 +827,31 @@ function loadTableProduct(typeAction){
             //tr.append(tdbtnDel);
             tableProduct.append(tr);
 
-           
+            btnEditProduct.click(function(){
+              updateProduct(valor);
+            });
 
-            
-          
+            btnDeleteProduct.click(function(){
+              bootbox.confirm({
+                message: "¿Desea Eliminar el Producto "+valor.name+"?",
+                buttons: {
+                    confirm: {
+                        label: 'Si',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                  if (result) {
+                    deleteProduct(valor);
+                  }
+                }
+              });
+            });
+          }
         });
        /* $("#tableProduct").kendoGrid({
           
@@ -945,7 +1010,7 @@ $(document).ready(function () {
       var $this = $(this);
       if (!$this.hasClass('active')) {
           $this.addClass('active');
-          if ($this.text() == "Crear Empleado") {
+          if ($this.text() == "Categoria") {
             $("#div_product").hide();
             $("#div_category").show();
           }else{
