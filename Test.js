@@ -7,6 +7,7 @@ var host = 'http://localhost:8080/OptimeBack/web/app_dev.php/';
 $(document).ready(function(){
 
   var ini = "ini";
+  
 
   //var restoredSession = JSON.parse(titleFinTitle);
 
