@@ -24,12 +24,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"><img src="desktop/logo.png" id="optime_logo" style="width: 60%"></div></a>
+          <a class="navbar-brand" href="#">Symplifica </div></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#TestRun.html" target="_top">Producto</a></li>
-            <li><a name = "category" href="#about">Categoria</a></li>
+            <li class="active"><a href="#TestRun.html" target="_top">Reporte</a></li>
+            <li><a name = "category" href="#about">Crear Empleado</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
@@ -52,7 +52,7 @@
               <div class="row">
               <div class="col-xs-6 col-md-4">
               <div>
-                <button type="button" id = "BtnCreateProduct" style="margin-bottom: 10px" class="btn btn-primary" data-toggle="modal" data-target="#modalProduct">
+                <button type="button" id = "BtnCreateProduct" style="margin-bottom: 10px" class="btn btn-success" data-toggle="modal" data-target="#modalProduct">
                   Crear
                 </button>
               </div>
@@ -72,16 +72,15 @@
         <br>
           <div class="bs-example" data-example-id="simple-table-product">
              <table id="tableProduct" class="table"> 
-              <caption>Productos.</caption> 
+              <caption>Empleador</caption> 
                 <thead>
                     <tr>
-                      <th data-field="codeProduct" >Codigo</th>
-                      <th data-field="nameProduct">Nombre</th>
-                      <th data-field="descripcionProduct">Descripcion</th>
-                      <th data-field="makeProduct">Marca</th>
-                      <th data-field="categoryProduct">Categoria</th>
-                      <th data-field="priceProduct">Precio</th>
-                      <th data-field="actionsProduct"></th>
+                      <th data-field="codeProduct" >NOMBRE EMPLEADOR</th>
+                      <th data-field="nameProduct">CEDULA EMPLEADOR</th>
+                      <th data-field="descripcionProduct">DIRECCIÓN EMPLEADOR</th>
+                      <th data-field="makeProduct">NOMBRE EMPLEADO</th>
+                      <th data-field="categoryProduct">CEDULA EMPLEADO</th>
+                      <th data-field="priceProduct">TIPO CONTRATO</th>
                     </tr>
                 </thead>
                <tbody id="bodyProduct"> 
@@ -96,7 +95,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header" id="">
-                <h5 class="modal-title" id="exampleModalLabel">Producto</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Empleador</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -146,14 +145,15 @@
         <br>
           <div class="bs-example" data-example-id="simple-table">
              <table id="tableCategory" class="table">
-              <caption>Categorias.</caption> 
+              <caption>Empleado.</caption> 
                 <thead>
                   <tr>
-                    <th data-field="code">Codigo</th>
-                    <th data-field="name">Nombre</th>
-                    <th data-field="description">Descripción</th>
-                    <th data-field="active">Activo</th>
-                    <th data-field="actionsCategory"></th>
+                    <th data-field="code">Cedula</th>
+                    <th data-field="description">Nombre Completo</th>
+                    <th data-field="description">Telefono</th>
+                    <th data-field="description">Direccion</th>
+                    <th data-field="description">Sexo</th>
+                    <th data-field="description">Fecha Nacimiento</th>
                   </tr>
                 </thead>
                <tbody id="bodyCategory"> 
@@ -168,7 +168,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Categoria</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Empleado</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
